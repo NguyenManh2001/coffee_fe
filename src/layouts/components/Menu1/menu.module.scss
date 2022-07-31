@@ -1,0 +1,36 @@
+
+.title{
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #c69155;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 10px 12px;
+    letter-spacing: 0px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.fifter-content{
+    padding: 10px 12px;
+    background-color: #fff;
+    min-height: 100px;
+}
+.fifter-item{
+    color: var(--black);
+    &.active{
+        color: #c69155;
+    }
+}
+.fifter-name{
+    font-size: 20px;
+    font-weight: 600;
+    display: block;
+    cursor: pointer;
+
+  
+
+    &:hover{
+        font-weight: 600;
+        color: #c69155;
+    }
+}

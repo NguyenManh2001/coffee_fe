@@ -1,0 +1,18 @@
+.container{
+    margin: 0px 20px;
+    min-width: 60rem;
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    text-transform: uppercase;
+}
+.menu-item{
+    color: var(--white) !important;
+    font-weight: 600;
+    font-size: 1.6rem;
+    padding: 10px;
+
+    &.active{
+        color: #fc8621 !important;
+    }
+}

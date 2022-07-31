@@ -1,0 +1,129 @@
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 500px;
+}
+.container{
+    width: 100%;
+    height: 100%;
+}
+
+.content{
+    margin-top: -7px;
+    background-color: #f9f5f0;
+}
+.rigister{
+    height: 150px;
+    width: 100%;
+    background: url(../../assets/images/bg-112.jpeg) no-repeat center;
+    background-size: cover;
+    padding: 0 48px;
+}
+
+.header{
+    height: 400px;
+    background: url(../../assets/images/home-1-slider.jpg) no-repeat bottom;
+    background-size: cover;
+}
+.content{
+    width: 100%;
+    min-height: 500px;
+    padding-top: 40px;
+    background-color: #f9f5f0;
+}
+.header-content{
+    font-weight: 500;
+    padding: 5px;
+    font-size: 5rem;
+    line-height: 56px;
+    text-align: center;
+    text-transform: capitalize;
+    color: var(--black);
+}
+.lineborder{
+    display: flex;
+    justify-content: center;
+}
+.main-content{
+    width: 80%;
+    min-height: 500px;
+    margin-left: 10%;
+    margin-top: 30px;
+    display: flex;
+}
+.content-left{
+    width: 20%;
+    height: 100%;
+}
+.fifter{
+    background-color: #fff;
+}
+.fifter-content{
+    padding: 15px;
+}
+
+.title{
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #c69155;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 10px 12px;
+    letter-spacing: 0px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+
+.fifter-search{
+    padding: 10px 8px;
+    border-radius: 2px;
+    background-color: #fff;
+    border: 1px solid #c69155;
+    width: 100%;
+}
+.radio-group{
+    width: 100%;
+    min-height: 100px;
+    margin: 15px 0;
+}
+.radio-item{
+    margin: 5px 0;
+}
+.radio-name{
+    font-size: 18px;
+    margin: 8px 0;
+    color: #000;
+    margin-left: 10px;
+    font-weight: 600;
+}
+.content-right{
+    flex: 1;
+    margin-left: 5%;
+    min-height: 500px;
+    max-width: 818px;
+}
+.menu{
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.btnMenu{
+    border-radius: 20px !important;
+    border-color: #c24914 !important;
+    background-color: #c24914 !important;
+    color: #fff !important;
+    transition: ease-out 0.5s;
+    box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+    margin-left: 24%;
+    margin-top: 10px;
+
+    &:hover{
+        color: #fff !important;
+    border-color: #682c0e !important;
+    background-color: #682c0e !important;
+    box-shadow: 0 4px 4px #00000040;
+    }
+}

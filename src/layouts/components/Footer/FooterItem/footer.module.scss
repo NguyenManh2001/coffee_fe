@@ -1,0 +1,27 @@
+.wrapper{
+    display: flex;
+}
+.footer{
+    width: 100%;
+    height: 100%;
+    margin: 0 20px;
+    
+}
+.footer-title{
+    font-weight: 700;
+    text-transform: capitalize;
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #c24914;
+}
+.footer-link{
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.link-name{
+    color: #c24914 !important;
+
+    &:hover{
+        color: var(--black) !important;
+    }
+}

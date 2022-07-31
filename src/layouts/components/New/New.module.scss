@@ -1,0 +1,90 @@
+.wrapper {
+    width: 100%;
+    min-height: 300px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+}
+.header {
+    font-weight: 500;
+    padding: 15px 0px;
+    font-size: 5rem;
+    line-height: 56px;
+    text-align: center;
+    text-transform: capitalize;
+    color: var(--black);
+    margin: 20px 20px 0;
+}
+.lineborder {
+    display: flex;
+    justify-content: center;
+}
+.content{
+    height: 330px;
+    width: 100%;
+    margin-top: 30px;
+    padding: 3px 180px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.list{
+    width: 30%;
+    height: 100%;
+    transition: ease-out 0.5s;
+    box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+    border-radius: 15px;
+
+    &:hover{
+        transform: translateY(-8px);
+    }
+}
+
+.img-content{
+    width: 100%;
+    height: 71%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.image1{
+    background: url(../../../assets/images/tintuc-1.jpg) no-repeat center;
+    background-size: cover;
+}
+.image2{
+    background: url(../../../assets/images/tintuc-2.jpg) no-repeat center;
+    background-size: cover;
+}
+.image3{
+    background: url(../../../assets/images/tintuc-3.jpg) no-repeat center;
+    background-size: cover;
+}
+
+
+.title-content{
+    padding: 10px;
+}
+.calendar-date{
+    color: #c24914;
+    font-weight: 700;
+    font-size: 1.7rem;
+}
+.btnMenu{
+    border-radius: 20px !important;
+    border-color: #c24914 !important;
+    background-color: #c24914 !important;
+    color: #fff !important;
+    transition: ease-out 0.5s;
+    box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+    margin: 30px 42%;
+
+    &:hover{
+        color: #fff !important;
+    border-color: #682c0e !important;
+    background-color: #682c0e !important;
+    box-shadow: 0 4px 4px #00000040;
+    transform: translateY(-8px);
+    }
+}

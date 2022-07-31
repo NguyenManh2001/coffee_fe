@@ -1,0 +1,37 @@
+.fifter-content{
+    padding: 5px 12px;
+   background-color: #f9e0ae;
+   min-height: 70px;
+}
+.fifter-item{
+    min-height: 60px;
+    display: flex;
+    margin: 5px 0px;
+    cursor: pointer;
+}
+.img{
+    width: 80px;
+}
+.info{
+   flex: 1;
+   padding: 0 10px;
+}
+.info-name{
+    font-weight: 500;
+    font-family: Roboto,sans-serif;
+    font-size: 12px;
+
+    &:hover{
+        color: #c24914;
+    }
+}
+.info-date{
+    display: flex;
+    color: #c24914;
+    align-items: center;
+}
+.date-name{
+    font-size: 13px;
+    padding: 2px 5px;
+    margin-top: 4px;
+}
