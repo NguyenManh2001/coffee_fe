@@ -20,7 +20,7 @@ function About() {
                     <div className={cx('img-content', 'image-1')}></div>
                     <div className={cx('content-item')}>
                         <ContentItem
-                          to={config.routers.News1}
+                          to="#"
                             header="khởi nguồn"
                             title="thương hiệu bắt nguồn từ cà phê việt nam"
                             text=" Từ tình yêu với Việt Nam và niềm đam mê cà phê, năm 1999, thương hiệu Black Coffee® ra đời với
@@ -35,7 +35,7 @@ function About() {
                     <div className={cx('img-content', 'image-2')}></div>
                     <div className={cx('content-item')}>
                         <ContentItem
-                          to={config.routers.News1}
+                          to="#"
                             header="phát triển"
                             title="thương hiệu bắt nguồn từ cà phê việt nam"
                             text=" Từ tình yêu với Việt Nam và niềm đam mê cà phê, năm 1999, thương hiệu Black Coffee® ra đời với
@@ -50,7 +50,7 @@ function About() {
                     <div className={cx('img-content', 'image-3')}></div>
                     <div className={cx('content-item')}>
                         <ContentItem
-                          to={config.routers.News1}
+                          to="#"
                             header="vươn tới đỉnh cao"
                             title="thương hiệu bắt nguồn từ cà phê việt nam"
                             text=" Từ tình yêu với Việt Nam và niềm đam mê cà phê, năm 1999, thương hiệu Black Coffee® ra đời với

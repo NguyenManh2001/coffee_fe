@@ -1,8 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
 import Images from '~/Components/Images';
-import { CartIcons, StarIcons } from '~/Components/icons/icons';
-import Button from '~/Components/Button';
+import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 function MenuItems({star,price,title,icon,src}) {
@@ -39,5 +38,11 @@ function MenuItems({star,price,title,icon,src}) {
         </div>
     );
 }
-
+MenuItems.propTypes = {
+    star: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    icon: PropTypes.node.isRequired,
+    src: PropTypes.string.isRequired,
+}
 export default MenuItems;

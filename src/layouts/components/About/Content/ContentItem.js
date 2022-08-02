@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import styles from './Content.module.scss';
 import { NavLink } from "react-router-dom";
+import PropTypes from 'prop-types';
 const cx = classNames.bind(styles);
 
 function ContentItem({header,title,text,icon,date,to}) {
@@ -19,6 +20,14 @@ function ContentItem({header,title,text,icon,date,to}) {
                     </p>
                 </div>
      );
+}
+
+ContentItem.propTypes = {
+    header: PropTypes.string.isRequired,
+    icon: PropTypes.node.isRequired,
+    date: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
 }
 
 export default ContentItem;

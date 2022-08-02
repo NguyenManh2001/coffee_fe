@@ -2,6 +2,8 @@ import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
 import Images from '~/Components/Images';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 const cx = classNames.bind(styles);
 
 function MenuItem({ src,name,date,icon,to }) {
@@ -21,5 +23,11 @@ function MenuItem({ src,name,date,icon,to }) {
             </NavLink>
     );
 }
-
+MenuItem.propTypes = {
+    src: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    icon: PropTypes.node.isRequired,
+}
 export default MenuItem;

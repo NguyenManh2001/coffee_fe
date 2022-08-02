@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './footer.module.scss';
-
+import PropTypes from 'prop-types';
 const cx = classNames.bind(styles);
 
 function FooterItem({ title, linkName, src, phone, email,name,share }) {
@@ -34,5 +34,14 @@ function FooterItem({ title, linkName, src, phone, email,name,share }) {
             </p>
         </div>
     );
+}
+FooterItem.propTypes = {
+    title: PropTypes.string.isRequired,
+    linkName: PropTypes.string.isRequired,
+    src: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    share: PropTypes.string.isRequired,
 }
 export default FooterItem;

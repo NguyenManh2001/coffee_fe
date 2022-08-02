@@ -3,6 +3,7 @@ import styles from './New.module.scss';
 import Images from '~/Components/Images';
 import Button from '~/Components/Button';
 import NewContent from './NewContent';
+import config from '~/config';
 
 const cx = classNames.bind(styles);
 function New() {
@@ -17,18 +18,18 @@ function New() {
             <div className={cx('content')}>
                 <div className={cx('list')}>
                 <div className ={cx('img-content','image1')}></div>
-                <NewContent name = 'Ô long mùa xuân" - Hương vị mới lạ' date = '14/01/2022, 15:30'/>
+                <NewContent  to={config.routers.News} name = 'Ô long mùa xuân" - Hương vị mới lạ' date = '14/01/2022, 15:30'/>
                 </div>
                 <div className={cx('list')}>
                 <div className ={cx('img-content','image2')}></div>
-                <NewContent name = 'Ô long mùa xuân" - Hương vị mới lạ' date = '14/01/2022, 15:30'/>
+                <NewContent  to={config.routers.News} name = 'Ô long mùa xuân" - Hương vị mới lạ' date = '14/01/2022, 15:30'/>
                 </div>
                 <div className={cx('list')}>
                 <div className ={cx('img-content','image3')}></div>
-                <NewContent name = 'Ô long mùa xuân" - Hương vị mới lạ' date = '14/01/2022, 15:30'/>
+                <NewContent  to={config.routers.News} name = 'Ô long mùa xuân" - Hương vị mới lạ' date = '14/01/2022, 15:30'/>
                 </div>
             </div>
-            <Button className={cx('btnMenu')}>Xem thêm nhiều tin khác</Button>
+            <Button to={config.routers.News} className={cx('btnMenu')}>Xem thêm nhiều tin khác</Button>
         </div>
      );
 }

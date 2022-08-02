@@ -1,6 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './Rigister.module.scss';
 import Button from '~/Components/Button';
+import PropTypes from 'prop-types';
+
 const cx = classNames.bind(styles);
 
 function Rigister({header,btn}) {
@@ -16,5 +18,8 @@ function Rigister({header,btn}) {
         </div>
     );
 }
-
+Rigister.propTypes = {
+    header: PropTypes.string.isRequired,
+    btn: PropTypes.string.isRequired,
+}
 export default Rigister;
