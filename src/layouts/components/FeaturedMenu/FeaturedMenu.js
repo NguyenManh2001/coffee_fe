@@ -6,8 +6,22 @@ import Menu, { MenuItems } from './Menu';
 import Button from '~/Components/Button';
 import config from '~/config';
 import Rigister, { RigisterItem } from '../Rigister';
+import Product from '../Product';
+import { useState,useEffect } from 'react';
 const cx = classNames.bind(styles);
 function FeatureMenu() {
+
+    const [product,setProduct] = useState(false);
+
+    const handleSubmit= () => {
+        setProduct(!product) ;
+    }
+    
+    // useEffect(() => {
+    //     if(product === true){
+    //         setProduct(false);
+    //     }
+    // },[product]);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -22,6 +36,7 @@ function FeatureMenu() {
                         price="35,000đ"
                         title="Cà Phê Mocha"
                         icon={<StarIcons />}
+                        onClick = {handleSubmit}
                     />
                     <MenuItems
                         star="anh"
@@ -29,6 +44,7 @@ function FeatureMenu() {
                         price="35,000đ"
                         title="Americano"
                         icon={<StarIcons />}
+                        onClick = {handleSubmit}
                     />
                     <MenuItems
                         star="anh"
@@ -36,6 +52,7 @@ function FeatureMenu() {
                         price="35,000đ"
                         title="Mocha Socola"
                         icon={<StarIcons />}
+                        onClick = {handleSubmit}
                     />
                     <MenuItems
                         star="anh"
@@ -43,6 +60,7 @@ function FeatureMenu() {
                         price="35,000đ"
                         title="Mocha Caramel"
                         icon={<StarIcons />}
+                        onClick = {handleSubmit}
                     />
                 </Menu>
                 <div className={cx('btn')}>
@@ -53,8 +71,14 @@ function FeatureMenu() {
                <RigisterItem header='Đăng ký nhận thông tin khuyến mãi' btn = 'Đăng ký ngay' />
                </Rigister>
                </div>
-            
             </div>
+            <>
+            {product ? (
+            <Product />
+            ) : (
+                <div></div>
+            )}
+            </>
         </div>
     );
 }

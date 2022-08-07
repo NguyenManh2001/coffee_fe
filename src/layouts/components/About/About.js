@@ -1,7 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './About.module.scss';
 import Images from '~/Components/Images';
-import config from '~/config';
 import Content, { ContentItem } from './Content';
 
 const cx = classNames.bind(styles);

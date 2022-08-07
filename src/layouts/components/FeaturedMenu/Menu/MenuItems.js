@@ -4,7 +4,7 @@ import Images from '~/Components/Images';
 import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
-function MenuItems({star,price,title,icon,src}) {
+function MenuItems({star,price,title,icon,src,onClick}) {
     return (
        
         <div className={cx('menu-content')}>
@@ -26,9 +26,9 @@ function MenuItems({star,price,title,icon,src}) {
                             <div className={cx('card-like')}>
                                 <div className={cx('cart-name')}>{title}</div>
                                 <div className={cx('iconcart')}>
-                                    <a className={cx('Icons')}>
+                                    <button onClick={onClick} className={cx('Icons')}>
                                        {icon}
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -44,5 +44,6 @@ MenuItems.propTypes = {
     title: PropTypes.string.isRequired,
     icon: PropTypes.node.isRequired,
     src: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
 }
 export default MenuItems;

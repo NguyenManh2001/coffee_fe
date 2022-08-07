@@ -2,7 +2,6 @@
     width: 80%;
     min-height: 360px;
     margin: 38px 125px;
-
   }
   .menu-item{
     width: 100%;
@@ -78,8 +77,18 @@
   }
   .Icons{
     margin-left: 5px;
-    color: #fc8621;
+    color: #fc8621 !important;
+    background: none;
   }
   .cart{
     margin-top: 3px;
   }
+
+  //module cart
+
+  .Wrapper{
+
+  }
+.container{
+
+}

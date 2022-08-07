@@ -1,11 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Coffee1.module.scss';
-import Images from '~/Components/Images';
-import Button from '~/Components/Button';
 import { MenuItems } from '~/layouts/components/FeaturedMenu/Menu';
 import { StarIcons } from '~/Components/icons/icons';
-import Items, { Item } from '~/layouts/components/Menu1'
-import config from '~/config';
 const cx = classNames.bind(styles);
 
 function Coffee1() {

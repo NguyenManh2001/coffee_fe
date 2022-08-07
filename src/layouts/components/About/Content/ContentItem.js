@@ -15,7 +15,7 @@ function ContentItem({header,title,text,icon,date,to}) {
                         <div className={cx('date-name')}>{date}</div>
                     </div>
                     <h4 className={cx('content-title')}>{title}</h4>
-                    <p class="p-text">
+                    <p className={cx("p-text")}>
                       {text}
                     </p>
                 </div>
@@ -23,11 +23,11 @@ function ContentItem({header,title,text,icon,date,to}) {
 }
 
 ContentItem.propTypes = {
-    header: PropTypes.string.isRequired,
-    icon: PropTypes.node.isRequired,
-    date: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    header: PropTypes.string,
+    icon: PropTypes.node,
+    date: PropTypes.string,
+    title: PropTypes.string,
+    text: PropTypes.string,
 }
 
 export default ContentItem;

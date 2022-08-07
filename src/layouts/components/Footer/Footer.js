@@ -20,6 +20,7 @@ function Footer() {
                         phone='Điện thoại : 0987654321'
                         email='Email : coffeecup@gmail.com'
                         src="https://goo.gl/maps/U37UxTnCCesQCuza7"
+                        name=''
                     />
                     <FooterItem
                         title="Chính sách và quy định"

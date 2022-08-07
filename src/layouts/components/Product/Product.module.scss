@@ -1,0 +1,137 @@
+.wrapper{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 21;
+    background-color: #000c;
+}
+.container{
+    position: fixed;
+    top: 16%;
+    right: 36%;
+    width: 30%;
+    min-height: 440px;
+    display: flex;
+    border-radius: 20px;
+    background-color: #ccc;
+}
+.content{
+    width: 100%;
+    padding: 21px;
+}
+.btn{
+    width: 16px;
+    height: 16px;
+    margin-left: 94%;
+    margin-bottom: 4px;
+    color: #000;
+    background: url('../../../assets/images/download.svg') center no-repeat;
+    cursor: pointer;
+
+}
+.conntent-item{
+    display: flex;
+    min-height: 100px;
+    border-bottom: 1px solid rgba(104,44,14,.3);
+}
+.logo{
+    width: 22%;
+    height: 5%;
+}
+.content-title{
+    flex: 1;
+    padding: 0 30px;
+}
+.content-name{
+    font-weight: 500;
+    font-size: 30px;
+    color: #682c0e;
+    text-transform: capitalize;
+}
+.content-price{
+    font-size: 24px;
+    color: #c24914;
+    font-weight: 500;
+}
+.content-header{
+    font-weight: 700;
+    font-size: 16px;
+    height: 40px;
+    padding: 10px 0;
+}
+.content-check{
+    min-height: 100px;
+    border-bottom: 1px solid rgba(104,44,14,.3);
+}
+.form-group{
+    margin-bottom: 10px;
+}
+.form-check{
+    display: flex;
+}
+.form-check-input{
+    margin-right: 10px;
+}
+.conntent-note{
+    min-height: 50px;
+    border-bottom: 1px solid rgba(104,44,14,.3);
+}
+.title{
+    font-weight: 100;
+    font-size: 12px;
+}
+
+.content-input{
+    font-weight: 400;
+    font-size: 14px;
+    padding: 4px 8px;
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #682c0e;
+    background: #eee;
+    margin-bottom: 15px;
+}
+
+.down-item{
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}
+.plus,
+.Minus{
+    height: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+
+    &:hover{
+     transform: scale(1.04);
+    }
+}
+
+// .Icons{
+//     &:hover{
+//         background-color: #682c0e;
+//     }
+// }
+.quantity{
+    margin: 0 15px;
+    font-size: 32px;
+    width: 20px;
+}
+.btn-down{
+    display: flex;
+    padding: 15px;
+    margin-left: 63px;
+    border-radius: 23px;
+    background-color: #c24914;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+    text-transform: uppercase;
+
+    &:hover{
+        background-color: #682c0e;
+    }
+}

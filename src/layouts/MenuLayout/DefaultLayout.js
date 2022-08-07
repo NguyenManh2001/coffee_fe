@@ -7,8 +7,32 @@ import Header from '~/layouts/components/Header';
 import Rigister, { RigisterItem } from '~/layouts/components/Rigister';
 import Items, { Item } from '~/layouts/components/Menu1'
 import config from '~/config';
+import { useState } from "react";
+
+const checks = [
+    {
+        id: 1 ,
+        name: 'Mới nhất',
+    },
+    {
+        id: 2,
+        name: 'Bán chạy',
+    },
+    {
+        id: 3,
+        name: 'Đặc biệt',
+    },
+]
 const cx = classNames.bind(styles);
+
 function MenuLayout({children}) {
+
+    const [checked,setChecked] = useState();
+    const [input,setInput] = useState('');
+    const handleSubmit = () => {
+         setChecked();
+    }
+
     return ( 
             <div className={cx('wrapper')}>
                  <Header />
@@ -34,23 +58,6 @@ function MenuLayout({children}) {
                                 </Items>
                                 
                                 </aside>
-                                {/* <div className={cx('fifter')}>
-                                    <div className={cx('title')}>sản phẩm</div>
-                                    <div className={cx('fifter-content')}>
-                                        <div className={cx('fifter-item')}>
-                                            <NavLink to = '#'className={cx('fifter-name')}>Cà phê</NavLink>
-                                        </div>
-                                        <div className={cx('fifter-item')}>
-                                            <div className={cx('fifter-name')}>Trà</div>
-                                        </div>
-                                        <div className={cx('fifter-item')}>
-                                            <div className={cx('fifter-name')}>Freeze</div>
-                                        </div>
-                                        <div className={cx('fifter-item')}>
-                                            <div className={cx('fifter-name')}>Cà phê gói</div>
-                                        </div>
-                                    </div>
-                                </div> */}
                                 <div className={cx('fifter')}>
                                     <div className={cx('title')}>Tìm kiếm</div>
                                     <div className={cx('fifter-content')}>
@@ -60,29 +67,24 @@ function MenuLayout({children}) {
                                                     type="text"
                                                     className={cx('fifter-search')}
                                                     placeholder="Tìm kiếm"
-                                                    value=""
+                                                    onChange={(e) => setInput(e.target.value)}
+                                                    value={input}
                                                 />
                                             </div>
                                             <div className={cx('radio-group')}>
                                                 <div className={cx('radio-item')}>
-                                                    <input type="radio" id="new" value="new" />
-                                                    <label className={cx('radio-name')} for="new">
-                                                        Mới nhất
-                                                    </label>
+                                                   {checks.map(check => (
+                                                    <div key={check.id}>
+                                                        <input 
+                                                        type='radio'
+                                                        checked={checked === check.id}
+                                                        onChange={() => setChecked(check.id)}
+                                                        />
+                                                        <span className={cx('radio-name')}>{check.name}</span>
+                                                    </div>
+                                                   ))}
                                                 </div>
-                                                <div className={cx('radio-item')}>
-                                                    <input type="radio" id="new" value="new" />
-                                                    <label className={cx('radio-name')} for="new">
-                                                        Bán chạy
-                                                    </label>
-                                                </div>
-                                                <div className={cx('radio-item')}>
-                                                    <input type="radio" id="new" value="new" />
-                                                    <label className={cx('radio-name')} for="new">
-                                                        Đặc biệt
-                                                    </label>
-                                                </div>
-                                                <Button className={cx('btnMenu')}>Bỏ chọn</Button>
+                                                <Button onClick={handleSubmit} className={cx('btnMenu')}>Bỏ chọn</Button>
                                             </div>
                                         </div>
                                     </div>

@@ -79,7 +79,7 @@ Button.propTypes = {
        large  : PropTypes.bool,
        leftIcon : PropTypes.node,
        rightIcon  : PropTypes.node,
-       onClick  : PropTypes.bool,
+       onClick  : PropTypes.func,
 }
 
 export default Button;

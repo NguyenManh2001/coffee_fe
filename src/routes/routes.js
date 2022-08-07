@@ -12,10 +12,11 @@ import News1 from '~/Pages/News1';
 import HeaderRegister from '~/layouts/HeaderRegister';
 import MenuLayout from '~/layouts/MenuLayout';
 import NewsLayout from '~/layouts/NewsLayout';
+import { DefaultLayout } from '~/layouts';
 
 
 const publicRoutes = [
-    { path: config.routers.Home, component: Home },
+    { path: config.routers.Home, component: Home,layout: DefaultLayout },
     { path: config.routers.News, component: News, layout: NewsLayout},
     { path: config.routers.Menu, layout: MenuLayout, component: Menu },
     { path: config.routers.Contact, component: Contact, layout: HeaderRegister },
