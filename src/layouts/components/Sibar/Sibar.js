@@ -12,21 +12,21 @@ const Gallery = () => {
             <Carousel.Item className={cx('Carousel5')}>
                 <Images
                     className={cx('carousel-img')}
-                    src="https://coffee-cup-react.vercel.app/images/home-4-slide.jpg?random=1"
+                    src={require("~/assets/images/home-4-slide.jpg?random=1")}
                     alt="..."
                 />
             </Carousel.Item>
             <Carousel.Item>
                 <Images
                     className={cx('carousel-img')}
-                    src="https://coffee-cup-react.vercel.app/images/home-1-slider-4.jpg?random=2"
+                    src={require("~/assets/images/home-1-slider-4.jpg?random=2")}
                     alt="..."
                 />
             </Carousel.Item>
             <Carousel.Item>
                 <Images
                     className={cx('carousel-img')}
-                    src="https://coffee-cup-react.vercel.app/images/home-1-slider-img-2.jpg?random=3"
+                    src={require("~/assets/images/home-1-slider-img-2.jpg?random=3")}
                     alt="..."
                 />
             </Carousel.Item>
@@ -45,7 +45,7 @@ function Sibar() {
                         <div className={cx('logo-icon')}>
                             <Images
                                 className={cx('banner-icon ')}
-                                src="https://coffee-cup-react.vercel.app/images/banner-logo-2.png"
+                                src={require("~/assets/images/banner-logo-2.png")}
                                 alt="First slide"
                             />
                         </div>

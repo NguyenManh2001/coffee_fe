@@ -55,7 +55,7 @@
     display: flex;
 }
 .content-left{
-    width: 20%;
+    width: 16%;
     height: 100%;
 }
 .fifter{
@@ -103,7 +103,6 @@
 }
 .content-right{
     flex: 1;
-    margin-left: 5%;
     min-height: 500px;
     max-width: 818px;
 }
@@ -119,7 +118,7 @@
     color: #fff !important;
     transition: ease-out 0.5s;
     box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
-    margin-left: 24%;
+    margin-left: 14%;
     margin-top: 10px;
 
     &:hover{

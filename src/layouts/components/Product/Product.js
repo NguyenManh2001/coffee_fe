@@ -2,7 +2,9 @@ import classNames from 'classnames/bind';
 import styles from './Product.module.scss';
 import Images from '~/Components/Images';
 import { MinusIcons, PlusIcons } from '~/Components/icons/icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
+import PropTypes from 'prop-types';
+import Header from '../Header';
 
 const cx = classNames.bind(styles);
 
@@ -21,46 +23,85 @@ const sizes = [
     },
 ];
 
-function Product() {
+const initState = {
+    menus: [],
+};
+const ADD_MENU = 'add_menu';
+
+const addMenu = (payload) => {
+    return {
+        type: ADD_MENU,
+        payload,
+    };
+};
+const reducer = (state, action) => {
+    let newState;
+    switch (action.type) {
+        case ADD_MENU:
+            newState = {
+                ...state,
+                menus: [...state.menus, action.payload],
+            };
+            break;
+        default:
+            throw new Error('Invalid action.');
+    }
+    return newState;
+};
+
+function Product({src, name, cart }) {
+    const handleAdd = () => {
+        dispatch(addMenu({ src, name, price,quatity,size}));
+    };
+    const [state, dispatch] = useReducer(reducer, initState);
+    const { menus } = state;
     const [close, setClose] = useState(true);
     const [input, setInput] = useState('');
     const [check, setCheck] = useState(1);
     const [quatity, setQuatity] = useState(1);
     const [price, setPrice] = useState(0);
+    const [size,setSize] = useState('s')
+    const cart1 = new Number(cart);
+
+    const cart2 = cart1 + 5000;
+    const cart3 = cart1 + 10000;
     const handleSubmit = () => {
         setClose(!close);
     };
     useEffect(() => {
         if (check === 1) {
-            setPrice(30000);
+            setPrice(cart);
             setQuatity(1);
+            setSize('S');
         }
         if (check === 2) {
-            setPrice(35000);
+            setPrice(cart2);
             setQuatity(1);
+            setSize('M');
         }
         if (check === 3) {
-            setPrice(40000);
+            setPrice(cart3);
             setQuatity(1);
+            setSize('L');
         }
     }, [check]);
     const handleMinus = () => {
         if (check === 1) {
             if (quatity > 1) {
                 setQuatity(quatity - 1);
-                setPrice((quatity - 1) * 30000);
+                setPrice((quatity - 1) * cart);
             }
         }
         if (check === 2) {
             if (quatity > 1) {
                 setQuatity(quatity - 1);
-                setPrice((quatity - 1) * 35000);
+                setPrice((quatity - 1) * cart2);
             }
         }
         if (check === 3) {
             if (quatity > 1) {
                 setQuatity(quatity - 1);
-                setPrice((quatity - 1) * 40000);
+                setPrice((quatity - 1) * cart3);
             }
         }
     };
@@ -68,19 +109,19 @@ function Product() {
         if (check === 1) {
             if (quatity >= 1) {
                 setQuatity(quatity + 1);
-                setPrice((quatity + 1) * 30000);
+                setPrice((quatity + 1) * cart);
             }
         }
         if (check === 2) {
             if (quatity >= 1) {
                 setQuatity(quatity + 1);
-                setPrice((quatity + 1) * 35000);
+                setPrice((quatity + 1) * cart2);
             }
         }
         if (check === 3) {
             if (quatity >= 1) {
                 setQuatity(quatity + 1);
-                setPrice((quatity + 1) * 40000);
+                setPrice((quatity + 1) * cart3);
             }
         }
     };
@@ -92,13 +133,10 @@ function Product() {
                         <div className={cx('content')}>
                             <button className={cx('btn')} onClick={handleSubmit} aria-label="Close"></button>
                             <div className={cx('conntent-item')}>
-                                <Images
-                                    className={cx('logo')}
-                                    src="https://coffee-cup-react.vercel.app/images/sp-6.jpg"
-                                />
+                                <Images className={cx('logo')} src={src} />
                                 <div className={cx('content-title')}>
-                                    <div className={cx('content-name')}>mocha caramel</div>
-                                    <div className={cx('content-price')}>50,000</div>
+                                    <div className={cx('content-name')}>{name}</div>
+                                    <div className={cx('content-price')}>{cart}đ</div>
                                 </div>
                             </div>
                             <div className={cx('content-check')}>
@@ -139,12 +177,17 @@ function Product() {
                                         <PlusIcons className={cx('Icons')} />
                                     </div>
                                 </div>
-                                <button className={cx('btn-down')}>
+                                <button onClick={handleAdd} className={cx('btn-down')}>
                                     Thêm vào giỏ hàng: <span>{price}</span>đ
                                 </button>
                             </div>
                         </div>
                     </div>
+                    <>
+                        {menus.map((menu, index) => (
+                            <Header key={index} size={size} quatity ={menu.quatity} name={menu.name} src={menu.src} price={menu.price} />
+                        ))}
+                    </>
                 </div>
             ) : (
                 <div className={cx('wraper')}></div>
@@ -152,4 +195,9 @@ function Product() {
         </>
     );
 }
+Product.propType = {
+    src: PropTypes.string,
+    name: PropTypes.string,
+    cart: PropTypes.string,
+};
 export default Product;

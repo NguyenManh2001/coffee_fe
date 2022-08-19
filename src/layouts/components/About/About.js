@@ -11,7 +11,7 @@ function About() {
             <div className={cx('container')}>
                 <h2 className={cx('header')}>Về chúng tôi</h2>
                 <div className={cx('lineborder')}>
-                    <Images src="https://coffee-cup-react.vercel.app/images/line-under-heading.png" alt="lineborder" />
+                    <Images src={require('~/assets/images/line-under-heading.png')} alt="lineborder" />
                 </div>
             </div>
             <Content>

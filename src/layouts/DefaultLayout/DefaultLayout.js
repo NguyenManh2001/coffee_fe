@@ -8,6 +8,7 @@ import FeaturedMenu from '../components/FeaturedMenu';
 import About from '../components/About';
 import New from '../components/New';
 import Footer from '../components/Footer';
+import { Carousel } from '@trendyol-js/react-carousel';
 
 const cx = classNames.bind(styles);
 
@@ -19,7 +20,9 @@ function DefaultLayout({children}) {
                 <Sibar />
                 <div className={cx('content')}>
                     <Menu />
+                    {/* <Carousel> */}
                     <FeaturedMenu />
+                    {/* </Carousel> */}
                     <About />
                     <New />
                 </div>

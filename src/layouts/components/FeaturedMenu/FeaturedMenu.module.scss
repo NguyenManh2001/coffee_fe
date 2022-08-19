@@ -1,4 +1,5 @@
 .wrapper {
+    position: relative;
     width: 100%;
     min-height: 300px;
 }
@@ -20,7 +21,15 @@
     display: flex;
     justify-content: center;
 }
-
+.Menu{
+    margin-top: 25px;
+    width: 80% ;
+    margin-left: 135px;
+    display: flex;
+    overflow-x: hidden;
+    -webkit-animation: menu-content - 14s ease infinite;
+    // display: block;
+}
 .btn {
     display: flex;
     justify-content: center;
@@ -41,7 +50,29 @@
     transform: translateY(-8px);
     }
 }
-
+.btn-prev{
+    position: absolute;
+    top: 0;
+    padding: 30px 0;
+    left: 142px;
+    bottom: 112px;
+    background: none;
+    color: #fff !important;
+    font-size: 42px;
+    z-index: 20;
+    cursor: pointer;
+}
+.btn-next{
+    position: absolute;
+    top: 0;
+    padding: 30px 0;
+    right: 142px;
+    bottom: 112px;
+    background: none;
+    color: #fff !important;
+    z-index: 20;
+    cursor: pointer;
+}
 .rigister{
     margin-top: 30px;
     height: 150px;

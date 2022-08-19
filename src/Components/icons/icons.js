@@ -4,7 +4,6 @@ export const CartIcons = ({ width = '2.6rem', height = '2.6rem', className }) =>
         fill="currentColor"
         strokeWidth="0"
         viewBox="0 0 576 512"
-        class="cart-icon"
         height={height}
         width={width}
         xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +31,6 @@ export const StarIcons = ({ width = '2rem', height = '2rem', className }) => (
         fill="currentColor"
         strokeWidth="0"
         viewBox="0 0 576 512"
-        class="cart-icon"
         height={height}
         width={width}
         xmlns="http://www.w3.org/2000/svg"
@@ -102,10 +100,9 @@ export const MinusIcons = ({ width = '4rem', height = '4rem', className }) => (
         fill="currentColor"
         strokeWidth="0"
         viewBox="0 0 1024 1024"
-        class="quantityBtn"
         height={height}
         width={width}
-        color='#c24914'
+        color="#c24914"
         xmlns="http://www.w3.org/2000/svg"
     >
         <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm192 472c0 4.4-3.6 8-8 8H328c-4.4 0-8-3.6-8-8v-48c0-4.4 3.6-8 8-8h368c4.4 0 8 3.6 8 8v48z"></path>
@@ -117,12 +114,74 @@ export const PlusIcons = ({ width = '4rem', height = '4rem', className }) => (
         fill="currentColor"
         strokeWidth="0"
         viewBox="0 0 1024 1024"
-        class="quantityBtn"
         height={height}
         width={width}
-        color='#c24914'
+        color="#c24914"
         xmlns="http://www.w3.org/2000/svg"
     >
         <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm192 472c0 4.4-3.6 8-8 8H544v152c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V544H328c-4.4 0-8-3.6-8-8v-48c0-4.4 3.6-8 8-8h152V328c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v152h152c4.4 0 8 3.6 8 8v48z"></path>
+    </svg>
+);
+export const EditIcons = ({ width = '1.5rem', height = '1.5rem', className }) => (
+    <svg
+        stroke="currentColor"
+        fill="currentColor"
+        strokeWidth="0"
+        viewBox="0 0 24 24"
+        height={height}
+        width={width}
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path fill="none" d="M0 0h24v24H0z"></path>
+        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 000-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path>
+    </svg>
+);
+export const DeleteIcons = ({ width = '1.5rem', height = '1.5rem', className }) => (
+    <svg
+        stroke="currentColor"
+        fill="currentColor"
+        strokeWidth="0"
+        viewBox="0 0 24 24"
+        height={height}
+        width={width}
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <g>
+            <path fill="none" d="M0 0h24v24H0z"></path>
+            <path d="M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3zm-8 5v6h2v-6H9zm4 0v6h2v-6h-2zM9 4v2h6V4H9z"></path>
+        </g>
+    </svg>
+);
+export const NextIcons = ({ width = '5rem', height = '5rem', className }) => (
+    <svg
+        stroke="currentColor"
+        fill="currentColor"
+        strokeWidth="0"
+        viewBox="0 0 24 24"
+        height={height}
+        width={width}
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <polyline fill="none" stroke="#fff" strokeWidth="2" points="7 2 17 12 7 22"></polyline>
+    </svg>
+);
+
+export const PrevIcons = ({ width = '5rem', height = '5rem', className }) => (
+    <svg
+        stroke="currentColor"
+        fill="currentColor"
+        strokeWidth="0"
+        viewBox="0 0 24 24"
+        height={height}
+        width={width}
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <polyline
+            fill="none"
+            stroke="#fff"
+            strokeWidth="2"
+            points="7 2 17 12 7 22"
+            transform="matrix(-1 0 0 1 24 0)"
+        ></polyline>
     </svg>
 );

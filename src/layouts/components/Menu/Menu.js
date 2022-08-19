@@ -9,7 +9,7 @@ function Menu() {
             <div className={cx('container')}>
             <h2 className={cx('header')}>Thực Đơn</h2>
             <div className={cx('lineborder')}>
-            <Images src="https://coffee-cup-react.vercel.app/images/line-under-heading.png" alt="lineborder"/>
+            <Images src={require('~/assets/images/line-under-heading.png')} alt="lineborder"/>
             </div>
             <div className={cx('menu')}>
                 <div className={cx('menu-item','item-1')}>

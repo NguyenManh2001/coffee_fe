@@ -1,71 +1,180 @@
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { CartIcons, LoginIcons } from '~/Components/icons/icons';
+import { CartIcons, EditIcons, DeleteIcons, LoginIcons } from '~/Components/icons/icons';
 import Images from '~/Components/Images';
 import config from '~/config';
+import Cart from './Cart';
 import styles from './Header.module.scss';
 import Menu, { MenuItem } from './menu';
 
 const cx = classNames.bind(styles);
-function Header() {
+function Header({ name, src, price, quatity, size }) {
     const [content, setContent] = useState(false);
+    const [showHeader, setShowHeader] = useState(true);
+    const [Name, setName] = useState(false);
     // const [cart, setCart] = useState(false);
 
     // const handleOpen = () => {
     //     setContent(!content);
     //     setCart(!cart);
     // };
+    useEffect(() => {
+        const handleScroll = () => {
+            const Scroll = window.scrollY;
+            if (Scroll >= 200) {
+                setShowHeader(false);
+            } else {
+                setShowHeader(true);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+    }, []);
     const handleSubmit = () => {
         setContent(!content);
+        setName(!Name);
         // setCart(!cart);
     };
 
     return (
         <div className={cx('wraper')}>
-            <div className={cx('container')}>
-                <Images className={cx('logo')} src="https://coffee-cup-react.vercel.app/images/logo-2.png" />
-
-                <Menu>
-                    <MenuItem title="Trang chủ" to={config.routers.Home} />
-                    <MenuItem title="Menu" to={config.routers.Menu} />
-                    <MenuItem title="Tin tức" to={config.routers.News} />
-                    <MenuItem title="Liên hệ" to={config.routers.Contact} />
-                    <MenuItem title="Chúng tôi" to={config.routers.About} />
-                </Menu>
-
-                <div>
-                    <button className={cx('ColorCartIcon')} onClick={handleSubmit} to="#">
-                        <CartIcons />
-                    </button>
-                    <NavLink className={cx('ColorLoginIcon')} to="#">
-                        <LoginIcons />
-                    </NavLink>
-                </div>
-            </div>
             <>
-            {content ? (
-                
-                <div className={cx('content')}>
-                    <div className={cx('cart')}>
-                        <div className={cx('header-cart')}>
-                            <h2 className={cx('text-header')}>Giỏ hàng của tôi</h2>
-                            <button onClick={handleSubmit} className={cx('btn')} aria-label="Close"></button>
-                        </div>
-                        <div className={cx('content-cart')}>
-                            <h3 className={cx('content-header')}>Giỏ hàng trống</h3>
-                            <div className={cx('content-title')}>
-                                <NavLink className={cx('btnMenu')} onClick={handleSubmit} to={config.routers.Menu}>
-                                    Tiếp tục mua hàng
-                                </NavLink>
-                            </div>
+                {showHeader ? (
+                    <div className={cx('container')}>
+                        <Images className={cx('logo')} src={require('~/assets/images/logo-2.png')} />
+
+                        <Menu>
+                            <MenuItem title="Trang chủ" to={config.routers.Home} />
+                            <MenuItem title="Menu" to={config.routers.Menu} />
+                            <MenuItem title="Tin tức" to={config.routers.News} />
+                            <MenuItem title="Liên hệ" to={config.routers.Contact} />
+                            <MenuItem title="Chúng tôi" to={config.routers.About} />
+                        </Menu>
+
+                        <div>
+                            <button className={cx('ColorCartIcon')} onClick={handleSubmit} to="#">
+                                <CartIcons />
+                            </button>
+                            <NavLink className={cx('ColorLoginIcon')} to="#">
+                                <LoginIcons />
+                            </NavLink>
                         </div>
                     </div>
-                </div>
-            ) : (
-                <div className={cx('container')}>
-            </div>
-            )}
+                ) : (
+                    <div className={cx('container')}></div>
+                )}
+            </>
+            <>
+                {content ? (
+                    <div className={cx('content')}>
+                        <div className={cx('cart')}>
+                            <div className={cx('header-cart')}>
+                                <h2 className={cx('text-header')}>Giỏ hàng của tôi</h2>
+                                <button onClick={handleSubmit} className={cx('btn')} aria-label="Close"></button>
+                            </div>
+                            {Name?(
+                                <div className={cx('content-cart')}>
+                                    <div className={cx('content-cart-item')}>
+                                        <div className={cx('cart-item')}>
+                                            <Images className={cx('logo-cart')} src={src} />
+                                            <div className={cx('cart-title')}>
+                                                <div className={cx('cart-name')}>{name}</div>
+                                                <div className={cx('cart-size')}>
+                                                    <div className={cx('size')}>
+                                                        Size {size} <span>x {quatity}</span>
+                                                    </div>
+                                                    <div className={cx('edit')}>
+                                                        <EditIcons />
+                                                    </div>
+                                                    <div className={cx('cart-price')}>{price}đ</div>
+                                                    <div className={cx('delete')}>
+                                                        <DeleteIcons />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <NavLink to={config.routers.Menu} className={cx('add')}>
+                                            Thêm món
+                                        </NavLink>
+                                    </div>
+                                    <div className={cx('content-cart-item')}>
+                                        <div className={cx('price')}>
+                                            <div className={cx('size')}>Tổng cộng</div>
+                                            <div className={cx('cart-price')}>{price}đ</div>
+                                        </div>
+                                    </div>
+                                    <div className={cx('content-title')}>
+                                        <NavLink className={cx('btnMenu')} to={config.routers.Menu}>
+                                            Thanh toán
+                                        </NavLink>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className={cx('content-cart')}>
+                                    <h3 className={cx('content-header')}>Giỏ hàng trống</h3>
+                                    <div className={cx('content-title')}>
+                                        <NavLink
+                                            className={cx('btnMenu')}
+                                            onClick={handleSubmit}
+                                            to={config.routers.Menu}
+                                        >
+                                            Tiếp tục mua hàng
+                                        </NavLink>
+                                    </div>
+                                </div>
+                            )}
+                            {/* <Cart /> */}
+                            {/* <div className={cx('content-cart')}> */}
+                            {/* <div className={cx('content-title')}>
+                                    <NavLink className={cx('btnMenu')} onClick={handleSubmit} to={config.routers.Menu}>
+                                        Tiếp tục mua hàng
+                                    </NavLink>
+                                </div> */}
+                            {/* <div className={cx('content-cart-item')}>
+                                    <div className={cx('cart-item')}>
+                                        <Images
+                                            className={cx('logo-cart')}
+                                            src="https://coffee-cup-react.vercel.app/images/sp-4-americano.jpg"
+                                        />
+                                        <div className={cx('cart-title')}>
+                                            <div className={cx('cart-name')}>Americano</div>
+                                            <div className={cx('cart-size')}>
+                                                <div className={cx('size')}>
+                                                    Size M <span>x 1</span>
+                                                </div>
+                                                <div className={cx('edit')}>
+                                                    <EditIcons />
+                                                </div>
+                                                <div className={cx('cart-price')}>50000</div>
+                                                <div className={cx('delete')}>
+                                                    <DeleteIcons />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <NavLink className={cx('add')} to="#">
+                                        Thêm món
+                                    </NavLink>
+                                </div>
+                                <div className={cx('content-cart-item')}>
+                                    <div className={cx('price')}>
+                                        <div className={cx('size')}>
+                                        Tổng cộng 
+                                        </div>
+                                        <div className={cx('cart-price')}>50000</div>
+                                    </div>
+                                </div>
+                                <div className={cx('content-title')}>
+                                    <NavLink className={cx('btnMenu')} onClick={handleSubmit} to={config.routers.Menu}>
+                                        Thanh toán
+                                    </NavLink>
+                                </div>
+                            </div> */}
+                        </div>
+                    </div>
+                ) : (
+                    <div className={cx('container')}></div>
+                )}
             </>
         </div>
     );

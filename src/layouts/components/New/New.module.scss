@@ -1,6 +1,7 @@
 .wrapper {
     width: 100%;
     min-height: 300px;
+    position: relative;
 }
 
 .container {
@@ -22,24 +23,22 @@
     justify-content: center;
 }
 .content{
-    height: 330px;
-    width: 100%;
+
+    height: 450px;
+    width: 79%;
     margin-top: 30px;
-    padding: 3px 180px;
+    margin-left: 10%;
     display: flex;
-    justify-content: space-around;
+    overflow: hidden;
 }
 
 .list{
-    width: 30%;
-    height: 100%;
+    width: 31%;
+    margin: 14px;
+    display: flex;
+    flex-shrink: 0;
     transition: ease-out 0.5s;
-    box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
     border-radius: 15px;
-
-    &:hover{
-        transform: translateY(-8px);
-    }
 }
 
 .img-content{
@@ -47,19 +46,33 @@
     height: 71%;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.image1{
-    background: url(../../../assets/images/tintuc-1.jpg) no-repeat center;
-    background-size: cover;
+.btn-prev{
+    position: absolute;
+    top: 0;
+    padding: 20% 0;
+    left: 165px;
+    bottom: 25px;
+    background: none;
+    color: #fff !important;
+    font-size: 42px;
+    z-index: 20;
+    cursor: pointer;
 }
-.image2{
-    background: url(../../../assets/images/tintuc-2.jpg) no-repeat center;
-    background-size: cover;
-}
-.image3{
-    background: url(../../../assets/images/tintuc-3.jpg) no-repeat center;
-    background-size: cover;
+.btn-next{
+    position: absolute;
+    top: 0;
+    padding: 20% 0;
+    right: 165px;
+    bottom: 25px;
+    background: none;
+    color: #fff !important;
+    z-index: 20;
+    cursor: pointer;
 }
 
 
