@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { CartIcons, EditIcons, DeleteIcons, LoginIcons } from '~/Components/icons/icons';
 import Images from '~/Components/Images';
 import config from '~/config';
-import Cart from './Cart';
 import styles from './Header.module.scss';
 import Menu, { MenuItem } from './menu';
 
@@ -12,28 +11,25 @@ const cx = classNames.bind(styles);
 function Header({ name, src, price, quatity, size }) {
     const [content, setContent] = useState(false);
     const [showHeader, setShowHeader] = useState(true);
-    const [Name, setName] = useState(false);
-    // const [cart, setCart] = useState(false);
+    const [Name, setName] = useState({name});
 
-    // const handleOpen = () => {
-    //     setContent(!content);
-    //     setCart(!cart);
-    // };
     useEffect(() => {
         const handleScroll = () => {
             const Scroll = window.scrollY;
             if (Scroll >= 200) {
                 setShowHeader(false);
+                setName(!Name);
+
             } else {
                 setShowHeader(true);
+             
             }
         };
         window.addEventListener('scroll', handleScroll);
-    }, []);
+    });
+
     const handleSubmit = () => {
-        setContent(!content);
-        setName(!Name);
-        // setCart(!cart);
+        setContent(!content)
     };
 
     return (
