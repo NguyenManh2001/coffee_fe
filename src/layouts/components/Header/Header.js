@@ -11,14 +11,13 @@ const cx = classNames.bind(styles);
 function Header({ name, src, price, quatity, size }) {
     const [content, setContent] = useState(false);
     const [showHeader, setShowHeader] = useState(true);
-    const [Name, setName] = useState({name});
-
+    const [Name, setName] = useState(name);
     useEffect(() => {
         const handleScroll = () => {
             const Scroll = window.scrollY;
             if (Scroll >= 200) {
                 setShowHeader(false);
-                setName(!Name);
+                // setName(!Name);
 
             } else {
                 setShowHeader(true);
@@ -119,53 +118,6 @@ function Header({ name, src, price, quatity, size }) {
                                     </div>
                                 </div>
                             )}
-                            {/* <Cart /> */}
-                            {/* <div className={cx('content-cart')}> */}
-                            {/* <div className={cx('content-title')}>
-                                    <NavLink className={cx('btnMenu')} onClick={handleSubmit} to={config.routers.Menu}>
-                                        Tiếp tục mua hàng
-                                    </NavLink>
-                                </div> */}
-                            {/* <div className={cx('content-cart-item')}>
-                                    <div className={cx('cart-item')}>
-                                        <Images
-                                            className={cx('logo-cart')}
-                                            src="https://coffee-cup-react.vercel.app/images/sp-4-americano.jpg"
-                                        />
-                                        <div className={cx('cart-title')}>
-                                            <div className={cx('cart-name')}>Americano</div>
-                                            <div className={cx('cart-size')}>
-                                                <div className={cx('size')}>
-                                                    Size M <span>x 1</span>
-                                                </div>
-                                                <div className={cx('edit')}>
-                                                    <EditIcons />
-                                                </div>
-                                                <div className={cx('cart-price')}>50000</div>
-                                                <div className={cx('delete')}>
-                                                    <DeleteIcons />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <NavLink className={cx('add')} to="#">
-                                        Thêm món
-                                    </NavLink>
-                                </div>
-                                <div className={cx('content-cart-item')}>
-                                    <div className={cx('price')}>
-                                        <div className={cx('size')}>
-                                        Tổng cộng 
-                                        </div>
-                                        <div className={cx('cart-price')}>50000</div>
-                                    </div>
-                                </div>
-                                <div className={cx('content-title')}>
-                                    <NavLink className={cx('btnMenu')} onClick={handleSubmit} to={config.routers.Menu}>
-                                        Thanh toán
-                                    </NavLink>
-                                </div>
-                            </div> */}
                         </div>
                     </div>
                 ) : (

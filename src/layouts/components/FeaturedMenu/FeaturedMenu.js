@@ -112,9 +112,9 @@ function FeatureMenu() {
     // useEffect(() => {
     //     autoPlay.current = nextSlider;
     // })
-    useEffect(() => {
-        autoPlay.current = setTimeout(nextSlider,3000)
-    })
+    // useEffect(() => {
+    //     autoPlay.current = setTimeout(nextSlider,3000)
+    // })
     const renderItems = () => {
         return (MENUS.map((MENU, index) => {
             if (MENU.id === header) {
