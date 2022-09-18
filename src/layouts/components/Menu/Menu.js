@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import styles from './Menu.module.scss';
 import Images from "~/Components/Images";
-
+import { Link } from "react-router-dom";
 const cx = classNames.bind(styles);
 function Menu() {
     return (
@@ -16,7 +16,7 @@ function Menu() {
                     <div className={cx('menu-content')}>
                         <h4 className={cx('title-coffee')}>Cà Phê</h4>
                         <div className={cx('item-border')}></div>
-                        <a className={cx('item-add')} href="/menu">Xem thêm</a>
+                        <Link className={cx('item-add')} to="/Menu/Coffee">Xem thêm</Link>
                     </div>
                     <div className={cx('itemImage')}></div>
                 </div>
@@ -24,7 +24,7 @@ function Menu() {
                 <div className={cx('menu-content')}>
                         <h4 className={cx('title-coffee')}>Trà</h4>
                         <div className={cx('item-border')}></div>
-                        <a className={cx('item-add')} href="/menu">Xem thêm</a>
+                        <Link className={cx('item-add')} to="/Menu/tea">Xem thêm</Link>
                     </div>
                     <div className={cx('itemImage')}></div>
                 </div>
@@ -32,7 +32,7 @@ function Menu() {
                 <div className={cx('menu-content')}>
                         <h4 className={cx('title-coffee')}>Freeze</h4>
                         <div className={cx('item-border')}></div>
-                        <a className={cx('item-add')} href="/menu">Xem thêm</a>
+                        <Link className={cx('item-add')} to="/Menu/Freeze">Xem thêm</Link>
                     </div>
                     <div className={cx('itemImage')}></div>
                 </div>
