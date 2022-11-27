@@ -35,3 +35,15 @@
     padding: 2px 5px;
     margin-top: 4px;
 }
+
+@media screen and (max-width:740px) {
+    .content-title{
+        margin: 0;
+    }
+    .content-header{
+        font-size: 1.95rem;
+    }
+    .p-text{
+        font-size: 1.2rem;
+    }
+}

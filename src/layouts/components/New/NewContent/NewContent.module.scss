@@ -27,3 +27,14 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+
+@media screen and (max-width: 740px) {
+     .img-content{
+        height: 60%;
+     }
+
+
+     .title-name{
+        font-size: 14px;
+     }
+}

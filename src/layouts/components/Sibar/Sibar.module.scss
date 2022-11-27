@@ -81,10 +81,48 @@
 bottom: 0;
 
 .logo{
-    width: 1365px;
+    width: 100%;
 }
 }
 
-.dZkckO {
-z-index: 2;
+// .dZkckO {
+// z-index: 2;
+// }
+
+@media (max-width:740px){
+   .carousel{
+    width:401px;
+   }
+   .carousel-img{
+    width:401px;
+    height: 300px;
+   }
+
+   .fQtaVz {
+    padding-left: none;
+    grid-template-columns:none;
+    grid-column-gap: none;
+   }
+   .carousel-caption {
+    height: 232px;
+    left: 16%;
+    .logo-icon{
+        width: 95px;
+        margin: 8% 47% 0 12%;
+    }
+    .banner-heading {
+        justify-content: flex-start;
+        padding: 5px;
+        margin-left: 10px;
+        font-family: Caveat, cursive;
+        font-size: 22px;}
+    .banner-subheading {
+        font-size: 17px;
+        justify-content: flex-start;
+        margin: 0px;
+        }
+    .btn {
+        margin: 5% -4px;
+    }
+}
 }

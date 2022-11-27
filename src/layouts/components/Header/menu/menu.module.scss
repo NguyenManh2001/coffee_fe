@@ -16,3 +16,9 @@
         color: #fc8621 !important;
     }
 }
+
+@media (max-width:740px){
+    .container{
+        display: none;
+    }
+}

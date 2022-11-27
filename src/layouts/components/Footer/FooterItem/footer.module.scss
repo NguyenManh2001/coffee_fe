@@ -25,3 +25,12 @@
         color: var(--black) !important;
     }
 }
+
+@media (max-width:740px){
+    .wrapper{
+      display: block;
+    }
+    .footer{
+        margin: 0;
+    }
+}

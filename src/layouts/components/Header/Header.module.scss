@@ -183,3 +183,22 @@
 .content-title{
     padding: 25px;
 }
+
+
+@media (max-width:740px){
+    .container{
+        width: 80%;
+        padding: 0px 6% 0px 8%;
+        margin: 10px 0;
+    }
+    .menu{
+        padding-right: 10%;
+    }
+    .logo{
+        margin-right: 0;
+    }
+
+    .ColorCartIcon{
+        margin: 0px 3px 0px 0px;
+    }
+}

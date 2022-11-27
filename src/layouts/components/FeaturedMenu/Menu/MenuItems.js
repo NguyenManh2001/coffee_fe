@@ -14,7 +14,7 @@ function MenuItems({ refs, star, price, title, icon, src, onClick }) {
                     <div className={cx('card-content')}>
                         <div className={cx('card-content-left')}>
                             <div className={cx('card-like')}>
-                                <div className={cx('icon')}>{star} {star} {star} {star} {star}</div>
+                                <div className={cx('icon')}>{star} {star} {star} </div>
                                 <div className={cx('price')}>{price}đ</div>
                             </div>
                             <div className={cx('card-content-right')}>

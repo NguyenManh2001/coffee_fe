@@ -26,10 +26,14 @@
     width: 80% ;
     margin-left: 135px;
     display: flex;
-    overflow-x: hidden;
+    overflow: auto;
     -webkit-animation: menu-content - 14s ease infinite;
     // display: block;
 }
+.Menu::-webkit-scrollbar { 
+    width: 0 !important;
+    display: none; 
+  }
 .btn {
     display: flex;
     justify-content: center;
@@ -75,9 +79,35 @@
 }
 .rigister{
     margin-top: 30px;
-    height: 150px;
+    min-height: 150px;
     width: 100%;
     background: url(../../../assets/images/bg-112.jpeg) no-repeat center;
     background-size: cover;
     padding: 0 48px;
+}
+
+
+@media (max-width:740px){
+    .header{
+        font-size: 3rem;
+       line-height: 6px;
+    }
+    .Menu{
+     margin-left: 3px;
+     width: 100%;
+    }
+    .btn-next{
+        display: none;
+    }
+    .btn-prev{
+        display: none;
+    }
+    .btnMenu{
+        font-size: 13px;
+    height: 30px;
+    }
+    
+.rigister {
+    padding: 0;
+}
 }

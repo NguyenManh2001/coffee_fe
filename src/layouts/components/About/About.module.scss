@@ -59,3 +59,34 @@
     background: url(../../../assets/images/chungtoi-3.jpg) no-repeat center;
     background-size: cover;
 }
+
+@media (max-width:740px){
+    .content{
+        display: block;
+        width: 83%;
+        margin-left: 23px;
+    }
+    .header{
+        padding: 0;
+    font-size: 3rem;
+    }
+    .image-1{
+        height: 145px;
+    }
+    .image-2{
+        height: 145px;
+    }
+    .image-3{
+        height: 145px;
+    }
+    .img-content{
+        border-top-right-radius: 12px;
+        border-bottom-left-radius: 0;
+    }
+    .content-item{
+        padding: 9px;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 8px;
+    }
+    
+}

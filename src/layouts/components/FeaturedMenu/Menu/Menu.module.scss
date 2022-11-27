@@ -89,11 +89,21 @@
     margin-top: 3px;
   }
 
-  //module cart
 
-  .Wrapper{
-
+  @media screen and (max-width: 740px) {
+    .menu-content {
+      width: 46%;
   }
-.container{
-
+  .card-img {
+    height: 120px;
+  }
+  .card-content-left{
+    padding: 10px 0px;
 }
+.price {
+  font-size: 14px;
+}
+.cart-name {
+  font-size: 13px;
+}
+  }

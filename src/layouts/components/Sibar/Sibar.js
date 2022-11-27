@@ -8,8 +8,8 @@ const cx = classNames.bind(styles);
 
 const Gallery = () => {
     return (
-        <Carousel cols={1} rows={1} autoplay={2000} loop>
-            <Carousel.Item className={cx('Carousel5')}>
+        <Carousel className={cx('Carousel5')} cols={1} rows={1} autoplay={2000} loop>
+            <Carousel.Item >
                 <Images
                     className={cx('carousel-img')}
                     src={require("~/assets/images/home-4-slide.jpg?random=1")}

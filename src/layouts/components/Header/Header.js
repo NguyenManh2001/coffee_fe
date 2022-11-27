@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { CartIcons, EditIcons, DeleteIcons, LoginIcons } from '~/Components/icons/icons';
+import { CartIcons, EditIcons, DeleteIcons, LoginIcons, MenuIcons } from '~/Components/icons/icons';
 import Images from '~/Components/Images';
 import config from '~/config';
 import styles from './Header.module.scss';
@@ -36,6 +36,9 @@ function Header({ name, src, price, quatity, size }) {
             <>
                 {showHeader ? (
                     <div className={cx('container')}>
+                        <div className={cx('menu')}>
+                        <MenuIcons />
+                        </div>
                         <Images className={cx('logo')} src={require('~/assets/images/logo-2.png')} />
 
                         <Menu>
