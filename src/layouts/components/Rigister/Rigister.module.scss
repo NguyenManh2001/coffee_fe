@@ -39,7 +39,7 @@
 
 @media screen and (max-width:740px) {
     .rigister-container{
-        padding: 17px 58px;
+        padding: 17px 52px;
     }
     .rigister-content{
         font-size: 10px;
@@ -48,12 +48,15 @@
         margin: 0;
         padding: 10px 0 0;
     }
+    .register-name{
+        margin-left: 10px;
+    }
     .register-input{
         padding: 4px;
     margin-left: 6px;
     }
     .btnMenu{
         font-size: 12px;
-    margin: 12px 0 0 62px;
+    margin: 12px 0 0 70px;
     }
 }
