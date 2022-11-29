@@ -88,6 +88,9 @@
 
 
 @media (max-width:740px){
+    .wrapper{
+        position: unset;
+    }
     .header{
         font-size: 3rem;
        line-height: 6px;
