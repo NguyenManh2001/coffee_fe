@@ -96,6 +96,7 @@ export const InstagamIcons = ({ width = '2rem', height = '2rem', className }) =>
 );
 export const MinusIcons = ({ width = '4rem', height = '4rem', className }) => (
     <svg
+        className={className}
         stroke="currentColor"
         fill="currentColor"
         strokeWidth="0"
@@ -110,6 +111,7 @@ export const MinusIcons = ({ width = '4rem', height = '4rem', className }) => (
 );
 export const PlusIcons = ({ width = '4rem', height = '4rem', className }) => (
     <svg
+        className={className}
         stroke="currentColor"
         fill="currentColor"
         strokeWidth="0"
@@ -185,7 +187,7 @@ export const PrevIcons = ({ width = '5rem', height = '5rem', className }) => (
         ></polyline>
     </svg>
 );
-export const MenuIcons = ({ width = '5rem', height = '5rem', className }) => (
+export const MenuIcons = ({ width = '3rem', height = '3rem', className }) => (
     <svg
         stroke="currentColor"
         fill="#fff"

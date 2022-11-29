@@ -36,7 +36,7 @@ function Header({ name, src, price, quatity, size }) {
             <>
                 {showHeader ? (
                     <div className={cx('container')}>
-                        <div className={cx('menu')}>
+                        <div className={cx('menuIcon')}>
                         <MenuIcons />
                         </div>
                         <Images className={cx('logo')} src={require('~/assets/images/logo-2.png')} />

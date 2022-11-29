@@ -13,6 +13,9 @@
     padding: 0px 15%;
     justify-content: space-between;
 }
+.menuIcon{
+    display: none;
+}
 .logo{
     min-width: 5rem;
     height: 5rem;
@@ -191,8 +194,12 @@
         padding: 0px 0 0px 8%;
         margin: 10px 0;
     }
-    .menu{
-        padding-right: 10%;
+    // .menu{
+    //     padding-right: 10%;
+    // }
+    .menuIcon{
+        padding-right: 15%;
+        display: block;
     }
     .logo{
         margin-right: 0;
@@ -200,5 +207,31 @@
 
     .ColorCartIcon{
         margin: 0px 3px 0px 0px;
+    }
+}
+
+@media screen and (max-width:740px) {
+    .cart{
+    width: 77%;
+    height: 52%;
+    margin: 10% 13%;
+    }
+    .logo-cart{
+        height: 55px;
+    }
+    .cart-item{
+        min-height: 62px;
+    }
+    .cart-name{
+        font-size: 17px;
+    }
+    .cart-size{
+        font-size: 12px;
+    }
+    .cart-price{
+        padding: 0 0 0 28px;
+    }
+    .price{
+        font-size: 25px;
     }
 }
