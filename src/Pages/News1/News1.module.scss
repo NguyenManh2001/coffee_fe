@@ -24,7 +24,7 @@
 }
 .content-left{
     width: 50%;
-    height: 300px;
+    min-height: 300px;
     padding-right: 20px;
 }
 .content-right{
@@ -68,4 +68,17 @@
 .next{
     font-size: 17px;
     color: #c24914 !important;
+}
+
+@media screen and (max-width: 740px) {
+    .content{
+        flex-direction: column;
+    }
+    .content-left{
+        width: 100%;
+        padding-bottom: 15px;
+    }
+    .image1{
+        width: 95%;
+    }
 }
