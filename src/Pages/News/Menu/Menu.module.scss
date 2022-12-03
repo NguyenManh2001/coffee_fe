@@ -35,3 +35,13 @@
     padding: 2px 5px;
     margin-top: 4px;
 }
+
+@media screen and (max-width:740px) {
+    .fifter-content{
+        background: none;
+        padding: 4px 4px;
+    }
+    .fifter-item{
+        margin: -7px 0px 20px;
+    }
+}
