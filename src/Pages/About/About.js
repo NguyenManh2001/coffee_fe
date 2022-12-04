@@ -38,7 +38,7 @@ function About() {
                             </div>
                         </div>
                     </div>
-                    <div className={cx('main-content')}>
+                    <div className={cx('main-content','main')}>
                         <div className={cx('content-left')}>
                             <Content>
                                 <div className={cx('content-item')}>
@@ -51,7 +51,7 @@ function About() {
                                 </div>
                             </Content>
                         </div>
-                        <div className={cx('content-right')}>
+                        <div className={cx('content-right','right')}>
                             <div className={cx('img-content', 'image-2')}></div>
                         </div>
                     </div>

@@ -30,7 +30,7 @@
 }
 .main-content{
     width: 80%;
-    height: 300px;
+    min-height: 300px;
     margin-left: 10%;
     margin-top: 30px;
     display: flex;
@@ -62,7 +62,7 @@
 .content-right{
     flex: 1;
     width: 47%;
-    height: 250px;
+    min-height: 250px;
     margin: 10px 33px;
 }
 .content-item{
@@ -81,6 +81,34 @@
 
 
 @media screen and (max-width: 740px) {
-    
-     
+    .content{
+        padding-bottom: 30px;
+    }
+     .main-content{
+        width: 100%;
+        display:block;
+        margin-top: 20px;
+     }
+     .main{
+        display: flex;
+        width: 100%;
+        flex-direction: column-reverse;
+        margin-top: 14px;
+        margin-bottom: 20px;
+     }
+     .content-left{
+        margin: 20px 0 20px;
+        width: 80%;
+        min-height: 168px
+     }
+     .content-right{
+        width: 80%;
+        margin: 10px 0px;
+     }
+     .right{
+        height: 250px;
+     }
+     .image-2{
+        height: 250px;
+     }
 }
