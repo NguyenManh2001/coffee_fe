@@ -85,13 +85,17 @@
         padding-bottom: 30px;
     }
      .main-content{
-        width: 100%;
+        width: 90%;
         display:block;
+        margin-top: 20px;
+        margin-left: 15%;
+     }
+     .tent{
         margin-top: 20px;
      }
      .main{
         display: flex;
-        width: 100%;
+        width: 90%;
         flex-direction: column-reverse;
         margin-top: 14px;
         margin-bottom: 20px;
@@ -104,6 +108,9 @@
      .content-right{
         width: 80%;
         margin: 10px 0px;
+     }
+     .content-item{
+        padding: 25px;
      }
      .right{
         height: 250px;

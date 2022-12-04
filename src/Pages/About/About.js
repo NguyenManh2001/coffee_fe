@@ -19,7 +19,7 @@ function About() {
                             alt="lineborder"
                         />
                     </div>
-                    <div className={cx('main-content')}>
+                    <div className={cx('main-content','tent')}>
                         <div className={cx('content-left')}>
                             <div className={cx('img-content', 'image-1')}></div>
                         </div>
