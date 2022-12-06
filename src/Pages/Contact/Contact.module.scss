@@ -114,3 +114,39 @@
     transform: translateY(-8px);
     }
 }
+
+
+@media screen and (max-width: 740px) {
+    .header{
+        height: 285px;
+    }
+    .content{
+        margin-top: 15px;
+    }
+    .header-content{
+        font-weight: 600;
+        font-size: 3rem;
+    }
+    .main-content{
+        flex-direction: column;
+        margin-top: -10px;
+    }
+    .content-left{
+        display: none;
+    }
+    .content-right{
+        margin-left: 0px;
+    }
+    .main-right{
+        width: 100%;
+        margin-left: 0px;
+    }
+    .text{
+        width: 100% !important;
+        margin: 10px 0;
+    }
+    .btnMenu{
+        margin-left: 25%;
+        width: 130px;
+    }
+}

@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Tea.module.scss';
-import MenuFeat from '~/layouts/components/FeaturedMenu/Menu/Menu';
-import { MenuItems } from '~/layouts/components/FeaturedMenu/Menu';
+import MenuFeat from '~/layouts/components/FeaturedMenu/Menu1/Menu1';
+import { MenuItems1 } from '~/layouts/components/FeaturedMenu/Menu1';
 import { StarIcons } from '~/Components/icons/icons';
 import Product from '~/layouts/components/Product';
 import { useState } from 'react';
@@ -86,7 +86,7 @@ function Tea() {
                 <div className={cx('main-right')}>
                     <MenuFeat className={cx('menu')}>
                         {MENUS.map((MENU) => (
-                            <MenuItems
+                            <MenuItems1
                                 key={MENU.id}
                                 star={MENU.star}
                                 src={MENU.src}

@@ -1,11 +1,11 @@
 import classNames from 'classnames/bind';
 import styles from './Coffee1.module.scss';
-import { MenuItems } from '~/layouts/components/FeaturedMenu/Menu';
+import { MenuItems1 } from '~/layouts/components/FeaturedMenu/Menu1';
 import { StarIcons } from '~/Components/icons/icons';
 import { useState } from 'react';
 import Product from '~/layouts/components/Product';
 import { BsStar } from 'react-icons/bs';
-import MenuFeat from '~/layouts/components/FeaturedMenu/Menu/Menu';
+import MenuFeat from '~/layouts/components/FeaturedMenu/Menu1/Menu1';
 const cx = classNames.bind(styles);
 const MENUS = [
     {
@@ -62,7 +62,7 @@ function Coffee1() {
                 <div className={cx('main-right')}>
                     <MenuFeat className={cx('menu')}>
                         {MENUS.map((MENU) => (
-                            <MenuItems
+                            <MenuItems1
                                 key={MENU.id}
                                 star={MENU.star}
                                 src={MENU.src}

@@ -2,7 +2,7 @@
 const routers = {
     Home:'/',
     News:'/News',
-    Menu:'/Menu',
+    Menu:'/Menu/Coffee',
     Contact:'/Contact',
     About:'/About',
     Tea:'/Menu/Tea',

@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
-import { MenuItems } from '~/layouts/components/FeaturedMenu/Menu';
-import MenuFeat from '~/layouts/components/FeaturedMenu/Menu/Menu';
+import { MenuItems1 } from '~/layouts/components/FeaturedMenu/Menu1';
+import MenuFeat from '~/layouts/components/FeaturedMenu/Menu1/Menu1';
 import { StarIcons } from '~/Components/icons/icons';
 import { BsStar } from 'react-icons/bs';
 import { useState } from 'react';
@@ -137,7 +137,7 @@ function Menu() {
         <div className={cx('wrapper')}>
                     <MenuFeat className={cx('menu')}>
                         {MENUS.map((MENU) => (
-                            <MenuItems
+                            <MenuItems1
                                 key={MENU.id}
                                 star={MENU.star}
                                 src={MENU.src}
