@@ -6,7 +6,7 @@ import Images from '~/Components/Images';
 import config from '~/config';
 import styles from './Header.module.scss';
 import Menu, { MenuItem } from './menu';
-
+import Tippy from '@tippyjs/react/headless';
 const cx = classNames.bind(styles);
 function Header({ name, src, price, quatity, size }) {
     const [content, setContent] = useState(false);
@@ -18,17 +18,15 @@ function Header({ name, src, price, quatity, size }) {
             if (Scroll >= 200) {
                 setShowHeader(false);
                 // setName(!Name);
-
             } else {
                 setShowHeader(true);
-             
             }
         };
         window.addEventListener('scroll', handleScroll);
     });
 
     const handleSubmit = () => {
-        setContent(!content)
+        setContent(!content);
     };
 
     return (
@@ -36,9 +34,29 @@ function Header({ name, src, price, quatity, size }) {
             <>
                 {showHeader ? (
                     <div className={cx('container')}>
-                        <div className={cx('menuIcon')}>
-                        <MenuIcons />
-                        </div>
+                     
+                            <Tippy
+                            //  interactive
+                            //  delay={[400, 700]}
+                            //  placement={'bottom-end'}
+                            render={(attrs) => (
+                                    <div className="box" tabIndex="-1" {...attrs}>
+                                        <div className={cx('TippyWrapper')}>
+                       
+                                      
+                            <MenuItem title="Trang chủ" to={config.routers.Home} />
+                            <MenuItem title="Menu" to={config.routers.Menu} />
+                            <MenuItem title="Tin tức" to={config.routers.News} />
+                            <MenuItem title="Liên hệ" to={config.routers.Contact} />
+                            <MenuItem title="Chúng tôi" to={config.routers.About} />
+                  
+                       
+                                        </div>
+                                    </div>
+                                )}
+                            >
+                                   <div className={cx('menuIcon')}> <MenuIcons /> </div>
+                            </Tippy>
                         <Images className={cx('logo')} src={require('~/assets/images/logo-2.png')} />
 
                         <Menu>
@@ -70,7 +88,7 @@ function Header({ name, src, price, quatity, size }) {
                                 <h2 className={cx('text-header')}>Giỏ hàng của tôi</h2>
                                 <button onClick={handleSubmit} className={cx('btn')} aria-label="Close"></button>
                             </div>
-                            {Name?(
+                            {Name ? (
                                 <div className={cx('content-cart')}>
                                     <div className={cx('content-cart-item')}>
                                         <div className={cx('cart-item')}>
