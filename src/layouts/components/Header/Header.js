@@ -37,7 +37,7 @@ function Header({ name, src, price, quatity, size }) {
                      
                             <Tippy
                              interactive
-                             delay={[400, 700]}
+                             delay={[400, 500]}
                             //  placement={'bottom-end'}
                             render={(attrs) => (
                                     <div className="box" tabIndex="-1" {...attrs}>
