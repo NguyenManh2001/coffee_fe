@@ -36,8 +36,8 @@ function Header({ name, src, price, quatity, size }) {
                     <div className={cx('container')}>
                      
                             <Tippy
-                            //  interactive
-                            //  delay={[400, 700]}
+                             interactive
+                             delay={[400, 700]}
                             //  placement={'bottom-end'}
                             render={(attrs) => (
                                     <div className="box" tabIndex="-1" {...attrs}>
