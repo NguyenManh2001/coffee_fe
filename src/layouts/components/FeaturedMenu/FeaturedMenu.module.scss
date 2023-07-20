@@ -23,10 +23,10 @@
 }
 .Menu{
     margin-top: 25px;
-    width: 80% ;
-    margin-left: 135px;
+    width: 90%;
+    margin-left: 5%;
     display: flex;
-    overflow: auto;
+    overflow: hidden;
     -webkit-animation: menu-content - 14s ease infinite;
     // display: block;
 }
@@ -56,10 +56,10 @@
 }
 .btn-prev{
     position: absolute;
-    top: 0;
+    top: 33%;
+    height: 162px;
     padding: 30px 0;
     left: 142px;
-    bottom: 112px;
     background: none;
     color: #fff !important;
     font-size: 42px;
@@ -68,10 +68,10 @@
 }
 .btn-next{
     position: absolute;
-    top: 0;
+    top: 33%;
+    height: 162px;
     padding: 30px 0;
     right: 142px;
-    bottom: 112px;
     background: none;
     color: #fff !important;
     z-index: 20;

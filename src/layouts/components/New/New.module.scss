@@ -25,11 +25,11 @@
 .content{
 
     min-height: 300px;
-    width: 79%;
-    margin-top: 30px;
-    margin-left: 10%;
+    width: 90%;
+    margin-top: 20px;
+    margin-left: 5%;
     display: flex;
-    overflow: auto;
+    overflow: hidden;
 }
 .content::-webkit-scrollbar{
     display: none;

@@ -12,7 +12,7 @@ const cx = classNames.bind(styles);
 const MENUS = [
     {
         id: 1,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-2-cafe-mocha-nong.jpg'),
         price: '35000',
         title: 'Cà Phê Mocha',
@@ -20,7 +20,7 @@ const MENUS = [
     },
     {
         id: 2,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-4-americano.jpg'),
         price: '40000',
         title: 'Americano',
@@ -28,7 +28,7 @@ const MENUS = [
     },
     {
         id: 3,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-5-mocha-socola.jpg'),
         price: '35000',
         title: 'Mocha Socola',
@@ -36,7 +36,7 @@ const MENUS = [
     },
     {
         id: 4,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-1-caramel-latte.jpg'),
         price: '50000',
         title: 'Caramel latte',
@@ -44,7 +44,7 @@ const MENUS = [
     },
     {
         id: 5,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-3-epresso-macchiato.jpg'),
         price: '35000',
         title: 'Macchiato',
@@ -52,7 +52,7 @@ const MENUS = [
     },
     {
         id: 6,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-6.jpg'),
         price: '35000',
         title: 'mocha caramel',
@@ -60,7 +60,7 @@ const MENUS = [
     },
     {
         id: 7,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-7.jpg'),
         price: '35000',
         title: 'Capuchino',
@@ -68,7 +68,7 @@ const MENUS = [
     },
     {
         id: 8,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-10-mocha-dua.jpg'),
         price: '35000',
         title: 'mocha dừa',
@@ -76,7 +76,7 @@ const MENUS = [
     },
     {
         id: 9,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-12-mocha-latte.jpg'),
         price: '35000',
         title: 'mocha latte',
@@ -84,7 +84,7 @@ const MENUS = [
     },
     {
         id: 10,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-13-bacxiu.jpg'),
         price: '35000',
         title: 'Bạc xỉu',
@@ -92,7 +92,7 @@ const MENUS = [
     },
     {
         id: 11,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-17-duada.jpg'),
         price: '35000',
         title: 'cà phê dừa',
@@ -100,7 +100,7 @@ const MENUS = [
     },
     {
         id: 12,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-20.jpg'),
         price: '35000',
         title: 'Cà phê sữa',
@@ -110,48 +110,48 @@ const MENUS = [
 
 function Menu() {
     const [product, setProduct] = useState(false);
-    const [header,setHeader] = useState(1);
+    const [header, setHeader] = useState(1);
 
 
     const renderItems = () => {
-      return MENUS.map((MENU) => {
-          if(MENU.id === header){
-              return(
-                <div key={header}>
-                  {product ? ( 
-                      <Product
-                      id={MENU.id}
-                      src={MENU.src}
-                      name={MENU.title}
-                      cart={MENU.price}
-                      />
-                      ) : (
-                         <div></div>
-                      )}
-                      </div>
-              )
-          }
-      })
-  }
+        return MENUS.map((MENU) => {
+            if (MENU.id === header) {
+                return (
+                    <div key={header}>
+                        {product ? (
+                            <Product
+                                id={MENU.id}
+                                src={MENU.src}
+                                name={MENU.title}
+                                cart={MENU.price}
+                            />
+                        ) : (
+                            <div></div>
+                        )}
+                    </div>
+                )
+            }
+        })
+    }
     return (
         <div className={cx('wrapper')}>
-                    <MenuFeat className={cx('menu')}>
-                        {MENUS.map((MENU) => (
-                            <MenuItems1
-                                key={MENU.id}
-                                star={MENU.star}
-                                src={MENU.src}
-                                price={MENU.price}
-                                title={MENU.title}
-                                icon={MENU.icon}
-                                onClick={() => {
-                                    setProduct(!product);
-                                    setHeader(MENU.id);
-                                }}
-                            />
-                        ))}
-                    </MenuFeat>
-           <>{renderItems()}</>
+            <MenuFeat className={cx('menu')}>
+                {MENUS.map((MENU) => (
+                    <MenuItems1
+                        key={MENU.id}
+                        star={MENU.star}
+                        src={MENU.src}
+                        price={MENU.price}
+                        title={MENU.title}
+                        icon={MENU.icon}
+                        onClick={() => {
+                            setProduct(!product);
+                            setHeader(MENU.id);
+                        }}
+                    />
+                ))}
+            </MenuFeat>
+            <>{renderItems()}</>
         </div>
     );
 }

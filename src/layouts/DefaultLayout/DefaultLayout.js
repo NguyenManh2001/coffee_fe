@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 // import Header from "../components/Header";
-import Sibar from '../components/Sibar';
 import Menu from '../components/Menu';
+import Sibar from '../components/Sibar';
 import Header from '../components/Header';
 import styles from './DefaultLayout.module.scss';
 import FeaturedMenu from '../components/FeaturedMenu';

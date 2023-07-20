@@ -4,9 +4,9 @@ import Images from '~/Components/Images';
 import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
-function MenuItems({ refs, star, price, title, icon, src, onClick }) {
+function MenuItems({ star, price, title, icon, src, onClick }) {
     return (
-        <div ref={refs} className={cx('menu-content')}>
+        <div className={cx('menu-content')}>
                 <div className={cx('card')}>
                     <div className={cx('card-img')}>
                         <Images className={cx('card-img')} src={src} alt="Cà phê mocha" />

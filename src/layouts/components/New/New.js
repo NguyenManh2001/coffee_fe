@@ -8,6 +8,7 @@ import { SmoothHorizontalScrolling } from '../Scroll/Scroll';
 import { useRef, useState } from 'react';
 import { NextIcons, PrevIcons} from '~/Components/icons/icons';
 import { BsSliders } from 'react-icons/bs';
+import SliderReactjs from '~/Components/SliderReactjs/Slider';
 const cx = classNames.bind(styles);
 const NEWS = [
     {
@@ -36,26 +37,8 @@ const NEWS = [
     },
 ]
 function New() {
-    const slider = useRef();
-    const update = useRef();
-
-    const nextSlider = () => {
-        const maxScrollRight = slider.current.scrollWidth - slider.current.clientWidth;
-        if (slider.current.scrollLeft < maxScrollRight) {
-            SmoothHorizontalScrolling(slider.current,250,
-                  update.current.clientWidth , 
-                  slider.current.scrollLeft,
-                )
-        };
-    }
-    const prevSlider = () => {
-        if (slider.current.scrollLeft > 0 ) {
-            SmoothHorizontalScrolling(slider.current,250,
-                  -update.current.clientWidth , 
-                  slider.current.scrollLeft,
-                )
-        };
-    };
+    const sliderRef = useRef(null);
+  
     return ( 
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -64,19 +47,21 @@ function New() {
                     <Images src={require('~/assets/images/line-under-heading.png')} alt="lineborder" />
                 </div>
             </div>
-            <div  ref={slider} className={cx('content')}>
+            <div className={cx('content')}>
+                <SliderReactjs refs={sliderRef} show={3} scroll={1} className={cx('content')}>
                   {NEWS.map((NEW,index) => (
-                <div key={index} ref={update} className={cx('list')}>
-                <NewContent  to={config.routers.News} name = {NEW.name} date = {NEW.date} src={NEW.src}/>
-                 </div>
+                <div key={index} className={cx('list')}>
+                <NewContent key={index}  to={config.routers.News} name = {NEW.name} date = {NEW.date} src={NEW.src}/>
+                  </div>
                   ))}
+                  </SliderReactjs>
                    <div>
-                   <button onClick={prevSlider} className={cx('btn-prev')}>
-                       <PrevIcons />
-                   </button>
-                   <button onClick={nextSlider} className={cx('btn-next')}>
-                       <NextIcons />
-                   </button>
+                   <button onClick={() => sliderRef.current.slickPrev()} className={cx('btn-prev')}>
+                        <PrevIcons />
+                    </button>
+                    <button onClick={() => sliderRef.current.slickNext()} className={cx('btn-next')}>
+                        <NextIcons />
+                    </button>
                </div>
             </div>
             <Button to={config.routers.News} className={cx('btnMenu')}>Xem thêm nhiều tin khác</Button>
