@@ -1,0 +1,120 @@
+
+.container{
+    min-height: 500px;
+    width: 100%;
+}
+
+.header{
+    height: 400px;
+    background: url(../../assets/images/chungtoi.jpg) no-repeat bottom;
+    background-size: cover;
+}
+.content{
+    width: 100%;
+    min-height: 500px;
+    margin-top: 40px ;
+    padding-bottom: 80px;
+}
+.header-content{
+    font-weight: 500;
+    padding: 5px;
+    font-size: 5rem;
+    line-height: 56px;
+    text-align: center;
+    text-transform: capitalize;
+    color: var(--black);
+}
+.lineborder{
+    display: flex;
+    justify-content: center;
+}
+.main-content{
+    width: 80%;
+    min-height: 300px;
+    margin-left: 10%;
+    margin-top: 45px;
+    display: flex;
+}
+.content-left{
+    margin: 90px 0 43px;
+    width: 47%;
+    height: 280px;
+}
+.img-content{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    transition: ease-out .5s;
+    box-shadow: 0 4px 4px #00000040;
+}
+.image-1{
+    background: url(../../assets/images/bgbgb.jpeg) no-repeat center;
+    background-size: cover;
+}
+.image-2{
+    background: url(../../assets/images/chungtoi-2.jpg) no-repeat center;
+    background-size: cover;
+}
+.image-3{
+    background: url(../../assets/images/h-5-baner-img-1.jpg) no-repeat center;
+    background-size: cover;
+}
+.content-right{
+    flex: 1;
+    margin: 20px 0px 20px 50px;
+    height: 280px;
+}
+.content-item{
+        width: 100%;
+        padding: 35px;
+        color: #682c0e;
+        height: 100%;
+        border-radius: 8px;
+        // border-top-right-radius: 8px;
+        // border-bottom-right-radius: 8px;
+        background: linear-gradient(90deg,#fc8621,#f9e0ae);
+    border-radius: 10px;
+    transition: ease-out .5s;
+    box-shadow: 0 4px 4px #00000040;
+}
+
+
+@media screen and (max-width: 740px) {
+    .content{
+        padding-bottom: 30px;
+    }
+     .main-content{
+        width: 90%;
+        display:block;
+        margin-top: 20px;
+        margin-left: 10%;
+     }
+     .tent{
+        margin-top: 20px;
+     }
+     .main{
+        display: flex;
+        width: 90%;
+        flex-direction: column-reverse;
+        margin-top: 14px;
+        margin-bottom: 20px;
+     }
+     .content-left{
+        margin: 20px 0 20px;
+        width: 90%;
+        min-height: 168px
+     }
+     .content-right{
+        width: 90%;
+        margin: 10px 0px;
+     }
+     .content-item{
+        padding: 25px;
+     }
+     .right{
+        height: 250px;
+     }
+     .image-2{
+        height: 250px;
+     }
+}

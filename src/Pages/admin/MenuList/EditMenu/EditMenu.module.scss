@@ -35,7 +35,7 @@
     display: flex;
     align-items: center;
     padding: 10px 29px;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 .name{
     width: 20%;
@@ -55,16 +55,23 @@
     display: flex;
     border-radius: 8px;
     padding: 0 8px;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .inputLink{
-    flex: 1 1;
+    width: 100%;
     border: 1px solid #ccc;
-    height: 32px;
+    height: 69px;
+    /* margin: 0 -22px; */
     display: flex;
     border-radius: 8px;
     /* padding: 0 8px; */
     align-items: center;
+    justify-content: center;
+
+    :hover{
+        cursor: pointer;
+    }
 }
 .star{
     color:red;
@@ -106,4 +113,5 @@
 }
 .bt{
     color:#fff !important;
+    background: none;
 }

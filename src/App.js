@@ -1,28 +1,64 @@
-import {Fragment} from 'react';
-import{BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import {publicRoutes} from '~/routes'
+import { Fragment } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { privateRoutes, publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/layouts';
+import { useSelector } from 'react-redux';
+// import { loginSelector } from './Redux/selector';
+import Cookies from 'js-cookie';
+
+function PrivateRoute({ element, isAuthenticated, to }) {
+    return isAuthenticated ? element : <Navigate to={to} />;
+}
+
 function App() {
-  return (
-    <Router>
-      <div className="App">
-          <Routes>
-           {publicRoutes.map((router,index) => {
-             const Page = router.component;
-             let Layout = DefaultLayout;
-             if(router.layout){
-               Layout = router.layout;
-             } else if(router.layout === null){
-                Layout = Fragment;
-             }
-               return <Route key={index} path={router.path} element={<Layout>
-                <Page />
-               </Layout>} />
-           })}
-          </Routes>
-      </div>
-    </Router>
-      );
+    // const isAuthenticated = useSelector(loginSelector);
+    const token = Cookies.get('token');
+
+    return (
+        <Router>
+            <div className="App">
+                <Routes>
+                    {privateRoutes.map((router, index) => {
+                        const Page = router.component;
+                        const Layout = router.layout || Fragment;
+                        return (
+                            <Route
+                                key={index}
+                                path={router.path}
+                                element={
+                                    <PrivateRoute
+                                        element={
+                                            <Layout>
+                                                <Page />
+                                            </Layout>
+                                        }
+                                        isAuthenticated={!!token}
+                                        to="/login"
+                                    />
+                                }
+                            />
+                        );
+                    })}
+
+                    {publicRoutes.map((router, index) => {
+                        const Page = router.component;
+                        const Layout = router.layout || Fragment;
+                        return (
+                            <Route
+                                key={index}
+                                path={router.path}
+                                element={
+                                    <Layout>
+                                        <Page />
+                                    </Layout>
+                                }
+                            />
+                        );
+                    })}
+                </Routes>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
