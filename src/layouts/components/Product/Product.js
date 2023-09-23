@@ -49,9 +49,10 @@ const reducer = (state, action) => {
     return newState;
 };
 
-function Product({src, name, cart }) {
+function Product({ src, name, cart, onClick }) {
     const handleAdd = () => {
-        dispatch(addMenu({ src, name, price,quatity,size}));
+        dispatch(addMenu({ src, name, price, quatity, size }));
+        // onClick();
     };
     const [state, dispatch] = useReducer(reducer, initState);
     const { menus } = state;
@@ -60,13 +61,14 @@ function Product({src, name, cart }) {
     const [check, setCheck] = useState(1);
     const [quatity, setQuatity] = useState(1);
     const [price, setPrice] = useState(0);
-    const [size,setSize] = useState('s')
+    const [size, setSize] = useState('s');
     const cart1 = new Number(cart);
 
     const cart2 = cart1 + 5000;
     const cart3 = cart1 + 10000;
     const handleSubmit = () => {
         setClose(!close);
+        onClick();
     };
     useEffect(() => {
         if (check === 1) {
@@ -185,7 +187,14 @@ function Product({src, name, cart }) {
                     </div>
                     <>
                         {menus.map((menu, index) => (
-                            <Header key={index} size={size} quatity ={menu.quatity} name={menu.name} src={menu.src} price={menu.price} />
+                            <Header
+                                key={index}
+                                size={size}
+                                quatity={menu.quatity}
+                                name={menu.name}
+                                src={menu.src}
+                                price={menu.price}
+                            />
                         ))}
                     </>
                 </div>

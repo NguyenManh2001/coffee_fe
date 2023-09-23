@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './AddMenu.module.scss';
+import styles from './AddNews.module.scss';
 import { Link } from 'react-router-dom';
 import config from '~/config/config';
 import Select from 'react-select';
@@ -12,16 +12,16 @@ import Autocomplete from 'react-autocomplete';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Input, InputNumber, message } from 'antd';
-
+const { TextArea } = Input;
 const schema = yup
     .object()
     .shape({
-        name: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
-        price: yup.number().required('Cannot be empty').moreThan(0, 'Value must be greater than 0'),
+        title: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        describe: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
     })
     .required();
 const cx = classNames.bind(styles);
-function AddMenu() {
+function AddNews() {
     const [file, setFile] = useState();
     const navigate = useNavigate();
     const [imgPreview, setImgPreview] = useState();
@@ -53,14 +53,14 @@ function AddMenu() {
         // e.preventDefault();
         console.log(data);
         const uploadData = new FormData();
-        uploadData.append('link', file, file.name);
+        uploadData.append('image', file, file.name);
+        uploadData.append('title', data.title);
+        uploadData.append('describe', data.describe);
         uploadData.append('type', data.type.value);
-        uploadData.append('name', data.name);
-        uploadData.append('price', data.price);
         const res = await axios
-            .post('/menuList/addMenu', uploadData)
+            .post('/news/addNews', uploadData)
             .then((res) => {
-                navigate(config.routers.MenuAdmin, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
+                navigate(config.routers.NewsAdmin, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
             })
             .catch((err) => {
                 console.log('loi');
@@ -75,7 +75,7 @@ function AddMenu() {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>
-                                Loại sản phẩm:<span className={cx('star')}>*</span>
+                                Loại tin tức:<span className={cx('star')}>*</span>
                             </div>
                             <Controller
                                 name="type"
@@ -85,9 +85,8 @@ function AddMenu() {
                                         className={cx('dropdown')}
                                         {...field}
                                         options={[
-                                            { value: 'Coffee', label: 'Coffee' },
-                                            { value: 'Freeze', label: 'Freeze' },
-                                            { value: 'Tea', label: 'Tea' },
+                                            { value: 'Tin tức', label: 'Tin tức' },
+                                            { value: 'Sự kiện', label: 'Sự kiện' },
                                         ]}
                                     />
                                 )}
@@ -95,26 +94,26 @@ function AddMenu() {
                         </div>
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>
-                                Tên sản phẩm:<span className={cx('star')}>*</span>
+                                Tiêu đề:<span className={cx('star')}>*</span>
                             </div>
                             <Controller
-                                name="name"
+                                name="title"
                                 control={control}
                                 render={({ field }) => (
                                     <div style={{ width: '100%' }}>
                                         <Input
                                             {...field}
-                                            status={errors.name?.message ? 'error' : null}
+                                            status={errors.title?.message ? 'error' : null}
                                             placeholder="Basic usage"
                                         />
-                                        <p style={{ margin: '0px', color: 'red' }}>{errors.name?.message}</p>
+                                        <p style={{ margin: '0px', color: 'red' }}>{errors.title?.message}</p>
                                     </div>
                                 )}
                             />
                         </div>
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>
-                                Link ảnh:<span className={cx('star')}>*</span>
+                                Ảnh:<span className={cx('star')}>*</span>
                             </div>
                             <div className={cx('inputLink')}>
                                 <div {...getRootProps()}>
@@ -141,21 +140,26 @@ function AddMenu() {
                                 />
                             )}
                         </div>
-                        <div className={cx('contentItem')} style={{ marginBottom: '15px' }}>
+                        <div className={cx('contentItem')} style={{ marginBottom: '30px', height: '100px' }}>
                             <div className={cx('name')}>
-                                Price:<span className={cx('star')}>*</span>
+                                Mô tả:<span className={cx('star')}>*</span>
                             </div>
                             <Controller
-                                name="price"
+                                name="describe"
                                 control={control}
                                 render={({ field }) => (
                                     <div style={{ width: '100%' }}>
-                                        <InputNumber
-                                            style={{ width: '100%' }}
+                                        <TextArea
+                                            style={{
+                                                width: '100%',
+                                                resize: 'none',
+                                                height: '100px',
+                                                cursor: 'pointer',
+                                            }}
                                             {...field}
-                                            status={errors.price?.message ? 'error' : null}
+                                            status={errors.describe?.message ? 'error' : null}
                                         />
-                                        <p style={{ margin: '0px', color: 'red' }}>{errors.price?.message}</p>
+                                        <p style={{ margin: '0px', color: 'red' }}>{errors.describe?.message}</p>
                                     </div>
                                 )}
                             />
@@ -179,4 +183,4 @@ function AddMenu() {
     );
 }
 
-export default AddMenu;
+export default AddNews;

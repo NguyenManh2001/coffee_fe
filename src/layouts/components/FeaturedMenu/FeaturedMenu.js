@@ -89,24 +89,30 @@ const MENUS = [
     },
 ];
 
-function FeatureMenu() { 
+function FeatureMenu() {
     const [product, setProduct] = useState(false);
     const [header, setHeader] = useState(1);
     const sliderRef = useRef(null);
     const renderItems = () => {
-        return (MENUS.map((MENU, index) => {
+        return MENUS.map((MENU, index) => {
             if (MENU.id === header) {
                 return (
                     <div key={header}>
-                        {product ? (
-                            <Product key={MENU.id} src={MENU.src} name={MENU.title} cart={MENU.price} />
-                        ) : (
-                            <div key={MENU.id}></div>
+                        {product && (
+                            <Product
+                                key={MENU.id}
+                                src={MENU.src}
+                                name={MENU.title}
+                                cart={MENU.price}
+                                onClick={() => {
+                                    setProduct(false);
+                                }}
+                            />
                         )}
                     </div>
                 );
             }
-        }));
+        });
     };
     return (
         <div className={cx('wrapper')}>
@@ -132,7 +138,7 @@ function FeatureMenu() {
                                 }}
                             />
                         ))}
-                   </SliderReactjs>
+                    </SliderReactjs>
                 </div>
                 <div>
                     <button onClick={() => sliderRef.current.slickPrev()} className={cx('btn-prev')}>

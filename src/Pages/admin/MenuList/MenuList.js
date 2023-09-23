@@ -24,7 +24,9 @@ const { confirm } = Modal;
 const cx = classNames.bind(styles);
 
 function MenuList() {
-    const [selected, setSelected] = useState('Coffee');
+    const [page, setPage] = useState(1);
+    const [type, setType] = useState('');
+    const [search, setSearch] = useState('');
     const [open, setOpen] = useState(false);
     const [editData, setEditData] = useState();
     const [searchValue, setSearchValue] = useState(' ');
@@ -32,6 +34,7 @@ function MenuList() {
     const navigate = useNavigate();
     const location = useLocation();
     const successMessage = location.state?.successMessage;
+
     const [messageApi, contextHolder] = message.useMessage(successMessage);
 
     const success = (message) => {
@@ -41,16 +44,25 @@ function MenuList() {
         });
     };
 
-    if (location.state && location.state.successMessage) {
-        success(location.state.successMessage);
-    }
+    useEffect(() => {
+        if (location.state && location.state.successMessage) {
+            success(location.state.successMessage);
+            setOpen(false);
+            refetch();
+
+            // Đặt giá trị successMessage trong location.state thành null
+            const newLocation = { ...location };
+            newLocation.state.successMessage = null;
+            navigate({ pathname: location.pathname, state: newLocation.state });
+        }
+    }, [location.state]);
     const error = () => {
         messageApi.open({
             type: 'error',
             content: 'Bạn xóa không thành công',
         });
     };
-    const handldeDelete = (idMenu, idData) => {
+    const handldeDelete = (id) => {
         confirm({
             title: 'Delete',
             icon: <QuestionCircleOutlined />,
@@ -60,7 +72,7 @@ function MenuList() {
             cancelText: 'No',
             onOk() {
                 axios
-                    .delete(`/menuList/deleteMenu/${idMenu}/${idData}`)
+                    .delete(`/menuList/deleteMenu/${id}`)
                     .then((res) => {
                         success('Bạn đã xóa thành công');
                         refetch();
@@ -78,18 +90,24 @@ function MenuList() {
     const onSearch = (value, _e, info) => console.log(info?.source, value);
     const datas = useSelector(searchitemSelector);
     const handleSelected = (value) => {
-        setSelected(value);
-        console.log(value);
+        if (value === 'Tất cả') {
+            setType('');
+        } else {
+            setType(value);
+        }
         dispatch(filterSlice.actions.list(value));
     };
+    console.log(type);
     const handleSearch = (e) => {
-        const result = e.target.value;
-        setSearchValue(result);
-        dispatch(filterSlice.actions.searchListMenu(result));
+        setSearch(e);
+        // dispatch(filterSlice.actions.searchListMenu(result));
     };
     const handleUpdate = (data) => {
         setOpen(!open);
         setEditData(data);
+    };
+    const handlePageChange = (page) => {
+        setPage(page);
     };
     // const handleChange = (value) => {
     //     console.log(`selected ${value}`);
@@ -118,8 +136,8 @@ function MenuList() {
     //         });
     // }, []);
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ['data'],
-        queryFn: () => axios.post('/menuList/ListMenu').then((res) => res.data),
+        queryKey: ['data', type, page, search],
+        queryFn: () => axios.post('/menuList/ListMenu', { page, type, search }).then((res) => res.data),
     });
     console.log(data);
     const isdata = !datas?.length;
@@ -142,10 +160,11 @@ function MenuList() {
                     <div className={cx('leftContent')}>
                         <div className={cx('name')}>Loại sản phẩm:</div>
                         <Select
-                            defaultValue="Loại"
+                            defaultValue="Tất cả"
                             style={{ width: 120 }}
                             onChange={handleSelected}
                             options={[
+                                { value: 'Tất cả', label: 'Tất cả' },
                                 { value: 'Coffee', label: 'Coffee' },
                                 { value: 'Freeze', label: 'Freeze' },
                                 { value: 'Tea', label: 'Tea' },
@@ -156,7 +175,7 @@ function MenuList() {
                     <div className={cx('rightContent')}>
                         <Search
                             placeholder="input search text"
-                            onSearch={onSearch}
+                            onSearch={handleSearch}
                             style={{
                                 width: 200,
                             }}
@@ -182,38 +201,40 @@ function MenuList() {
                                 </div>
                             ) : (
                                 <> */}
-                            {data?.map((data) => (
-                                <tbody key={data._id}>
-                                    {data?.menus?.map((menu, index) => (
-                                        <tr key={menu._id} style={{ lineHeight: '65px' }}>
-                                            <td>{index + 1}</td>
-                                            <td>{menu.name}</td>
-                                            <td style={{ width: '100px' }}>
-                                                <img style={{ width: '100%', height: '100%' }} src={menu?.link} />
-                                            </td>
-                                            <td>{menu.price}</td>
-                                            <td>{formatTime(menu.createdAt)}</td>
-                                            <td>
-                                                <Link className={cx('icon')} to="#" onClick={() => handleUpdate(menu)}>
-                                                    <BiEditAlt />
-                                                </Link>
-                                                <Link
-                                                    className={cx('icon')}
-                                                    to="#"
-                                                    onClick={() => handldeDelete(menu._id, data._id)}
-                                                >
-                                                    <RiDeleteBin6Line />
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            ))}
+                            {/* {data?.products?.map((data) => ( */}
+                            <tbody>
+                                {data?.docs?.map((menu, index) => (
+                                    <tr key={menu._id} style={{ lineHeight: '65px' }}>
+                                        <td>{index + 1}</td>
+                                        <td>{menu.name}</td>
+                                        <td style={{ width: '100px' }}>
+                                            <img style={{ width: '100%', height: '100%' }} src={menu?.link} />
+                                        </td>
+                                        <td>{menu.price}</td>
+                                        <td>{formatTime(menu.createdAt)}</td>
+                                        <td>
+                                            <Link className={cx('icon')} to="#" onClick={() => handleUpdate(menu)}>
+                                                <BiEditAlt />
+                                            </Link>
+                                            <Link className={cx('icon')} to="#" onClick={() => handldeDelete(menu._id)}>
+                                                <RiDeleteBin6Line />
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                            {/* ))} */}
                             {/* </>
                             )} */}
                         </Table>
                         <div className={cx('footer')}>
-                            <Pagination defaultCurrent={1} total={50} />
+                            <Pagination
+                                defaultCurrent={1}
+                                total={data?.totalDocs}
+                                defaultPageSize={7}
+                                current={page}
+                                onChange={handlePageChange}
+                            />
                         </div>
                     </div>
                 </div>

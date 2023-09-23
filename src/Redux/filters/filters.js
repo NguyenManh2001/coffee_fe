@@ -12,33 +12,42 @@
 //         default:
 //             return state;
 //      }
-// }   
+// }
 // export default filterReducer;
 
+import { createSlice } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie'; // Import thư viện Cookies
 
-import {createSlice} from '@reduxjs/toolkit';
+// Lấy trạng thái ban đầu từ cookie (nếu có)
+const initialStateFromCookie = Cookies.get('reduxState')
+    ? JSON.parse(Cookies.get('reduxState'))
+    : {
+          search: '',
+          list: '',
+          login: null,
+          token: null,
+      };
 
- const filterSlice = createSlice({
-    name:"listMenu",
-    initialState:{
-      search:'',
-      list:'',
-      login: null,
-      token:null,
+const filterSlice = createSlice({
+    name: 'listMenu',
+    initialState: initialStateFromCookie, // Sử dụng trạng thái từ cookie
+    reducers: {
+        searchListMenu: (state, action) => {
+            state.search = action.payload;
+        },
+        list: (state, action) => {
+            state.list = action.payload;
+        },
+        login: (state, action) => {
+            state.login = action.payload;
+        },
+        token: (state, action) => {
+            state.token = action.payload;
+
+            // Lưu trạng thái mới vào cookie sau khi thay đổi
+            Cookies.set('reduxState', JSON.stringify(state));
+        },
     },
-    reducers:{
-      searchListMenu:(state,action) => {
-       state.search = action.payload;
-      },
-      list:(state,action) => {
-        state.list = action.payload;   
-      },
-      login:(state,action) => {
-        state.login = action.payload;
-       },
-       token:(state,action) => {
-        state.token = action.payload;
-       }
-    }
 });
+
 export default filterSlice;

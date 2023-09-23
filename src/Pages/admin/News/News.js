@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './Customer.module.scss';
+import styles from './News.module.scss';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import { AddIcons } from '~/Components/icons/icons';
@@ -17,24 +17,25 @@ import { Empty, Button, Modal, message, Alert, Input } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import EditCustomer from './EditCustomer';
+import EditNews from './EditNews';
 
 const { Search } = Input;
 const { confirm } = Modal;
 const cx = classNames.bind(styles);
 
-function Customer() {
+function NewsAdmin() {
+    const [page, setPage] = useState(1);
+    const [type, setType] = useState('');
+    const [search, setSearch] = useState('');
     const [open, setOpen] = useState(false);
     const [editData, setEditData] = useState();
-    const [page, setPage] = useState(1);
-    const [select, setSelect] = useState(10);
-    const [search, setSearch] = useState('');
+    const [searchValue, setSearchValue] = useState(' ');
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const location = useLocation();
-    // const successMessage = location.state?.successMessage;
+    const location = useLocation();
+    const successMessage = location.state?.successMessage;
 
-    const [messageApi, contextHolder] = message.useMessage();
+    const [messageApi, contextHolder] = message.useMessage(successMessage);
 
     const success = (message) => {
         messageApi.open({
@@ -43,26 +44,25 @@ function Customer() {
         });
     };
 
-    // useEffect(() => {
-    //     if (location.state && location.state.successMessage) {
-    //         success(location.state.successMessage);
-    //         setOpen(false);
-    //         refetch();
+    useEffect(() => {
+        if (location.state && location.state.successMessage) {
+            success(location.state.successMessage);
+            setOpen(false);
+            refetch();
 
-    //         // Đặt giá trị successMessage trong location.state thành null
-    //         const newLocation = { ...location };
-    //         newLocation.state.successMessage = null;
-    //         navigate({ pathname: location.pathname, state: newLocation.state });
-    //     }
-    // }, [location.state]);
-
+            // Đặt giá trị successMessage trong location.state thành null
+            const newLocation = { ...location };
+            newLocation.state.successMessage = null;
+            navigate({ pathname: location.pathname, state: newLocation.state });
+        }
+    }, [location.state]);
     const error = () => {
         messageApi.open({
             type: 'error',
             content: 'Bạn xóa không thành công',
         });
     };
-    const handleDelete = (id) => {
+    const handldeDelete = (id) => {
         confirm({
             title: 'Delete',
             icon: <QuestionCircleOutlined />,
@@ -72,7 +72,7 @@ function Customer() {
             cancelText: 'No',
             onOk() {
                 axios
-                    .delete(`/customer/deleteCustomer/${id}`)
+                    .delete(`/news/deleteNews/${id}`)
                     .then((res) => {
                         success('Bạn đã xóa thành công');
                         refetch();
@@ -86,45 +86,47 @@ function Customer() {
             },
         });
     };
-    const handlePageChange = (page) => {
-        setPage(page);
-    };
+
+    const onSearch = (value, _e, info) => console.log(info?.source, value);
+    const datas = useSelector(searchitemSelector);
     const handleSelected = (value) => {
-        setSelect(value);
+        if (value === 'Tất cả') {
+            setType('');
+        } else {
+            setType(value);
+        }
         dispatch(filterSlice.actions.list(value));
     };
+    console.log(type);
     const handleSearch = (e) => {
         setSearch(e);
         // dispatch(filterSlice.actions.searchListMenu(result));
     };
-    const { isLoading, data, refetch } = useQuery({
-        queryKey: ['dataCustomer', select, page, search],
-        queryFn: () => axios.post('/customer/listCustomer', { page, select, search }).then((res) => res.data),
-    });
-    // const onSearch = (value, _e, info) => console.log(info?.source, value);
-    const datas = useSelector(searchitemSelector);
-    // const handleUpdate = (data) => {
-    //     setOpen(!open);
-    //     setEditData(data);
-    // };
+    const handleUpdate = (data) => {
+        setOpen(!open);
+        setEditData(data);
+    };
+    const handlePageChange = (page) => {
+        setPage(page);
+    };
     // const handleChange = (value) => {
     //     console.log(`selected ${value}`);
     // };
-    // const ModalEdit = (data) => (
-    //     <Modal
-    //         centered
-    //         open={open}
-    //         onOk={() => setOpen(false)}
-    //         onCancel={() => setOpen(false)}
-    //         width={1000}
-    //         footer={null}
-    //     >
-    //         <EditCustomer data={editData} handle={open} />
-    //     </Modal>
-    // );
+    const ModalEdit = (data) => (
+        <Modal
+            centered
+            open={open}
+            onOk={() => setOpen(false)}
+            onCancel={() => setOpen(false)}
+            width={1000}
+            footer={null}
+        >
+            <EditNews data={editData} />
+        </Modal>
+    );
     // useEffect(() => {
     //     axios
-    //         .post('/ Customer/ListMenu')
+    //         .post('/menuList/ListMenu')
     //         .then((res) => {
     //             dispatch(listsMenuSlice.actions.addListMenu(res.data));
     //             dispatch(filterSlice.actions.list(selected));
@@ -133,7 +135,11 @@ function Customer() {
     //             console.log(err);
     //         });
     // }, []);
-
+    const { isLoading, data, refetch } = useQuery({
+        queryKey: ['dataNews', type, page, search],
+        queryFn: () => axios.post('/news/listNews', { page, type, search }).then((res) => res.data),
+    });
+    console.log(data);
     const isdata = !datas?.length;
 
     return (
@@ -141,29 +147,29 @@ function Customer() {
             {contextHolder}
             <div className={cx('Container')}>
                 <div className={cx('header')}>
-                    <div className={cx('NameHeader')}>danh sách khách hàng</div>
+                    <div className={cx('NameHeader')}>danh sách tin tức</div>
                     <div className={cx('btnHeader')}>
-                        <Link to="#" className={cx('btnIconAdd')}>
-                            {/* <AddIcons className={cx('IconAdd')} /> */}
-                            Export Exel
+                        <Link to={config.routers.AddNews} className={cx('btnIconAdd')}>
+                            <AddIcons className={cx('IconAdd')} />
+                            Thêm mới
                         </Link>
                     </div>
                 </div>
-                {/* <ModalEdit /> */}
+                <ModalEdit />
                 <div className={cx('headerContent')}>
                     <div className={cx('leftContent')}>
-                        <div className={cx('name')}>Hiển thị</div>
+                        <div className={cx('name')}>Loại sản phẩm:</div>
                         <Select
-                            defaultValue="10"
-                            style={{ width: 120, margin: '10px' }}
+                            defaultValue="Tất cả"
+                            style={{ width: 120 }}
                             onChange={handleSelected}
                             options={[
-                                { value: 10, label: 10 },
-                                { value: 25, label: 25 },
-                                { value: 40, label: 40 },
+                                { value: 'Tất cả', label: 'Tất cả' },
+                                { value: 'Tin tức', label: 'Tin tức' },
+                                { value: 'Sự kiện', label: 'Sự kiện' },
                             ]}
                         />
-                        <div className={cx('name')}>bản ghi trên trang</div>
+                        {/* <div className={cx('name')}>bản ghi trên trang</div> */}
                     </div>
                     <div className={cx('rightContent')}>
                         <Search
@@ -181,42 +187,50 @@ function Customer() {
                             <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th>Tên khách hàng</th>
-                                    <th>Giới tính</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Email</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Thời gian mua</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Ảnh</th>
+                                    <th>Mô tả</th>
+                                    <th>Thời gian tạo</th>
                                     <th colSpan={2}>Chức năng</th>
                                 </tr>
                             </thead>
+                            {/* {isdata ? (
+                                <div style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}>
+                                    <Empty />
+                                </div>
+                            ) : (
+                                <> */}
+                            {/* {data?.products?.map((data) => ( */}
                             <tbody>
                                 {data?.docs?.map((data, index) => (
-                                    <tr key={data._id}>
+                                    <tr key={data._id} style={{ lineHeight: '65px' }}>
                                         <td>{index + 1}</td>
-                                        <td>{data.name}</td>
-                                        <td>{data.gender}</td>
-                                        <td>{data.address}</td>
-                                        <td>{data.email}</td>
-                                        <td>{data.number}</td>
+                                        <td style={{ lineHeight: '24px', width: '103px' }}>{data.title}</td>
+                                        <td style={{ width: '100px' }}>
+                                            <img style={{ width: '100%', height: '100%' }} src={data?.image} />
+                                        </td>
+                                        <td style={{ lineHeight: '24px', width: '280px' }}>{data.describe}</td>
                                         <td>{formatTime(data.createdAt)}</td>
                                         <td>
-                                            {/* <Link className={cx('icon')} to="#" onClick={() => handleUpdate(data)}>
+                                            <Link className={cx('icon')} to="#" onClick={() => handleUpdate(data)}>
                                                 <BiEditAlt />
-                                            </Link> */}
-                                            <Link className={cx('icon')} onClick={() => handleDelete(data._id)} to="#">
+                                            </Link>
+                                            <Link className={cx('icon')} to="#" onClick={() => handldeDelete(data._id)}>
                                                 <RiDeleteBin6Line />
                                             </Link>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
+                            {/* ))} */}
+                            {/* </>
+                            )} */}
                         </Table>
                         <div className={cx('footer')}>
                             <Pagination
                                 defaultCurrent={1}
                                 total={data?.totalDocs}
-                                // defaultPageSize={10}
+                                defaultPageSize={7}
                                 current={page}
                                 onChange={handlePageChange}
                             />
@@ -228,4 +242,4 @@ function Customer() {
     );
 }
 
-export default Customer;
+export default NewsAdmin;

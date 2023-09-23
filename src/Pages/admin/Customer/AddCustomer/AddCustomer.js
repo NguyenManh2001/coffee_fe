@@ -11,6 +11,8 @@ import { useDropzone } from 'react-dropzone';
 import Autocomplete from 'react-autocomplete';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
 import { Button, Input, InputNumber, message, Select } from 'antd';
 
 const schema = yup
@@ -19,13 +21,21 @@ const schema = yup
         name: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
         // gender: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
         address: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
-        email: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        // email: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
         number: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
     })
     .required();
 const cx = classNames.bind(styles);
 function AddCustomer() {
     const navigate = useNavigate();
+    const [email, setEmail] = useState();
+    const token = Cookies.get('token');
+    useEffect(() => {
+        if (token !== undefined) {
+            const deToken = jwt_decode(token);
+            setEmail(deToken?.email);
+        }
+    }, [token]);
     const {
         register,
         handleSubmit,
@@ -41,9 +51,12 @@ function AddCustomer() {
         // e.preventDefault();
         console.log(data);
         const res = await axios
-            .post('/customer/addCustomer', data)
+            .post('/customer/addCustomer', {
+                ...data,
+                email: email,
+            })
             .then((res) => {
-                navigate(config.routers.Customer, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
+                navigate(config.routers.Home, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
             })
             .catch((err) => {
                 console.log('loi');
@@ -114,7 +127,7 @@ function AddCustomer() {
                                 )}
                             />
                         </div>
-                        <div className={cx('contentItem')}>
+                        {/* <div className={cx('contentItem')}>
                             <div className={cx('name')}>
                                 Email:<span className={cx('star')}>*</span>
                             </div>
@@ -132,7 +145,7 @@ function AddCustomer() {
                                     </div>
                                 )}
                             />
-                        </div>
+                        </div> */}
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>
                                 Số điện thoại:<span className={cx('star')}>*</span>

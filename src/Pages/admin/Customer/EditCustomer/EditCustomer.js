@@ -12,6 +12,7 @@ import Autocomplete from 'react-autocomplete';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Button, Input, InputNumber, message, Select } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 
 const schema = yup
     .object()
@@ -26,9 +27,10 @@ const schema = yup
 const cx = classNames.bind(styles);
 function EditCustomer(props) {
     const navigate = useNavigate();
+    const [edit, setEdit] = useState(false);
     const { data } = props;
     const initialValues = {
-        ...data,
+        ...data.docs[0],
     };
     console.log(initialValues);
     const methodForm = useForm({
@@ -52,7 +54,7 @@ function EditCustomer(props) {
         const res = await axios
             .put(`/customer/updateCustomer/${data._id}`, data)
             .then((res) => {
-                navigate(config.routers.Customer, { state: { successMessage: 'Bạn đã cập nhật thành công!!!' } });
+                navigate(config.routers.Home, { state: { successMessage: 'Bạn đã cập nhật thành công!!!' } });
             })
             .catch((err) => {
                 console.log('loi');
@@ -61,7 +63,18 @@ function EditCustomer(props) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
-                <div className={cx('header')}>Cập nhật thông tin</div>
+                {edit ? (
+                    <div className={cx('header')}>Cập nhật thông tin</div>
+                ) : (
+                    <div className={cx('header')}>
+                        <div className={cx('header1')}>
+                            <div>Thông tin cá nhân</div>
+                            <div className={cx('iconEdit')} onClick={() => setEdit(!edit)}>
+                                <EditOutlined />
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <div className={cx('content')}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className={cx('contentItem')}>
@@ -77,6 +90,7 @@ function EditCustomer(props) {
                                             {...field}
                                             status={errors.name?.message ? 'error' : null}
                                             placeholder="Basic usage"
+                                            disabled={!edit}
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.name?.message}</p>
                                     </div>
@@ -92,6 +106,7 @@ function EditCustomer(props) {
                                 control={control}
                                 render={({ field }) => (
                                     <Select
+                                        disabled={!edit}
                                         className={cx('dropdown')}
                                         value={watch('gender')}
                                         allowClear
@@ -117,6 +132,7 @@ function EditCustomer(props) {
                                             {...field}
                                             status={errors.address?.message ? 'error' : null}
                                             placeholder="Basic usage"
+                                            disabled={!edit}
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.address?.message}</p>
                                     </div>
@@ -136,6 +152,7 @@ function EditCustomer(props) {
                                             {...field}
                                             status={errors.email?.message ? 'error' : null}
                                             placeholder="Basic usage"
+                                            disabled="false"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.email?.message}</p>
                                     </div>
@@ -155,24 +172,27 @@ function EditCustomer(props) {
                                             {...field}
                                             status={errors.number?.message ? 'error' : null}
                                             placeholder="Basic usage"
+                                            disabled={!edit}
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.number?.message}</p>
                                     </div>
                                 )}
                             />
                         </div>
-                        <div className={cx('footer')}>
-                            <div className={cx('btnPrev')}>
-                                <button to="#" type="submit" className={cx('bt')}>
-                                    Lưu lại
-                                </button>
+                        {edit && (
+                            <div className={cx('footer')}>
+                                <div className={cx('btnPrev')}>
+                                    <button to="#" type="submit" className={cx('bt')}>
+                                        Lưu lại
+                                    </button>
+                                </div>
+                                <div className={cx('btnPrev')}>
+                                    <Link to="#" onClick={() => setEdit(false)} className={cx('bt')}>
+                                        Quay lại
+                                    </Link>
+                                </div>
                             </div>
-                            <div className={cx('btnPrev')}>
-                                <Link to={config.routers.Customer} className={cx('bt')}>
-                                    Quay lại
-                                </Link>
-                            </div>
-                        </div>
+                        )}
                     </form>
                 </div>
             </div>

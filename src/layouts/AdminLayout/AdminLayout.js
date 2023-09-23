@@ -1,11 +1,12 @@
 import React, { Children, useState } from 'react';
-import { Avatar, Space } from 'antd';
+import { Avatar, Dropdown, Space } from 'antd';
 import { HiClipboardList } from 'react-icons/hi';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import config from '~/config/config';
 import { FaUserCircle, FaMoneyBillAlt } from 'react-icons/fa';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { HiOutlineUserGroup } from 'react-icons/hi';
+import { HiOutlineNewspaper } from 'react-icons/hi';
 import { Pagination } from 'antd';
 import { Modal } from 'antd';
 
@@ -17,9 +18,26 @@ import {
     VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
+import Cookies from 'js-cookie';
 const { Header, Sider, Content } = Layout;
+
 const AdminLayout = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false);
+    const handleLogout = () => {
+        Cookies.remove('token');
+        window.location.reload();
+    };
+
+    const items = [
+        {
+            key: '1',
+            label: (
+                <NavLink to="#" onClick={handleLogout}>
+                    Đăng xuất
+                </NavLink>
+            ),
+        },
+    ];
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -33,8 +51,8 @@ const AdminLayout = ({ children }) => {
     return (
         <Layout style={{ height: '948px' }}>
             <Sider trigger={null} style={{ width: 256 }} collapsible collapsed={collapsed}>
-                <Space wrap size={16}>
-                    <Avatar size={64} icon={<UserOutlined />} />
+                <Space wrap>
+                    <div style={{ height: '50px' }}></div>
                 </Space>
                 <Menu
                     style={{ fontSize: '18px' }}
@@ -61,6 +79,11 @@ const AdminLayout = ({ children }) => {
                             key: config.routers.Invoice,
                         },
                         {
+                            label: 'Tin tức',
+                            icon: <HiOutlineNewspaper style={{ fontSize: '20px' }} />,
+                            key: config.routers.NewsAdmin,
+                        },
+                        {
                             label: 'Tài Khoản',
                             icon: <FaUserCircle style={{ fontSize: '20px' }} />,
                             key: config.routers.Account,
@@ -73,18 +96,36 @@ const AdminLayout = ({ children }) => {
                     style={{
                         padding: 0,
                         background: colorBgContainer,
+                        display: 'flex',
+                        justifyContent: 'space-between',
                     }}
                 >
-                    <Button
-                        type="text"
-                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                        onClick={() => setCollapsed(!collapsed)}
-                        style={{
-                            fontSize: '16px',
-                            width: 64,
-                            height: 64,
-                        }}
-                    />
+                    <>
+                        <Button
+                            type="text"
+                            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                            onClick={() => setCollapsed(!collapsed)}
+                            style={{
+                                fontSize: '16px',
+                                width: 64,
+                                height: 64,
+                            }}
+                        />
+                        <Dropdown
+                            // className={cx('ColorLoginIcon')}
+                            menu={{
+                                items,
+                            }}
+                            placement="bottom"
+                            arrow={{
+                                pointAtCenter: true,
+                            }}
+                        >
+                            <NavLink to="#">
+                                <Avatar size={40} style={{ marginRight: '30px' }} icon={<UserOutlined />} />
+                            </NavLink>
+                        </Dropdown>
+                    </>
                 </Header>
                 <Content
                     style={{

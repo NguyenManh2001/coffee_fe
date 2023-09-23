@@ -9,8 +9,8 @@
     width: 91%;
     background-color: #fff;
     margin-left: 4%;
-    margin-top: 2%;
-    // margin-bottom: 7%;
+    margin-top: 5%;
+    margin-bottom: 8%;
 }
 .header{
     width: 100%;
@@ -23,23 +23,7 @@
     text-transform: uppercase;
     font-weight: 600;
 }
-.header1{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
-.iconEdit{
-    width: 30px;
-    height: 25px;
-    display: flex;
-    cursor: pointer;
-    justify-content: center;
 
-    &:hover{
-        color: #20b9ae;
-    }
-}
 .content{
     width: 100%;
     min-height: 230px;
@@ -51,7 +35,8 @@
     display: flex;
     align-items: center;
     padding: 10px 29px;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 6%;
 }
 .name{
     width: 20%;
@@ -60,8 +45,6 @@
     width: 100%;
     border: none;
     height: 100%;
-    display: flex;
-    align-items: center;
     &:focus-visible{
       outline: none;
     }
@@ -73,16 +56,23 @@
     display: flex;
     border-radius: 8px;
     padding: 0 8px;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .inputLink{
-    flex: 1 1;
+    width: 100%;
     border: 1px solid #ccc;
-    height: 32px;
+    height: 69px;
+    /* margin: 0 -22px; */
     display: flex;
     border-radius: 8px;
     /* padding: 0 8px; */
     align-items: center;
+    justify-content: center;
+
+    :hover{
+        cursor: pointer;
+    }
 }
 .star{
     color:red;
@@ -107,7 +97,6 @@
     background-color: #cccccc4a;
     display: flex;
     align-items: center;
-    margin: 25px 0;
 }
 .btnPrev{
     width: 100px;

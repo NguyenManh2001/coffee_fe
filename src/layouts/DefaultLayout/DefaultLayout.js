@@ -12,7 +12,7 @@ import { Carousel } from '@trendyol-js/react-carousel';
 
 const cx = classNames.bind(styles);
 
-function DefaultLayout({children}) {
+function DefaultLayout({ children }) {
     return (
         <div className={cx('wrapper')}>
             <Header className={cx('header')} />

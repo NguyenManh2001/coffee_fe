@@ -1,11 +1,29 @@
 import classNames from 'classnames/bind';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import styles from './Rigister.module.scss';
 import { AiOutlineClose } from 'react-icons/ai';
+import { useState } from 'react';
 import config from '~/config';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import styles from './Rigister.module.scss';
+import { Controller, useForm } from 'react-hook-form';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useDropzone } from 'react-dropzone';
+import Autocomplete from 'react-autocomplete';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { Button, Input, InputNumber, message, Select } from 'antd';
+
+const schema = yup
+    .object()
+    .shape({
+        // name: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        // // gender: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        // address: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        // email: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        // number: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+    })
+    .required();
 
 const cx = classNames.bind(styles);
 
@@ -17,25 +35,49 @@ function Rigister() {
     const [address, setAddress] = useState('');
     const [number, setNumber] = useState('');
     const navigate = useNavigate();
-    console.log(gender);
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const response = await axios
-            .post('/register', { email, password })
-            .then((response) => {
-                const token = response.data.token;
-                Cookies.set('token', token, { expires: 7 });
-                if (token) {
-                    navigate(config.routers.Login);
-                } else {
-                    console.log('ban chua dang ki');
-                }
+    const {
+        register,
+        handleSubmit,
+        watch,
+        setValue,
+        control,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(schema),
+    });
+    const onSubmit = async (data) => {
+        // e.preventDefault();
+        console.log(data);
+        const res = await axios
+            .post('/account/register', {
+                ...data,
+                role: 0,
+            })
+            .then((res) => {
+                navigate(config.routers.Login, { state: { successMessage: 'Bạn đã đăng ký thành công!!!' } });
             })
             .catch((err) => {
-                console.log('ban chua dang nhap');
+                console.log('loi');
             });
     };
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     const response = await axios
+    //         .post('/register', { email, password })
+    //         .then((response) => {
+    //             const token = response.data.token;
+    //             Cookies.set('token', token, { expires: 7 });
+    //             if (token) {
+    //                 navigate(config.routers.Login);
+    //             } else {
+    //                 console.log('ban chua dang ki');
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.log('ban chua dang nhap');
+    //         });
+    // };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -47,28 +89,62 @@ function Rigister() {
                     </div>
                     <div className={cx('header')}>Đăng ký tài khoản</div>
                     <div className={cx('Form1')}>
-                        <form>
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <div className={cx('formItem')}>
                                 <div className={cx('Name')}>Email:</div>
-                                <input
-                                    className={cx('input')}
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    type="email"
+                                <Controller
+                                    name="email"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <div style={{ width: '100%' }}>
+                                            <Input
+                                                style={{ height: '40px' }}
+                                                {...field}
+                                                status={errors.email?.message ? 'error' : null}
+                                                placeholder="Basic usage"
+                                            />
+                                            <p style={{ margin: '0px', color: 'red' }}>{errors.email?.message}</p>
+                                        </div>
+                                    )}
                                 />
                             </div>
                             <div className={cx('formItem')}>
                                 <div className={cx('Name')}>Mật khẩu:</div>
-                                <input
-                                    type="text"
-                                    value={password}
-                                    onChange={(e) => setPassWord(e.target.value)}
-                                    className={cx('input')}
+                                <Controller
+                                    name="password"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <div style={{ width: '100%' }}>
+                                            <Input.Password
+                                                style={{ height: '40px' }}
+                                                {...field}
+                                                placeholder="input password"
+                                                status={errors.password?.message ? 'error' : null}
+                                                iconRender={(visible) =>
+                                                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                                                }
+                                            />
+                                            <p style={{ margin: '0px', color: 'red' }}>{errors.password?.message}</p>
+                                        </div>
+                                    )}
                                 />
                             </div>
+                            <div className={cx('submit')}>
+                                <div className={cx('btn')}>
+                                    <button type="submit" className={cx('btnLogin')}>
+                                        Xác nhận
+                                    </button>
+                                </div>
+                            </div>
                         </form>
+                        <div className={cx('register')}>
+                            <span>Bạn chưa có tài khoản? </span>
+                            <a className={cx('linkRegister')} href={config.routers.Login}>
+                                Đăng nhập
+                            </a>
+                        </div>
                     </div>
-                    <div className={cx('header')}>Thông tin cá nhân</div>
+                    {/* <div className={cx('header')}>Thông tin cá nhân</div>
                     <div className={cx('Form')}>
                         <form>
                             <div className={cx('formItem')}>
@@ -110,12 +186,7 @@ function Rigister() {
                                 />
                             </div>
                         </form>
-                    </div>
-                    <div className={cx('submit')}>
-                        <div className={cx('btn')}>
-                            <button className={cx('btnLogin')}>Xác nhận</button>
-                        </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

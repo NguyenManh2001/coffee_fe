@@ -1,18 +1,33 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { privateRoutes, publicRoutes } from '~/routes';
+import { useSelector, useDispatch } from 'react-redux';
+import { tokenSelector } from '../src/Redux/selector';
 import { DefaultLayout } from '~/layouts';
-import { useSelector } from 'react-redux';
-// import { loginSelector } from './Redux/selector';
+import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 
-function PrivateRoute({ element, isAuthenticated, to }) {
-    return isAuthenticated ? element : <Navigate to={to} />;
+function PrivateRoute({ element, isAuthenticated, userRole, to }) {
+    // Check if the user is authenticated and has the required role
+    if (isAuthenticated && userRole === 1) {
+        return element;
+    } else {
+        return <Navigate to={to} />;
+    }
 }
 
 function App() {
-    // const isAuthenticated = useSelector(loginSelector);
+    // const [userRole, setUserRole] = useState();
     const token = Cookies.get('token');
+
+    // useEffect(() => {
+    //     if (token !== undefined) {
+    //     const deToken = jwt_decode(token);
+    //     setUserRole(deToken?.role);
+    //     }
+    // }, [token]);
+    // console.log(userRole);
+    const userRole = useSelector(tokenSelector);
 
     return (
         <Router>
@@ -33,6 +48,7 @@ function App() {
                                             </Layout>
                                         }
                                         isAuthenticated={!!token}
+                                        userRole={userRole?.role}
                                         to="/login"
                                     />
                                 }

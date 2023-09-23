@@ -2,7 +2,6 @@ import classNames from 'classnames/bind';
 import styles from './EditMenu.module.scss';
 import { Link } from 'react-router-dom';
 import config from '~/config/config';
-import Select from 'react-select';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Controller, useForm } from 'react-hook-form';
@@ -11,7 +10,7 @@ import { useDropzone } from 'react-dropzone';
 import Autocomplete from 'react-autocomplete';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Input, InputNumber } from 'antd';
+import { Input, InputNumber, Select } from 'antd';
 
 const schema = yup
     .object()
@@ -99,20 +98,20 @@ function EditMenu(props) {
     // };
     const onSubmit = async (data) => {
         // e.preventDefault();
-        console.log(data);
         const uploadData = new FormData();
         if (file) {
             uploadData.append('link', file, file.name);
         } else {
             uploadData.append('link', data.link);
         }
-        uploadData.append('selected', data.select.value);
+        uploadData.append('type', data.type);
         uploadData.append('name', data.name);
         uploadData.append('price', data.price);
+        console.log(data.type);
         const res = await axios
-            .post('/menuList/addMenu', uploadData)
+            .put(`/menuList/editMenu/${data._id}`, uploadData)
             .then((res) => {
-                navigate(config.routers.MenuAdmin);
+                navigate(config.routers.MenuAdmin, { state: { successMessage: 'Bạn đã cập nhật thành công!!!' } });
             })
             .catch((err) => {
                 console.log('loi');
@@ -134,7 +133,9 @@ function EditMenu(props) {
                                 render={({ field }) => (
                                     <Select
                                         className={cx('dropdown')}
-                                        {...field}
+                                        value={watch('type')}
+                                        allowClear
+                                        onChange={(val) => setValue('type', val)}
                                         options={[
                                             { value: 'Coffee', label: 'Coffee' },
                                             { value: 'Freeze', label: 'Freeze' },

@@ -27,6 +27,8 @@ import EditCustomer from '~/Pages/admin/Customer/EditCustomer/EditCustomer';
 import Invoice from '~/Pages/admin/Invoice/Invoice';
 // import Rigister from '~/layouts/components/Rigister/Rigister';
 import Rigister from '~/Pages/admin/Layout/Rigister/Rigister';
+import NewsAdmin from '~/Pages/admin/News/News';
+import AddNews from '~/Pages/admin/News/AddNews';
 
 const publicRoutes = [
     { path: config.routers.Home, component: Home, layout: DefaultLayout },
@@ -41,18 +43,6 @@ const publicRoutes = [
     { path: config.routers.News1, component: News1, layout: NewsLayout },
     { path: config.routers.Rigister, component: Rigister, layout: null },
     { path: config.routers.Login, component: Login, layout: null },
-    { path: config.routers.Account, component: Account, layout: AdminLayout },
-    { path: config.routers.AddAccount, component: AddAccount, layout: AdminLayout },
-    { path: config.routers.EditAccount, component: EditAccount, layout: AdminLayout },
-    { path: config.routers.MenuAdmin, component: MenuList, layout: AdminLayout },
-    { path: config.routers.AddMenu, component: AddMenu, layout: AdminLayout },
-    { path: config.routers.EditMenu, component: EditMenu, layout: AdminLayout },
-    { path: config.routers.Customer, component: Customer, layout: AdminLayout },
-    { path: config.routers.AddCustomer, component: AddCustomer, layout: AdminLayout },
-    { path: config.routers.EditCustomer, component: EditCustomer, layout: AdminLayout },
-    { path: config.routers.Invoice, component: Invoice, layout: AdminLayout },
-];
-const privateRoutes = [
     // { path: config.routers.Account, component: Account, layout: AdminLayout },
     // { path: config.routers.AddAccount, component: AddAccount, layout: AdminLayout },
     // { path: config.routers.EditAccount, component: EditAccount, layout: AdminLayout },
@@ -63,5 +53,19 @@ const privateRoutes = [
     // { path: config.routers.AddCustomer, component: AddCustomer, layout: AdminLayout },
     // { path: config.routers.EditCustomer, component: EditCustomer, layout: AdminLayout },
     // { path: config.routers.Invoice, component: Invoice, layout: AdminLayout },
+];
+const privateRoutes = [
+    { path: config.routers.Account, component: Account, layout: AdminLayout },
+    { path: config.routers.AddAccount, component: AddAccount, layout: AdminLayout },
+    { path: config.routers.EditAccount, component: EditAccount, layout: AdminLayout },
+    { path: config.routers.MenuAdmin, component: MenuList, layout: AdminLayout },
+    { path: config.routers.AddMenu, component: AddMenu, layout: AdminLayout },
+    { path: config.routers.EditMenu, component: EditMenu, layout: AdminLayout },
+    { path: config.routers.Customer, component: Customer, layout: AdminLayout },
+    { path: config.routers.AddCustomer, component: AddCustomer, layout: AdminLayout },
+    { path: config.routers.EditCustomer, component: EditCustomer, layout: AdminLayout },
+    { path: config.routers.Invoice, component: Invoice, layout: AdminLayout },
+    { path: config.routers.NewsAdmin, component: NewsAdmin, layout: AdminLayout },
+    { path: config.routers.AddNews, component: AddNews, layout: AdminLayout },
 ];
 export { publicRoutes, privateRoutes };
