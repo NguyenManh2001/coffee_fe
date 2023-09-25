@@ -79,7 +79,7 @@ function MenuLayout({ children }) {
         queryKey: ['data', type, page, search, limit],
         queryFn: () =>
             axios
-                .post('https://coffee-bills.onrender.com/menuList/ListMenu', { page, type, search, limit })
+                .post('https://coffee-bills.onrender.com/product/listProduct', { page, type, search, limit })
                 .then((res) => res.data),
     });
     console.log(type);
