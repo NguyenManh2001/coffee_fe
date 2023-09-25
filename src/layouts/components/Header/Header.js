@@ -78,7 +78,7 @@ function Header({ name, src, price, quatity, size }) {
 
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['listCustomer', email],
-        queryFn: () => axios.post('/customer/listCustomer', { email }).then((res) => res.data),
+        queryFn: () => axios.get('/menuList/ListMenu', { email }).then((res) => res.data),
     });
     console.log(data);
     const ModalEdit = () => (
