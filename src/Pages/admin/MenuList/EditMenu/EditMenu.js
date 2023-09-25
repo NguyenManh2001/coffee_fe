@@ -109,7 +109,7 @@ function EditMenu(props) {
         uploadData.append('price', data.price);
         console.log(data.type);
         const res = await axios
-            .put(`https://coffee-bills.onrender.com/menuList/editMenu/${data._id}`, uploadData)
+            .put(`https://coffee-bills.onrender.com/product/updateProduct/${data._id}`, uploadData)
             .then((res) => {
                 navigate(config.routers.MenuAdmin, { state: { successMessage: 'Bạn đã cập nhật thành công!!!' } });
             })

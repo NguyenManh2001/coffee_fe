@@ -72,7 +72,7 @@ function MenuList() {
             cancelText: 'No',
             onOk() {
                 axios
-                    .delete(`https://coffee-bills.onrender.com/menuList/deleteMenu/${id}`)
+                    .delete(`https://coffee-bills.onrender.com/product/deleteProduct/${id}`)
                     .then((res) => {
                         success('Bạn đã xóa thành công');
                         refetch();
@@ -139,7 +139,7 @@ function MenuList() {
         queryKey: ['data', type, page, search],
         queryFn: () =>
             axios
-                .post('https://coffee-bills.onrender.com/menuList/ListMenu', { page, type, search })
+                .post('https://coffee-bills.onrender.com/product/listProduct', { page, type, search })
                 .then((res) => res.data),
     });
 

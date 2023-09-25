@@ -101,7 +101,7 @@ function Customer() {
         queryKey: ['dataCustomer', select, page, search],
         queryFn: () =>
             axios
-                .get('https://coffee-bills.onrender.com/customer/listCustomer', { page, select, search })
+                .post('https://coffee-bills.onrender.com/customer/listCustomer', { page, select, search })
                 .then((res) => res.data),
     });
     // const onSearch = (value, _e, info) => console.log(info?.source, value);
