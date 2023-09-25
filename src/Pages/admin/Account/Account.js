@@ -73,7 +73,7 @@ function Account() {
             cancelText: 'No',
             onOk() {
                 axios
-                    .delete(`/account/deleteAccount/${id}`)
+                    .delete(`https://coffee-bills.onrender.com/account/deleteAccount/${id}`)
                     .then((res) => {
                         success('Bạn đã xóa thành công');
                         refetch();

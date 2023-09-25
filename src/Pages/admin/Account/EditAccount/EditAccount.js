@@ -53,7 +53,7 @@ function EditCustomer(props) {
         // e.preventDefault();
         console.log(data);
         const res = await axios
-            .put(`/account/editAccount/${data._id}`, {
+            .put(`https://coffee-bills.onrender.com/account/editAccount/${data._id}`, {
                 role: data.role,
             })
             .then((res) => {

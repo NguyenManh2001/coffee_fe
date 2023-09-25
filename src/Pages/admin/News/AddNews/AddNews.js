@@ -59,7 +59,7 @@ function AddNews() {
         uploadData.append('describe', data.describe);
         uploadData.append('type', data.type);
         const res = await axios
-            .post('/news/addNews', uploadData)
+            .post('https://coffee-bills.onrender.com/news/addNews', uploadData)
             .then((res) => {
                 navigate(config.routers.NewsAdmin, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
             })

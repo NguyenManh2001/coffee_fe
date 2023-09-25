@@ -57,7 +57,7 @@ function AddMenu() {
         uploadData.append('name', data.name);
         uploadData.append('price', data.price);
         const res = await axios
-            .post('/menuList/addMenu', uploadData)
+            .post('https://coffee-bills.onrender.com/menuList/addMenu', uploadData)
             .then((res) => {
                 navigate(config.routers.MenuAdmin, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
             })

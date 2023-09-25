@@ -111,7 +111,7 @@ function EditNews(props) {
         uploadData.append('type', data.type);
         console.log(data.type);
         const res = await axios
-            .put(`/news/editNews/${data._id}`, uploadData)
+            .put(`https://coffee-bills.onrender.com/news/editNews/${data._id}`, uploadData)
             .then((res) => {
                 navigate(config.routers.NewsAdmin, { state: { successMessage: 'Bạn đã cập nhật thành công!!!' } });
             })

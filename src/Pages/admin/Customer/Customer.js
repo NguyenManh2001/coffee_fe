@@ -72,7 +72,7 @@ function Customer() {
             cancelText: 'No',
             onOk() {
                 axios
-                    .delete(`/customer/deleteCustomer/${id}`)
+                    .delete(`https://coffee-bills.onrender.com/customer/deleteCustomer/${id}`)
                     .then((res) => {
                         success('Bạn đã xóa thành công');
                         refetch();
@@ -99,7 +99,10 @@ function Customer() {
     };
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['dataCustomer', select, page, search],
-        queryFn: () => axios.post('/customer/listCustomer', { page, select, search }).then((res) => res.data),
+        queryFn: () =>
+            axios
+                .get('https://coffee-bills.onrender.com/customer/listCustomer', { page, select, search })
+                .then((res) => res.data),
     });
     // const onSearch = (value, _e, info) => console.log(info?.source, value);
     const datas = useSelector(searchitemSelector);

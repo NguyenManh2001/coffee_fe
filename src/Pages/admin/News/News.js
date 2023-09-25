@@ -72,7 +72,7 @@ function NewsAdmin() {
             cancelText: 'No',
             onOk() {
                 axios
-                    .delete(`/news/deleteNews/${id}`)
+                    .delete(`https://coffee-bills.onrender.com/news/deleteNews/${id}`)
                     .then((res) => {
                         success('Bạn đã xóa thành công');
                         refetch();
@@ -137,7 +137,10 @@ function NewsAdmin() {
     // }, []);
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['dataNews', type, page, search],
-        queryFn: () => axios.post('/news/listNews', { page, type, search }).then((res) => res.data),
+        queryFn: () =>
+            axios
+                .post('https://coffee-bills.onrender.com/news/listNews', { page, type, search })
+                .then((res) => res.data),
     });
     console.log(data);
     const isdata = !data?.docs?.length;
