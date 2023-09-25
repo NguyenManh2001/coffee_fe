@@ -137,7 +137,10 @@ function MenuList() {
     // }, []);
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['data', type, page, search],
-        queryFn: () => axios.post('/menuList/ListMenu', { page, type, search }).then((res) => res.data),
+        queryFn: () =>
+            axios
+                .get('https://coffee-bills.onrender.com/menuList/ListMenu', { page, type, search })
+                .then((res) => res.data),
     });
 
     const isdata = !data?.docs?.length;
