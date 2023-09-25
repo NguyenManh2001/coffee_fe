@@ -79,7 +79,7 @@ function Header({ name, src, price, quatity, size }) {
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['listCustomer', email],
         queryFn: () =>
-            axios.get('https://coffee-bills.onrender.com/menuList/ListMenu', { email }).then((res) => res.data),
+            axios.get('https://coffee-bills.onrender.com/customer/listCustomer', { email }).then((res) => res.data),
     });
     console.log(data);
     const ModalEdit = () => (
