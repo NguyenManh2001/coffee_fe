@@ -77,7 +77,10 @@ function MenuLayout({ children }) {
     // const sliderRef = useRef(null);
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['data', type, page, search, limit],
-        queryFn: () => axios.post('/menuList/ListMenu', { page, type, search, limit }).then((res) => res.data),
+        queryFn: () =>
+            axios
+                .post('https://coffee-bills.onrender.com/menuList/ListMenu', { page, type, search, limit })
+                .then((res) => res.data),
     });
     console.log(type);
     const items = [
