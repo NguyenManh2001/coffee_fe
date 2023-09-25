@@ -105,7 +105,9 @@ function FeatureMenu({ select }) {
         queryKey: ['data', type, page, search, limit],
         queryFn: () =>
             axios
-                .get('https://coffee-bills.onrender.com/menuList/ListMenu', { page, type, search, limit })
+                .get('https://coffee-bills.onrender.com/menuList/ListMenu', {
+                    params: { page, type, search, limit },
+                })
                 .then((res) => res.data),
     });
     console.log(data);
