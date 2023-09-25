@@ -58,7 +58,7 @@ function Login() {
     });
     const onSubmit = async (data) => {
         try {
-            const res = await axios.post('/account/login', data);
+            const res = await axios.post('https://coffee-bills.onrender.com/account/login', data);
             const token = res.data.token;
             const expires = new Date(Date.now() + 3600 * 1000);
 
