@@ -103,7 +103,10 @@ function FeatureMenu({ select }) {
     const sliderRef = useRef(null);
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['data', type, page, search, limit],
-        queryFn: () => axios.get('/menuList/ListMenu', { page, type, search, limit }).then((res) => res.data),
+        queryFn: () =>
+            axios
+                .get('https://coffee-bills.onrender.com/menuList/ListMenu', { page, type, search, limit })
+                .then((res) => res.data),
     });
     console.log(data);
     const renderItems = () => {
