@@ -100,7 +100,10 @@ function Account() {
     };
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['dataAccount', select, page, search],
-        queryFn: () => axios.post('/account/listAccounts', { page, select, search }).then((res) => res.data),
+        queryFn: () =>
+            axios
+                .post('https://coffee-bills.onrender.com/account/listAccounts', { page, select, search })
+                .then((res) => res.data),
     });
     // const onSearch = (value, _e, info) => console.log(info?.source, value);
     const datas = useSelector(searchitemSelector);

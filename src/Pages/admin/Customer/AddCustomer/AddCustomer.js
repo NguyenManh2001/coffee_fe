@@ -51,7 +51,7 @@ function AddCustomer() {
         // e.preventDefault();
         console.log(data);
         const res = await axios
-            .post('/customer/addCustomer', {
+            .post('https://coffee-bills.onrender.com/customer/addCustomer', {
                 ...data,
                 email: email,
             })

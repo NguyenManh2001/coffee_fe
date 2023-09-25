@@ -52,7 +52,7 @@ function EditCustomer(props) {
         // e.preventDefault();
         console.log(data);
         const res = await axios
-            .put(`/customer/updateCustomer/${data._id}`, data)
+            .put(`https://coffee-bills.onrender.com/customer/updateCustomer/${data._id}`, data)
             .then((res) => {
                 navigate(config.routers.Home, { state: { successMessage: 'Bạn đã cập nhật thành công!!!' } });
             })
