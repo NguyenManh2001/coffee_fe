@@ -6,13 +6,15 @@ import { StarIcons } from '~/Components/icons/icons';
 import { useState } from 'react';
 import { BsStar } from 'react-icons/bs';
 import Product from '~/layouts/components/Product';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
 const cx = classNames.bind(styles);
 
 const MENUS = [
     {
         id: 1,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-2-cafe-mocha-nong.jpg'),
         price: '35000',
         title: 'Cà Phê Mocha',
@@ -20,7 +22,7 @@ const MENUS = [
     },
     {
         id: 2,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-4-americano.jpg'),
         price: '40000',
         title: 'Americano',
@@ -28,7 +30,7 @@ const MENUS = [
     },
     {
         id: 3,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-5-mocha-socola.jpg'),
         price: '35000',
         title: 'Mocha Socola',
@@ -36,7 +38,7 @@ const MENUS = [
     },
     {
         id: 4,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-1-caramel-latte.jpg'),
         price: '50000',
         title: 'Caramel latte',
@@ -44,7 +46,7 @@ const MENUS = [
     },
     {
         id: 5,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-3-epresso-macchiato.jpg'),
         price: '35000',
         title: 'Macchiato',
@@ -52,7 +54,7 @@ const MENUS = [
     },
     {
         id: 6,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-6.jpg'),
         price: '35000',
         title: 'mocha caramel',
@@ -60,7 +62,7 @@ const MENUS = [
     },
     {
         id: 7,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-7.jpg'),
         price: '35000',
         title: 'Capuchino',
@@ -68,7 +70,7 @@ const MENUS = [
     },
     {
         id: 8,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-10-mocha-dua.jpg'),
         price: '35000',
         title: 'mocha dừa',
@@ -76,7 +78,7 @@ const MENUS = [
     },
     {
         id: 9,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-12-mocha-latte.jpg'),
         price: '35000',
         title: 'mocha latte',
@@ -84,7 +86,7 @@ const MENUS = [
     },
     {
         id: 10,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-13-bacxiu.jpg'),
         price: '35000',
         title: 'Bạc xỉu',
@@ -92,7 +94,7 @@ const MENUS = [
     },
     {
         id: 11,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-17-duada.jpg'),
         price: '35000',
         title: 'cà phê dừa',
@@ -100,7 +102,7 @@ const MENUS = [
     },
     {
         id: 12,
-        star:  <BsStar />,
+        star: <BsStar />,
         src: require('~/assets/images/sp-20.jpg'),
         price: '35000',
         title: 'Cà phê sữa',
@@ -108,52 +110,66 @@ const MENUS = [
     },
 ];
 
-function Coffee() {
+function Coffee({ select }) {
+    console.log(select);
     const [product, setProduct] = useState(false);
-    const [header,setHeader] = useState(1);
+    const [header, setHeader] = useState(1);
+    const [page, setPage] = useState('');
+    const [limit, setLimit] = useState(8);
+    const [type, setType] = useState(select);
+    const [search, setSearch] = useState('');
+    // const sliderRef = useRef(null);
+    const { isLoading, data, refetch } = useQuery({
+        queryKey: ['data', type, page, search, limit],
+        queryFn: () => axios.post('/menuList/ListMenu', { page, type, search, limit }).then((res) => res.data),
+    });
+    console.log(type);
     const renderItems = () => {
-      return MENUS.map((MENU) => {
-          if(MENU.id === header){
-              return(
-                <div key={header}>
-                  {product ? ( 
-                      <Product
-                      key={MENU.id}
-                      src={MENU.src}
-                      name={MENU.title}
-                      cart={MENU.price}
-                      />
-                      ) : (
-                         <div></div>
-                      )}
-                      </div>
-              )
-          }
-      })
-  }
+        return data?.docs?.map((MENU, index) => {
+            if (MENU._id === header) {
+                return (
+                    <div key={header}>
+                        {product && (
+                            <Product
+                                key={MENU._id}
+                                _id={MENU._id}
+                                src={MENU.link}
+                                name={MENU.name}
+                                cart={MENU.price}
+                                onClick={() => {
+                                    setProduct(false);
+                                }}
+                            />
+                        )}
+                    </div>
+                );
+            }
+        });
+    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('content-right')}>
                 <div className={cx('main-right')}>
                     <MenuFeat className={cx('menu')}>
-                        {MENUS.map((MENU) => (
+                        {data?.docs?.map((MENU, index) => (
                             <MenuItems1
-                                key={MENU.id}
-                                star={MENU.star}
-                                src={MENU.src}
+                                key={MENU._id}
+                                autoPlay={3}
+                                star={<BsStar />}
+                                src={MENU.link}
                                 price={MENU.price}
-                                title={MENU.title}
-                                icon={MENU.icon}
+                                title={MENU.name}
+                                icon={<StarIcons />}
                                 onClick={() => {
                                     setProduct(!product);
-                                    setHeader(MENU.id);
+                                    setHeader(MENU._id);
                                 }}
                             />
                         ))}
                     </MenuFeat>
                 </div>
             </div>
-          {renderItems()}
+            {renderItems()}
         </div>
     );
 }

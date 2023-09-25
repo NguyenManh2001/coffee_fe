@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 export const searchSelector = (state) => state.filter.search;
+export const addProductSelector = (state) => state.list.listProduct;
 export const tokenSelector = (state) => state.filter.token;
 export const listSelector = (state) => state.list.listsMenu;
 export const listCustomerSelector = (state) => state.list.listCustomer;

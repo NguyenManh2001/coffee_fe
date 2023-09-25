@@ -140,7 +140,7 @@ function NewsAdmin() {
         queryFn: () => axios.post('/news/listNews', { page, type, search }).then((res) => res.data),
     });
     console.log(data);
-    const isdata = !datas?.length;
+    const isdata = !data?.docs?.length;
 
     return (
         <div className={cx('Wrapper')}>
@@ -194,47 +194,58 @@ function NewsAdmin() {
                                     <th colSpan={2}>Chức năng</th>
                                 </tr>
                             </thead>
-                            {/* {isdata ? (
-                                <div style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}>
-                                    <Empty />
-                                </div>
-                            ) : (
-                                <> */}
-                            {/* {data?.products?.map((data) => ( */}
                             <tbody>
-                                {data?.docs?.map((data, index) => (
-                                    <tr key={data._id} style={{ lineHeight: '65px' }}>
-                                        <td>{index + 1}</td>
-                                        <td style={{ lineHeight: '24px', width: '103px' }}>{data.title}</td>
-                                        <td style={{ width: '100px' }}>
-                                            <img style={{ width: '100%', height: '100%' }} src={data?.image} />
-                                        </td>
-                                        <td style={{ lineHeight: '24px', width: '280px' }}>{data.describe}</td>
-                                        <td>{formatTime(data.createdAt)}</td>
-                                        <td>
-                                            <Link className={cx('icon')} to="#" onClick={() => handleUpdate(data)}>
-                                                <BiEditAlt />
-                                            </Link>
-                                            <Link className={cx('icon')} to="#" onClick={() => handldeDelete(data._id)}>
-                                                <RiDeleteBin6Line />
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {isdata ? (
+                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}>
+                                        <Empty />
+                                    </div>
+                                ) : (
+                                    <>
+                                        {data?.docs?.map((data, index) => (
+                                            <tr key={data._id} style={{ lineHeight: '65px' }}>
+                                                <td>{index + 1}</td>
+                                                <td style={{ lineHeight: '24px', width: '300px' }}>{data.title}</td>
+                                                <td style={{ width: '100px' }}>
+                                                    <img style={{ width: '100%', height: '100%' }} src={data?.image} />
+                                                </td>
+                                                <td style={{ lineHeight: '24px', width: '400px' }}>{data.describe}</td>
+                                                <td>{formatTime(data.createdAt)}</td>
+                                                <td>
+                                                    <Link
+                                                        className={cx('icon')}
+                                                        to="#"
+                                                        onClick={() => handleUpdate(data)}
+                                                    >
+                                                        <BiEditAlt />
+                                                    </Link>
+                                                    <Link
+                                                        className={cx('icon')}
+                                                        to="#"
+                                                        onClick={() => handldeDelete(data._id)}
+                                                    >
+                                                        <RiDeleteBin6Line />
+                                                    </Link>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </>
+                                )}
                             </tbody>
                             {/* ))} */}
                             {/* </>
                             )} */}
                         </Table>
-                        <div className={cx('footer')}>
-                            <Pagination
-                                defaultCurrent={1}
-                                total={data?.totalDocs}
-                                defaultPageSize={7}
-                                current={page}
-                                onChange={handlePageChange}
-                            />
-                        </div>
+                        {!isdata && (
+                            <div className={cx('footer')}>
+                                <Pagination
+                                    defaultCurrent={1}
+                                    total={data?.totalDocs}
+                                    defaultPageSize={7}
+                                    current={page}
+                                    onChange={handlePageChange}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

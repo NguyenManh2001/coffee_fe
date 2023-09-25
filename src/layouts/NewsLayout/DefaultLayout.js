@@ -12,7 +12,7 @@ const cx = classNames.bind(styles);
 
 function News({ children }) {
     return (
-        <div className={cx('wrapper')}>
+        <div id="top" className={cx('wrapper')}>
             <Header />
             <div className={cx('container')}>
                 <div className={cx('header')}></div>

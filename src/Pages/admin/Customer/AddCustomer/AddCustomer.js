@@ -171,11 +171,11 @@ function AddCustomer() {
                                     Lưu lại
                                 </button>
                             </div>
-                            <div className={cx('btnPrev')}>
-                                <Link to={config.routers.Customer} className={cx('bt')}>
+                            {/* <div className={cx('btnPrev')}>
+                                <Link to={config.routers.Home} className={cx('bt')}>
                                     Quay lại
                                 </Link>
-                            </div>
+                            </div> */}
                         </div>
                     </form>
                 </div>

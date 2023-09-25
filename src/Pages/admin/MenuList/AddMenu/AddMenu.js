@@ -2,7 +2,6 @@ import classNames from 'classnames/bind';
 import styles from './AddMenu.module.scss';
 import { Link } from 'react-router-dom';
 import config from '~/config/config';
-import Select from 'react-select';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Controller, useForm } from 'react-hook-form';
@@ -11,7 +10,7 @@ import { useDropzone } from 'react-dropzone';
 import Autocomplete from 'react-autocomplete';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Input, InputNumber, message } from 'antd';
+import { Input, InputNumber, message, Select } from 'antd';
 
 const schema = yup
     .object()
@@ -54,7 +53,7 @@ function AddMenu() {
         console.log(data);
         const uploadData = new FormData();
         uploadData.append('link', file, file.name);
-        uploadData.append('type', data.type.value);
+        uploadData.append('type', data.type);
         uploadData.append('name', data.name);
         uploadData.append('price', data.price);
         const res = await axios
@@ -83,7 +82,9 @@ function AddMenu() {
                                 render={({ field }) => (
                                     <Select
                                         className={cx('dropdown')}
-                                        {...field}
+                                        value={watch('type')}
+                                        allowClear
+                                        onChange={(val) => setValue('type', val)}
                                         options={[
                                             { value: 'Coffee', label: 'Coffee' },
                                             { value: 'Freeze', label: 'Freeze' },

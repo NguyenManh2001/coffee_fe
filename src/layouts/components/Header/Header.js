@@ -9,10 +9,11 @@ import Menu, { MenuItem } from './menu';
 import Tippy from '@tippyjs/react/headless';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Empty, Avatar, Badge, Button, Modal, Dropdown, message, Alert, Input } from 'antd';
-import { tokenSelector } from '~/Redux/selector';
+import { addProductSelector, tokenSelector } from '~/Redux/selector';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
+import { Checkbox, Radio } from 'antd';
 import EditCustomer from '~/Pages/admin/Customer/EditCustomer';
 import AddCustomer from '~/Pages/admin/Customer/AddCustomer';
 import { useQuery } from '@tanstack/react-query';
@@ -24,10 +25,16 @@ function Header({ name, src, price, quatity, size }) {
     const [content, setContent] = useState(false);
     const [showHeader, setShowHeader] = useState(true);
     const [open, setOpen] = useState(false);
+    const [buy, setBuy] = useState(false);
     const [email, setEmail] = useState();
     const [Name, setName] = useState(name);
     const navigate = useNavigate();
     const location = useLocation();
+    const [checked, setChecked] = useState(false);
+    const [list, setList] = useState([]);
+    const [check, setCheck] = useState(false);
+    const [checkedList, setCheckedList] = useState([]);
+    const [priceList, setPriceList] = useState(0);
     const successMessage = location.state?.successMessage;
 
     const [messageApi, contextHolder] = message.useMessage(successMessage);
@@ -53,7 +60,8 @@ function Header({ name, src, price, quatity, size }) {
     }, [location.state]);
     // const userRole = useSelector(tokenSelector);
     const token = Cookies.get('token');
-
+    const menus = useSelector(addProductSelector);
+    console.log(menus[0]);
     const handleLogout = () => {
         Cookies.remove('token');
         window.location.reload();
@@ -131,68 +139,110 @@ function Header({ name, src, price, quatity, size }) {
     const handleSubmit = () => {
         setContent(!content);
     };
+    const onChangeCheckBox = (index, menu) => {
+        const updatedCheckedList = [...checkedList];
 
+        // Kiểm tra trạng thái của checkbox cá nhân và cập nhật danh sách
+        if (updatedCheckedList.includes(index)) {
+            if (list.includes(menu)) {
+                setList(list.filter((item) => item !== menu));
+            } else {
+                setList([...list, menu]);
+            }
+            updatedCheckedList.splice(updatedCheckedList.indexOf(index), 1);
+        } else {
+            setList([...list, menu]);
+            updatedCheckedList.push(index);
+        }
+
+        // Kiểm tra xem tất cả các checkbox cá nhân có được chọn hay không
+        const allChecked = updatedCheckedList.length === menus.length;
+        setChecked(allChecked);
+
+        // Cập nhật danh sách checkbox cá nhân
+        setCheckedList(updatedCheckedList);
+    };
+    useEffect(() => {
+        if (list) {
+            const totalPrice = list.reduce((acc, list) => {
+                const price = parseInt(list.price); // Chuyển price thành số
+                return acc + price;
+            }, 0);
+            setPriceList(totalPrice);
+        }
+    }, [list]);
+    console.log(list);
+    const onChangeAll = (e) => {
+        const newSelectAllChecked = !checked; // Đảo ngược trạng thái checkbox tổng cộng
+        setChecked(newSelectAllChecked);
+
+        if (newSelectAllChecked) {
+            // Nếu checkbox tổng cộng được chọn, chọn tất cả các checkbox cá nhân
+            const allIndices = menus.map((_, index) => index);
+            setCheckedList(allIndices);
+            setList(menus);
+            const totalPrice = menus.reduce((acc, menu) => {
+                const price = parseInt(menu.price); // Chuyển price thành số
+                return acc + price;
+            }, 0);
+            setPriceList(totalPrice);
+        } else {
+            // Nếu checkbox tổng cộng bị bỏ chọn, bỏ chọn tất cả các checkbox cá nhân
+            setCheckedList([]);
+            setPriceList(0);
+        }
+    };
+    console.log(priceList);
+    const [value, setValue] = useState(1);
+
+    const onChange = (e) => {
+        console.log('radio checked', e.target.value);
+        setValue(e.target.value);
+    };
     return (
         <div className={cx('wraper')}>
             <>
                 {contextHolder}
-                {showHeader ? (
-                    <div className={cx('container')}>
-                        <Tippy
-                            interactive
-                            delay={[400, 500]}
-                            //  placement={'bottom-end'}
-                            render={(attrs) => (
-                                <div className="box" tabIndex="-1" {...attrs}>
-                                    <div className={cx('TippyWrapper')}>
-                                        <MenuItem title="Trang chủ" to={config.routers.Home} />
-                                        <MenuItem title="Menu" to={config.routers.Menu} />
-                                        <MenuItem title="Tin tức" to={config.routers.News} />
-                                        <MenuItem title="Liên hệ" to={config.routers.Contact} />
-                                        <MenuItem title="Chúng tôi" to={config.routers.About} />
-                                    </div>
+                {/* {!showHeader && ( */}
+                <div className={showHeader ? cx('container') : cx('container1')}>
+                    <Tippy
+                        interactive
+                        delay={[400, 500]}
+                        //  placement={'bottom-end'}
+                        render={(attrs) => (
+                            <div className="box" tabIndex="-1" {...attrs}>
+                                <div className={cx('TippyWrapper')}>
+                                    <MenuItem title="Trang chủ" to={config.routers.Home} />
+                                    <MenuItem title="Menu" to={config.routers.Menu} />
+                                    <MenuItem title="Tin tức" to={config.routers.News} />
+                                    <MenuItem title="Liên hệ" to={config.routers.Contact} />
+                                    <MenuItem title="Chúng tôi" to={config.routers.About} />
                                 </div>
-                            )}
-                        >
-                            <div className={cx('menuIcon')}>
-                                {' '}
-                                <MenuIcons />{' '}
                             </div>
-                        </Tippy>
-                        <Images className={cx('logo')} src={require('~/assets/images/logo-2.png')} />
+                        )}
+                    >
+                        <div className={cx('menuIcon')}>
+                            {' '}
+                            <MenuIcons />{' '}
+                        </div>
+                    </Tippy>
+                    <Images className={cx('logo')} src={require('~/assets/images/logo-2.png')} />
 
-                        <Menu>
-                            <MenuItem title="Trang chủ" to={config.routers.Home} />
-                            <MenuItem title="Menu" to={config.routers.Menu} />
-                            <MenuItem title="Tin tức" to={config.routers.News} />
-                            <MenuItem title="Liên hệ" to={config.routers.Contact} />
-                            <MenuItem title="Chúng tôi" to={config.routers.About} />
-                        </Menu>
-                        <div style={{ display: 'flex' }}>
-                            <button className={cx('ColorCartIcon')} onClick={handleSubmit} to="#">
-                                <Badge count={5}>
-                                    <ShoppingCartOutlined style={{ fontSize: '34px', color: '#ffffff' }} />
-                                </Badge>
-                            </button>
-                            {email ? (
-                                <>
-                                    <Dropdown
-                                        className={cx('ColorLoginIcon')}
-                                        menu={{
-                                            items,
-                                        }}
-                                        placement="bottom"
-                                        arrow={{
-                                            pointAtCenter: true,
-                                        }}
-                                    >
-                                        <NavLink className={cx('ColorLoginIcon')} to="#">
-                                            <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                        </NavLink>
-                                    </Dropdown>
-                                    <span style={{ lineHeight: '41px', color: '#fff' }}>{email}</span>
-                                </>
-                            ) : (
+                    <Menu>
+                        <MenuItem title="Trang chủ" to={config.routers.Home} />
+                        <MenuItem title="Menu" to={config.routers.Menu} />
+                        <MenuItem title="Tin tức" to={config.routers.News} />
+                        <MenuItem title="Liên hệ" to={config.routers.Contact} />
+                        <MenuItem title="Chúng tôi" to={config.routers.About} />
+                    </Menu>
+                    <div style={{ display: 'flex' }}>
+                        <button className={cx('ColorCartIcon')} onClick={handleSubmit} to="#">
+                            <Badge count={menus.length}>
+                                <ShoppingCartOutlined style={{ fontSize: '34px', color: '#ffffff' }} />
+                            </Badge>
+                        </button>
+                        {email ? (
+                            <>
                                 <Dropdown
                                     className={cx('ColorLoginIcon')}
                                     menu={{
@@ -204,62 +254,181 @@ function Header({ name, src, price, quatity, size }) {
                                     }}
                                 >
                                     <NavLink className={cx('ColorLoginIcon')} to="#">
-                                        <LoginIcons />
+                                        <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
                                     </NavLink>
                                 </Dropdown>
-                            )}
-                        </div>
-                        <ModalEdit />
+                                <span style={{ lineHeight: '41px', color: '#fff' }}>{email}</span>
+                            </>
+                        ) : (
+                            <Dropdown
+                                className={cx('ColorLoginIcon')}
+                                menu={{
+                                    items,
+                                }}
+                                placement="bottom"
+                                arrow={{
+                                    pointAtCenter: true,
+                                }}
+                            >
+                                <NavLink className={cx('ColorLoginIcon')} to="#">
+                                    <LoginIcons />
+                                </NavLink>
+                            </Dropdown>
+                        )}
                     </div>
-                ) : (
-                    <div className={cx('container')}></div>
-                )}
+                    <ModalEdit />
+                </div>
+                {/* )} */}
             </>
             <>
-                {content ? (
+                <Modal
+                    // style={{ width: '65%', marginLeft: 'auto', marginRight: 'auto' }}
+                    centered
+                    open={content}
+                    onOk={() => setContent(false)}
+                    onCancel={() => {
+                        setContent(false);
+                        setBuy(false);
+                    }}
+                    width={600}
+                    height={500}
+                    footer={null}
+                >
                     <div className={cx('content')}>
                         <div className={cx('cart')}>
                             <div className={cx('header-cart')}>
-                                <h2 className={cx('text-header')}>Giỏ hàng của tôi</h2>
-                                <button onClick={handleSubmit} className={cx('btn')} aria-label="Close"></button>
+                                {buy ? (
+                                    <h2 className={cx('text-header')}>Thanh toán</h2>
+                                ) : (
+                                    <>
+                                        <h2 className={cx('text-header')}>Giỏ hàng của tôi</h2>
+                                        <div style={{ width: '75px', height: '26px' }}>
+                                            <NavLink to={config.routers.Menu} className={cx('add')}>
+                                                Thêm món
+                                            </NavLink>
+                                        </div>
+                                    </>
+                                )}
                             </div>
-                            {Name ? (
-                                <div className={cx('content-cart')}>
-                                    <div className={cx('content-cart-item')}>
-                                        <div className={cx('cart-item')}>
-                                            <Images className={cx('logo-cart')} src={src} />
-                                            <div className={cx('cart-title')}>
-                                                <div className={cx('cart-name')}>{name}</div>
-                                                <div className={cx('cart-size')}>
-                                                    <div className={cx('size')}>
-                                                        Size {size} <span>x {quatity}</span>
+                            {menus.length > 0 ? (
+                                <>
+                                    <div className={cx('content-cart')}>
+                                        <div className={cx('content-cart-item')}>
+                                            {buy ? (
+                                                <div>
+                                                    <div style={{ fontSize: '22px', marginBottom: '16px' }}>
+                                                        Phương thức thanh toán
                                                     </div>
-                                                    <div className={cx('edit')}>
-                                                        <EditIcons />
-                                                    </div>
-                                                    <div className={cx('cart-price')}>{price}đ</div>
-                                                    <div className={cx('delete')}>
-                                                        <DeleteIcons />
+                                                    <div
+                                                        style={{
+                                                            lineHeight: '40px',
+                                                            marginLeft: '15px',
+                                                            fontSize: '18px',
+                                                        }}
+                                                    >
+                                                        <Radio.Group
+                                                            style={{
+                                                                lineHeight: '50px',
+                                                            }}
+                                                            onChange={onChange}
+                                                            value={value}
+                                                        >
+                                                            <Radio style={{ fontSize: '18px' }} value={1}>
+                                                                Thanh toán tiền mặt sau khi nhận hàng
+                                                            </Radio>
+                                                            <Radio style={{ fontSize: '18px' }} value={2}>
+                                                                {' '}
+                                                                Thanh toán tiền bằng VNPay
+                                                            </Radio>
+                                                        </Radio.Group>
+                                                        {/* <div>
+                                                            <Radio style={{ fontSize: '18px' }}>
+                                                                Thanh toán tiền mặt sau khi nhận hàng
+                                                            </Radio>
+                                                        </div>
+                                                        <div>
+                                                            <Radio style={{ fontSize: '18px' }}>
+                                                                Thanh toán tiền bằng VNPay
+                                                            </Radio>
+                                                        </div> */}
                                                     </div>
                                                 </div>
+                                            ) : (
+                                                <>
+                                                    {menus.map((menu, index) => (
+                                                        <div className={cx('cart-item')} key={index}>
+                                                            <Checkbox
+                                                                checked={
+                                                                    checked ? checked : checkedList.includes(index)
+                                                                }
+                                                                style={{ paddingRight: '14px' }}
+                                                                onChange={() => onChangeCheckBox(index, menu)}
+                                                            ></Checkbox>
+                                                            {/* ... Rest of your menu item rendering */}
+                                                            <Images className={cx('logo-cart')} src={menu.src} />
+                                                            <div className={cx('cart-title')}>
+                                                                <div className={cx('cart-name')}>{menu.name}</div>
+                                                                <div className={cx('cart-size')}>
+                                                                    <div style={{ display: 'flex', width: '120px' }}>
+                                                                        <div className={cx('size')}>
+                                                                            Size {menu.size}{' '}
+                                                                            <span>x {menu.quatity}</span>
+                                                                        </div>
+                                                                        <div className={cx('edit')}>
+                                                                            <EditIcons />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div style={{ display: 'flex' }}>
+                                                                        <div className={cx('cart-price')}>
+                                                                            {menu.price} VND
+                                                                        </div>
+                                                                        <div className={cx('delete')}>
+                                                                            <DeleteIcons />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className={buy ? cx('content-cart-item2') : cx('content-cart-item1')}>
+                                        {!buy && (
+                                            <div>
+                                                <Checkbox checked={checked} onChange={onChangeAll}>
+                                                    Tất cả
+                                                </Checkbox>
                                             </div>
-                                        </div>
-                                        <NavLink to={config.routers.Menu} className={cx('add')}>
-                                            Thêm món
-                                        </NavLink>
-                                    </div>
-                                    <div className={cx('content-cart-item')}>
+                                        )}
                                         <div className={cx('price')}>
-                                            <div className={cx('size')}>Tổng cộng</div>
-                                            <div className={cx('cart-price')}>{price}đ</div>
+                                            <div className={cx('size')}>Tổng cộng : {priceList} VND</div>
+                                            {/* <div className={cx('cart-price')}>{price}đ</div> */}
+                                            {buy ? (
+                                                <div className={cx('content-title')}>
+                                                    <NavLink
+                                                        className={cx('btnMenu')}
+                                                        to="#"
+                                                        onClick={() => setBuy(!buy)}
+                                                    >
+                                                        Đặt hàng
+                                                    </NavLink>
+                                                </div>
+                                            ) : (
+                                                <div className={cx('content-title')}>
+                                                    <NavLink
+                                                        className={cx('btnMenu')}
+                                                        to="#"
+                                                        onClick={() => setBuy(!buy)}
+                                                    >
+                                                        Mua hàng
+                                                    </NavLink>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
-                                    <div className={cx('content-title')}>
-                                        <NavLink className={cx('btnMenu')} to={config.routers.Menu}>
-                                            Thanh toán
-                                        </NavLink>
-                                    </div>
-                                </div>
+                                </>
                             ) : (
                                 <div className={cx('content-cart')}>
                                     <h3 className={cx('content-header')}>Giỏ hàng trống</h3>
@@ -276,9 +445,7 @@ function Header({ name, src, price, quatity, size }) {
                             )}
                         </div>
                     </div>
-                ) : (
-                    <div className={cx('container')}></div>
-                )}
+                </Modal>
             </>
         </div>
     );

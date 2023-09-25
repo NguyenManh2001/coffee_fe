@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './AddNews.module.scss';
 import { Link } from 'react-router-dom';
 import config from '~/config/config';
-import Select from 'react-select';
+// import Select from 'react-select';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Controller, useForm } from 'react-hook-form';
@@ -11,11 +11,12 @@ import { useDropzone } from 'react-dropzone';
 import Autocomplete from 'react-autocomplete';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Input, InputNumber, message } from 'antd';
+import { Input, InputNumber, message, Select } from 'antd';
 const { TextArea } = Input;
 const schema = yup
     .object()
     .shape({
+        type: yup.string().required('Cannot be empty'),
         title: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
         describe: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
     })
@@ -56,7 +57,7 @@ function AddNews() {
         uploadData.append('image', file, file.name);
         uploadData.append('title', data.title);
         uploadData.append('describe', data.describe);
-        uploadData.append('type', data.type.value);
+        uploadData.append('type', data.type);
         const res = await axios
             .post('/news/addNews', uploadData)
             .then((res) => {
@@ -81,14 +82,21 @@ function AddNews() {
                                 name="type"
                                 control={control}
                                 render={({ field }) => (
-                                    <Select
-                                        className={cx('dropdown')}
-                                        {...field}
-                                        options={[
-                                            { value: 'Tin tức', label: 'Tin tức' },
-                                            { value: 'Sự kiện', label: 'Sự kiện' },
-                                        ]}
-                                    />
+                                    <div style={{ width: '100%' }}>
+                                        <Select
+                                            className={cx('dropdown')}
+                                            value={watch('type')}
+                                            allowClear
+                                            onChange={(val) => setValue('type', val)}
+                                            options={[
+                                                { value: 'Tin tức', label: 'Tin tức' },
+                                                { value: 'Sự kiện', label: 'Sự kiện' },
+                                            ]}
+                                        />
+                                        {errors.type && (
+                                            <p style={{ margin: '0px', color: 'red' }}>{errors.type.message}</p>
+                                        )}
+                                    </div>
                                 )}
                             />
                         </div>

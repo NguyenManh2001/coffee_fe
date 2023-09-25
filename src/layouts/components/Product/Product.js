@@ -5,6 +5,18 @@ import { MinusIcons, PlusIcons } from '~/Components/icons/icons';
 import { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../Header';
+import Cookies from 'js-cookie';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { Modal } from 'antd';
+import jwt_decode from 'jwt-decode';
+import EditCustomer from '~/Pages/admin/Customer/EditCustomer';
+import AddCustomer from '~/Pages/admin/Customer/AddCustomer';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import config from '~/config';
+import listsMenuSlice from '~/Redux/list/list';
+import { addProductSelector } from '~/Redux/selector';
 
 const cx = classNames.bind(styles);
 
@@ -23,47 +35,100 @@ const sizes = [
     },
 ];
 
-const initState = {
-    menus: [],
-};
-const ADD_MENU = 'add_menu';
+// const initState = {
+//     menus: [],
+// };
+// const ADD_MENU = 'add_menu';
 
-const addMenu = (payload) => {
-    return {
-        type: ADD_MENU,
-        payload,
-    };
-};
-const reducer = (state, action) => {
-    let newState;
-    switch (action.type) {
-        case ADD_MENU:
-            newState = {
-                ...state,
-                menus: [...state.menus, action.payload],
-            };
-            break;
-        default:
-            throw new Error('Invalid action.');
-    }
-    return newState;
-};
+// const addMenu = (payload) => {
+//     return {
+//         type: ADD_MENU,
+//         payload,
+//     };
+// };
+// const reducer = (state, action) => {
+//     let newState;
+//     switch (action.type) {
+//         case ADD_MENU:
+//             newState = {
+//                 ...state,
+//                 menus: [...state.menus, action.payload],
+//             };
+//             break;
+//         default:
+//             throw new Error('Invalid action.');
+//     }
+//     return newState;
+// };
 
-function Product({ src, name, cart, onClick }) {
-    const handleAdd = () => {
-        dispatch(addMenu({ src, name, price, quatity, size }));
-        // onClick();
-    };
-    const [state, dispatch] = useReducer(reducer, initState);
-    const { menus } = state;
+function Product({ _id, src, name, cart, onClick }) {
+    // const [state, dispatch] = useReducer(reducer, initState);
+    // const { menus } = state;
+    const [open, setOpen] = useState(false);
+    const [email, setEmail] = useState();
     const [close, setClose] = useState(true);
     const [input, setInput] = useState('');
     const [check, setCheck] = useState(1);
     const [quatity, setQuatity] = useState(1);
     const [price, setPrice] = useState(0);
     const [size, setSize] = useState('s');
+    const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const cart1 = new Number(cart);
+    const token = Cookies.get('token');
+    useEffect(() => {
+        if (token !== undefined) {
+            const deToken = jwt_decode(token);
+            setEmail(deToken?.email);
+        }
+    }, [token]);
 
+    const { isLoading, data, refetch } = useQuery({
+        queryKey: ['listCustomer', email],
+        queryFn: () => axios.post('/customer/listCustomer', { email }).then((res) => res.data),
+    });
+    // useEffect(() => {
+    //     if (location.state && location.state.successMessage) {
+    //         // success(location.state.successMessage);
+    //         setOpen(false);
+    //         // refetch();
+
+    //         // Đặt giá trị successMessage trong location.state thành null
+    //         const newLocation = { ...location };
+    //         newLocation.state.successMessage = null;
+    //         navigate({ pathname: location.pathname, state: newLocation.state });
+    //     }
+    // }, [location.state]);
+    const ModalEdit = () => (
+        <Modal
+            centered
+            open={open}
+            onOk={() => setOpen(false)}
+            onCancel={() => setOpen(false)}
+            width={1000}
+            footer={null}
+        >
+            <AddCustomer />
+        </Modal>
+    );
+    console.log(_id);
+    const handleAdd = () => {
+        if (token) {
+            if (data?.docs?.length > 0) {
+                if (_id !== undefined) {
+                    dispatch(listsMenuSlice.actions.addProduct({ src, name, price, quatity, size, _id }));
+                    setClose(!close);
+                    onClick();
+                }
+            } else {
+                setOpen(true);
+            }
+        } else {
+            navigate(config.routers.Login);
+        }
+        // onClick();
+    };
     const cart2 = cart1 + 5000;
     const cart3 = cart1 + 10000;
     const handleSubmit = () => {
@@ -129,10 +194,11 @@ function Product({ src, name, cart, onClick }) {
     };
     return (
         <>
-            {close ? (
+            {close && (
                 <div className={cx('wrapper')}>
                     <div className={cx('container')}>
                         <div className={cx('content')}>
+                            {!data?.docs?.length && <ModalEdit />}
                             <button className={cx('btn')} onClick={handleSubmit} aria-label="Close"></button>
                             <div className={cx('conntent-item')}>
                                 <Images className={cx('logo')} src={src} />
@@ -185,8 +251,8 @@ function Product({ src, name, cart, onClick }) {
                             </div>
                         </div>
                     </div>
-                    <>
-                        {menus.map((menu, index) => (
+                    {/* <>
+                        {menus?.map((menu, index) => (
                             <Header
                                 key={index}
                                 size={size}
@@ -196,15 +262,14 @@ function Product({ src, name, cart, onClick }) {
                                 price={menu.price}
                             />
                         ))}
-                    </>
+                    </> */}
                 </div>
-            ) : (
-                <div className={cx('wraper')}></div>
             )}
         </>
     );
 }
 Product.propType = {
+    _id: PropTypes.string,
     src: PropTypes.string,
     name: PropTypes.string,
     cart: PropTypes.string,

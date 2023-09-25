@@ -89,10 +89,10 @@
     border-radius: 7px;
 }
 .content{
-    height: 353px;
+    height: 650px;
     padding: 11px 10px 9px;
     margin: 10px 2px;
-    // overflow: scroll;
+    overflow: auto;
 }
 tr:hover {
     background: none !important;

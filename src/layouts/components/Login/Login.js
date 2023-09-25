@@ -78,21 +78,6 @@ function Login() {
                     });
                 }
             }
-            const token1 = Cookies.get('token');
-            if (token1) {
-                const decodedToken = jwt_decode(token1);
-                const newUserRole = decodedToken.role;
-                dispatch(filterSlice.actions.token(decodedToken));
-                if (newUserRole === 1) {
-                    navigate(config.routers.MenuAdmin, {
-                        state: { successMessage: 'Bạn đã đăng nhập thành công!!!' },
-                    });
-                } else if (newUserRole === 0) {
-                    navigate(config.routers.Home, {
-                        state: { successMessage: 'Bạn đã đăng nhập thành công!!!' },
-                    });
-                }
-            }
         } catch (err) {
             console.log('loi', err);
         }

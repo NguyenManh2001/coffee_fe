@@ -112,7 +112,6 @@ function Menu() {
     const [product, setProduct] = useState(false);
     const [header, setHeader] = useState(1);
 
-
     const renderItems = () => {
         return MENUS.map((MENU) => {
             if (MENU.id === header) {
@@ -124,17 +123,20 @@ function Menu() {
                                 src={MENU.src}
                                 name={MENU.title}
                                 cart={MENU.price}
+                                onClick={() => {
+                                    setProduct(false);
+                                }}
                             />
                         ) : (
                             <div></div>
                         )}
                     </div>
-                )
+                );
             }
-        })
-    }
+        });
+    };
     return (
-        <div className={cx('wrapper')}>
+        <div id="top" className={cx('wrapper')}>
             <MenuFeat className={cx('menu')}>
                 {MENUS.map((MENU) => (
                     <MenuItems1

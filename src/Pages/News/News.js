@@ -8,13 +8,13 @@ const cx = classNames.bind(styles);
 
 function News() {
     return (
-        <div className={cx('wrapper')}>
+        <div id="top" className={cx('wrapper')}>
             <div className={cx('container')}>
                 <div className={cx('main-right')}>
                     <div className={cx('img-content', 'image-1')}></div>
                     <div className={cx('content-item')}>
                         <ContentItem
-                        to={config.routers.News1}
+                            to={config.routers.News1}
                             header='Năm mới, uống "cực sung" - Nhận lì xì khủng'
                             icon={<DateIcons />}
                             date="04/03/2022"
@@ -26,7 +26,7 @@ function News() {
                     <div className={cx('img-content', 'image-2')}></div>
                     <div className={cx('content-item')}>
                         <ContentItem
-                          to={config.routers.News1}
+                            to={config.routers.News1}
                             header="Tết cận kề - Fan Coffee Cup có quà năm mới..."
                             icon={<DateIcons />}
                             date="14/02/2022"
@@ -38,7 +38,7 @@ function News() {
                     <div className={cx('img-content', 'image-3')}></div>
                     <div className={cx('content-item')}>
                         <ContentItem
-                          to={config.routers.News1}
+                            to={config.routers.News1}
                             header="Coffee Cup - Quán cà phê lý tưởng để gặp gỡ bạn bè mùa Tết này"
                             icon={<DateIcons />}
                             date="24/01/2022"
@@ -50,7 +50,7 @@ function News() {
                     <div className={cx('img-content', 'image-4')}></div>
                     <div className={cx('content-item')}>
                         <ContentItem
-                          to={config.routers.News1}
+                            to={config.routers.News1}
                             header="Khai trương cơ sở Tây Sơn, giảm giá lên tới 50%"
                             icon={<DateIcons />}
                             date="14/01/2022"

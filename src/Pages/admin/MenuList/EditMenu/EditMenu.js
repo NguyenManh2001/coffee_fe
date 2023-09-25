@@ -128,7 +128,7 @@ function EditMenu(props) {
                                 Loại sản phẩm:<span className={cx('star')}>*</span>
                             </div>
                             <Controller
-                                name="select"
+                                name="type"
                                 control={control}
                                 render={({ field }) => (
                                     <Select

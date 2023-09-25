@@ -139,9 +139,9 @@ function MenuList() {
         queryKey: ['data', type, page, search],
         queryFn: () => axios.post('/menuList/ListMenu', { page, type, search }).then((res) => res.data),
     });
-    console.log(data);
-    const isdata = !datas?.length;
 
+    const isdata = !data?.docs?.length;
+    console.log(isdata);
     return (
         <div className={cx('Wrapper')}>
             {contextHolder}
@@ -195,47 +195,58 @@ function MenuList() {
                                     <th colSpan={2}>Chức năng</th>
                                 </tr>
                             </thead>
-                            {/* {isdata ? (
-                                <div style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}>
-                                    <Empty />
-                                </div>
-                            ) : (
-                                <> */}
-                            {/* {data?.products?.map((data) => ( */}
                             <tbody>
-                                {data?.docs?.map((menu, index) => (
-                                    <tr key={menu._id} style={{ lineHeight: '65px' }}>
-                                        <td>{index + 1}</td>
-                                        <td>{menu.name}</td>
-                                        <td style={{ width: '100px' }}>
-                                            <img style={{ width: '100%', height: '100%' }} src={menu?.link} />
-                                        </td>
-                                        <td>{menu.price}</td>
-                                        <td>{formatTime(menu.createdAt)}</td>
-                                        <td>
-                                            <Link className={cx('icon')} to="#" onClick={() => handleUpdate(menu)}>
-                                                <BiEditAlt />
-                                            </Link>
-                                            <Link className={cx('icon')} to="#" onClick={() => handldeDelete(menu._id)}>
-                                                <RiDeleteBin6Line />
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {isdata ? (
+                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}>
+                                        <Empty />
+                                    </div>
+                                ) : (
+                                    <>
+                                        {data?.docs?.map((menu, index) => (
+                                            <tr key={menu._id} style={{ lineHeight: '65px' }}>
+                                                <td>{index + 1}</td>
+                                                <td>{menu.name}</td>
+                                                <td style={{ width: '100px' }}>
+                                                    <img style={{ width: '100%', height: '100%' }} src={menu?.link} />
+                                                </td>
+                                                <td>{menu.price}</td>
+                                                <td>{formatTime(menu.createdAt)}</td>
+                                                <td>
+                                                    <Link
+                                                        className={cx('icon')}
+                                                        to="#"
+                                                        onClick={() => handleUpdate(menu)}
+                                                    >
+                                                        <BiEditAlt />
+                                                    </Link>
+                                                    <Link
+                                                        className={cx('icon')}
+                                                        to="#"
+                                                        onClick={() => handldeDelete(menu._id)}
+                                                    >
+                                                        <RiDeleteBin6Line />
+                                                    </Link>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </>
+                                )}
                             </tbody>
                             {/* ))} */}
                             {/* </>
                             )} */}
                         </Table>
-                        <div className={cx('footer')}>
-                            <Pagination
-                                defaultCurrent={1}
-                                total={data?.totalDocs}
-                                defaultPageSize={7}
-                                current={page}
-                                onChange={handlePageChange}
-                            />
-                        </div>
+                        {!isdata && (
+                            <div className={cx('footer')}>
+                                <Pagination
+                                    defaultCurrent={1}
+                                    total={data?.totalDocs}
+                                    defaultPageSize={5}
+                                    current={page}
+                                    onChange={handlePageChange}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

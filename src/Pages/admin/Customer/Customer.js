@@ -134,7 +134,7 @@ function Customer() {
     //         });
     // }, []);
 
-    const isdata = !datas?.length;
+    const isdata = !data?.docs?.length;
 
     return (
         <div className={cx('Wrapper')}>
@@ -191,36 +191,50 @@ function Customer() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data?.docs?.map((data, index) => (
-                                    <tr key={data._id}>
-                                        <td>{index + 1}</td>
-                                        <td>{data.name}</td>
-                                        <td>{data.gender}</td>
-                                        <td>{data.address}</td>
-                                        <td>{data.email}</td>
-                                        <td>{data.number}</td>
-                                        <td>{formatTime(data.createdAt)}</td>
-                                        <td>
-                                            {/* <Link className={cx('icon')} to="#" onClick={() => handleUpdate(data)}>
+                                {isdata ? (
+                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '65%' }}>
+                                        <Empty />
+                                    </div>
+                                ) : (
+                                    <>
+                                        {data?.docs?.map((data, index) => (
+                                            <tr key={data._id}>
+                                                <td>{index + 1}</td>
+                                                <td>{data.name}</td>
+                                                <td>{data.gender}</td>
+                                                <td>{data.address}</td>
+                                                <td>{data.email}</td>
+                                                <td>{data.number}</td>
+                                                <td>{formatTime(data.createdAt)}</td>
+                                                <td>
+                                                    {/* <Link className={cx('icon')} to="#" onClick={() => handleUpdate(data)}>
                                                 <BiEditAlt />
                                             </Link> */}
-                                            <Link className={cx('icon')} onClick={() => handleDelete(data._id)} to="#">
-                                                <RiDeleteBin6Line />
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                ))}
+                                                    <Link
+                                                        className={cx('icon')}
+                                                        onClick={() => handleDelete(data._id)}
+                                                        to="#"
+                                                    >
+                                                        <RiDeleteBin6Line />
+                                                    </Link>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </>
+                                )}
                             </tbody>
                         </Table>
-                        <div className={cx('footer')}>
-                            <Pagination
-                                defaultCurrent={1}
-                                total={data?.totalDocs}
-                                // defaultPageSize={10}
-                                current={page}
-                                onChange={handlePageChange}
-                            />
-                        </div>
+                        {!isdata && (
+                            <div className={cx('footer')}>
+                                <Pagination
+                                    defaultCurrent={1}
+                                    total={data?.totalDocs}
+                                    // defaultPageSize={10}
+                                    current={page}
+                                    onChange={handlePageChange}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
