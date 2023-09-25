@@ -139,7 +139,7 @@ function MenuList() {
         queryKey: ['data', type, page, search],
         queryFn: () =>
             axios
-                .get('https://coffee-bills.onrender.com/menuList/ListMenu', { page, type, search })
+                .post('https://coffee-bills.onrender.com/menuList/ListMenu', { page, type, search })
                 .then((res) => res.data),
     });
 
