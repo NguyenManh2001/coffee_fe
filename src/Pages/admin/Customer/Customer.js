@@ -18,6 +18,7 @@ import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import EditCustomer from './EditCustomer';
+import { exportToExcel } from '~/Components/exel/exel';
 
 const { Search } = Input;
 const { confirm } = Modal;
@@ -136,7 +137,9 @@ function Customer() {
     //             console.log(err);
     //         });
     // }, []);
-
+    const handleExl = () => {
+        exportToExcel(data.docs);
+    };
     const isdata = !data?.docs?.length;
 
     return (
@@ -146,7 +149,7 @@ function Customer() {
                 <div className={cx('header')}>
                     <div className={cx('NameHeader')}>danh sách khách hàng</div>
                     <div className={cx('btnHeader')}>
-                        <Link to="#" className={cx('btnIconAdd')}>
+                        <Link to="#" className={cx('btnIconAdd')} onClick={handleExl}>
                             {/* <AddIcons className={cx('IconAdd')} /> */}
                             Export Exel
                         </Link>

@@ -21,8 +21,8 @@ import { Button, Input, InputNumber, message, Select } from 'antd';
 const schema = yup
     .object()
     .shape({
-        // name: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
-        // // gender: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        email: yup.string().required('Không được để trống').matches(/@/, 'Email phải bao gồm "@"'),
+        password: yup.string().required('Không được để trống').max(255, 'Maximum length: 255 characters'),
         // address: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
         // email: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
         // number: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
@@ -218,7 +218,7 @@ function Login() {
                             <div className={cx('submit')}>
                                 <div className={cx('btn')}>
                                     <button type="submit" className={cx('btnLogin')}>
-                                        Xác nhận
+                                        Đăng nhập
                                     </button>
                                 </div>
                             </div>

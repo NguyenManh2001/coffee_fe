@@ -50,9 +50,13 @@
 }
 .ColorLoginIcon{
     color: #fff !important;
-    margin: 0px 15px 0px 0px;
+    // margin: 0px 15px 0px 0px;
     cursor: pointer;
     padding: 5px;
+
+    &:hover{
+        color: #c24914!important;
+    }
 }
 .content{
     width: 100%;

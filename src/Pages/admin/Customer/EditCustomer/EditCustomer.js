@@ -21,7 +21,10 @@ const schema = yup
         // gender: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
         address: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
         email: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
-        number: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        number: yup
+            .string()
+            .matches(/^\d{10}$/gm, 'Số điện thoại không hợp lệ') // Đây là một ví dụ đơn giản, bạn có thể định nghĩa quy tắc xác thực phức tạp hơn
+            .required('Vui lòng nhập số điện thoại'),
     })
     .required();
 const cx = classNames.bind(styles);

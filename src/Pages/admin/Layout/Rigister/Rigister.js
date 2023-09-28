@@ -6,7 +6,7 @@ import config from '~/config';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Controller, useForm } from 'react-hook-form';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import Autocomplete from 'react-autocomplete';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -84,7 +84,9 @@ function Rigister() {
                 <div className={cx('content')}>
                     <div className={cx('headericon')}>
                         <div className={cx('iconClose')}>
-                            <AiOutlineClose />
+                            <Link to={config.routers.Home}>
+                                <AiOutlineClose />
+                            </Link>
                         </div>
                     </div>
                     <div className={cx('header')}>Đăng ký tài khoản</div>

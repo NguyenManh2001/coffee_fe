@@ -15,8 +15,9 @@ import { Input, InputNumber, message, Select } from 'antd';
 const schema = yup
     .object()
     .shape({
-        name: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
-        price: yup.number().required('Cannot be empty').moreThan(0, 'Value must be greater than 0'),
+        name: yup.string().required('Không được để trống').max(255, 'Maximum length: 255 characters'),
+        type: yup.string().required('Không được để trống'),
+        price: yup.number().required('Không được để trống').moreThan(0, 'Giá trị phải lớn hơn 0'),
     })
     .required();
 const cx = classNames.bind(styles);
@@ -80,17 +81,21 @@ function AddMenu() {
                                 name="type"
                                 control={control}
                                 render={({ field }) => (
-                                    <Select
-                                        className={cx('dropdown')}
-                                        value={watch('type')}
-                                        allowClear
-                                        onChange={(val) => setValue('type', val)}
-                                        options={[
-                                            { value: 'Coffee', label: 'Coffee' },
-                                            { value: 'Freeze', label: 'Freeze' },
-                                            { value: 'Tea', label: 'Tea' },
-                                        ]}
-                                    />
+                                    <div style={{ width: '100%' }}>
+                                        <Select
+                                            className={cx('dropdown')}
+                                            value={watch('type')}
+                                            allowClear
+                                            onChange={(val) => setValue('type', val)}
+                                            status={errors.type?.message ? 'error' : null}
+                                            options={[
+                                                { value: 'Coffee', label: 'Coffee' },
+                                                { value: 'Freeze', label: 'Freeze' },
+                                                { value: 'Tea', label: 'Tea' },
+                                            ]}
+                                        />
+                                        <p style={{ margin: '0px', color: 'red' }}>{errors.type?.message}</p>
+                                    </div>
                                 )}
                             />
                         </div>
@@ -106,7 +111,7 @@ function AddMenu() {
                                         <Input
                                             {...field}
                                             status={errors.name?.message ? 'error' : null}
-                                            placeholder="Basic usage"
+                                            placeholder="Nhập thông tin sản phẩm"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.name?.message}</p>
                                     </div>
@@ -114,9 +119,7 @@ function AddMenu() {
                             />
                         </div>
                         <div className={cx('contentItem')}>
-                            <div className={cx('name')}>
-                                Link ảnh:<span className={cx('star')}>*</span>
-                            </div>
+                            <div className={cx('name')}>Link ảnh:</div>
                             <div className={cx('inputLink')}>
                                 <div {...getRootProps()}>
                                     <div>{file ? file.name : 'Drag and drop image here or upload from device'}</div>
@@ -153,8 +156,10 @@ function AddMenu() {
                                     <div style={{ width: '100%' }}>
                                         <InputNumber
                                             style={{ width: '100%' }}
+                                            placeholder="Nhập giá tiền(loại tiền VND)"
                                             {...field}
                                             status={errors.price?.message ? 'error' : null}
+                                            className={cx('placeHoler')}
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.price?.message}</p>
                                     </div>

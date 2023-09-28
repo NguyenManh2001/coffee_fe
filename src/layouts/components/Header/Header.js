@@ -35,6 +35,7 @@ function Header({ name, src, price, quatity, size }) {
     const [check, setCheck] = useState(false);
     const [checkedList, setCheckedList] = useState([]);
     const [priceList, setPriceList] = useState(0);
+    const [productId, setProductId] = useState([]);
     const successMessage = location.state?.successMessage;
 
     const [messageApi, contextHolder] = message.useMessage(successMessage);
@@ -69,6 +70,12 @@ function Header({ name, src, price, quatity, size }) {
     const handleInfomation = () => {
         setOpen(true);
     };
+    const [value, setValue] = useState(1);
+
+    const onChange = (e) => {
+        console.log('radio checked', e.target.value);
+        setValue(e.target.value);
+    };
     useEffect(() => {
         if (token !== undefined) {
             const deToken = jwt_decode(token);
@@ -82,6 +89,7 @@ function Header({ name, src, price, quatity, size }) {
             axios.post('https://coffee-bills.onrender.com/customer/listCustomer', { email }).then((res) => res.data),
     });
     console.log(data);
+
     const ModalEdit = () => (
         <Modal
             centered
@@ -94,35 +102,24 @@ function Header({ name, src, price, quatity, size }) {
             {data?.docs?.length > 0 ? <EditCustomer data={data} /> : <AddCustomer />}
         </Modal>
     );
-    const items = email
-        ? [
-              {
-                  key: '1',
-                  label: (
-                      <NavLink to="#" onClick={handleInfomation}>
-                          Thông tin cá nhân
-                      </NavLink>
-                  ),
-              },
-              {
-                  key: '2',
-                  label: (
-                      <NavLink to="#" onClick={handleLogout}>
-                          Đăng xuất
-                      </NavLink>
-                  ),
-              },
-          ]
-        : [
-              {
-                  key: '1',
-                  label: <NavLink to={config.routers.Login}>Đăng nhập</NavLink>,
-              },
-              {
-                  key: '2',
-                  label: <NavLink to={config.routers.Rigister}>Đăng ký</NavLink>,
-              },
-          ];
+    const items = [
+        {
+            key: '1',
+            label: (
+                <NavLink to="#" onClick={handleInfomation}>
+                    Thông tin cá nhân
+                </NavLink>
+            ),
+        },
+        {
+            key: '2',
+            label: (
+                <NavLink to="#" onClick={handleLogout}>
+                    Đăng xuất
+                </NavLink>
+            ),
+        },
+    ];
 
     useEffect(() => {
         const handleScroll = () => {
@@ -147,12 +144,15 @@ function Header({ name, src, price, quatity, size }) {
         if (updatedCheckedList.includes(index)) {
             if (list.includes(menu)) {
                 setList(list.filter((item) => item !== menu));
+                setProductId(productId.filter((item) => item !== menu._id));
             } else {
                 setList([...list, menu]);
+                setProductId([...productId, { product: menu._id, quantity: menu.quatity, size: menu.size }]);
             }
             updatedCheckedList.splice(updatedCheckedList.indexOf(index), 1);
         } else {
             setList([...list, menu]);
+            setProductId([...productId, { product: menu._id, quantity: menu.quatity, size: menu.size }]);
             updatedCheckedList.push(index);
         }
 
@@ -172,7 +172,37 @@ function Header({ name, src, price, quatity, size }) {
             setPriceList(totalPrice);
         }
     }, [list]);
-    console.log(list);
+    const handleBuy = async () => {
+        if (value === 1) {
+            try {
+                const res = await axios.post('https://coffee-bills.onrender.com/orders/addOrder', {
+                    customerId: data?.docs[0]?._id,
+                    productId: productId,
+                    total: priceList,
+                    isPaid: false,
+                });
+                if (res) {
+                    navigate(config.routers.Home, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
+                } else {
+                    console.log('lỗi');
+                }
+            } catch (error) {}
+        }
+        if (value === 2) {
+            try {
+                const res = await axios.post('https://coffee-bills.onrender.com/payment/create_payment', {
+                    amount: priceList,
+                    isPaid: true,
+                });
+                if (res) {
+                    navigate(config.routers.Home, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
+                } else {
+                    console.log('lỗi');
+                }
+            } catch (error) {}
+        }
+    };
+    console.log(data?.docs[0]?._id);
     const onChangeAll = (e) => {
         const newSelectAllChecked = !checked; // Đảo ngược trạng thái checkbox tổng cộng
         setChecked(newSelectAllChecked);
@@ -182,6 +212,7 @@ function Header({ name, src, price, quatity, size }) {
             const allIndices = menus.map((_, index) => index);
             setCheckedList(allIndices);
             setList(menus);
+            setProductId(menus.map((menu) => ({ product: menu._id, quantity: menu.quatity, size: menu.size })));
             const totalPrice = menus.reduce((acc, menu) => {
                 const price = parseInt(menu.price); // Chuyển price thành số
                 return acc + price;
@@ -193,13 +224,8 @@ function Header({ name, src, price, quatity, size }) {
             setPriceList(0);
         }
     };
-    console.log(priceList);
-    const [value, setValue] = useState(1);
+    console.log(productId);
 
-    const onChange = (e) => {
-        console.log('radio checked', e.target.value);
-        setValue(e.target.value);
-    };
     return (
         <div className={cx('wraper')}>
             <>
@@ -261,20 +287,30 @@ function Header({ name, src, price, quatity, size }) {
                                 <span style={{ lineHeight: '41px', color: '#fff' }}>{email}</span>
                             </>
                         ) : (
-                            <Dropdown
-                                className={cx('ColorLoginIcon')}
-                                menu={{
-                                    items,
-                                }}
-                                placement="bottom"
-                                arrow={{
-                                    pointAtCenter: true,
-                                }}
-                            >
-                                <NavLink className={cx('ColorLoginIcon')} to="#">
-                                    <LoginIcons />
+                            // <Dropdown
+                            //     className={cx('ColorLoginIcon')}
+                            //     menu={{
+                            //         items,
+                            //     }}
+                            //     placement="bottom"
+                            //     arrow={{
+                            //         pointAtCenter: true,
+                            //     }}
+                            // >
+                            //     <NavLink className={cx('ColorLoginIcon')} to="#">
+                            //         <LoginIcons />
+                            //     </NavLink>
+                            // </Dropdown>
+
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <NavLink className={cx('ColorLoginIcon')} to={config.routers.Login}>
+                                    Đăng nhập
                                 </NavLink>
-                            </Dropdown>
+                                <p style={{ color: '#fff', margin: ' 5px' }}>/</p>
+                                <NavLink className={cx('ColorLoginIcon')} to={config.routers.Rigister}>
+                                    Đăng ký
+                                </NavLink>
+                            </div>
                         )}
                     </div>
                     <ModalEdit />
@@ -408,11 +444,7 @@ function Header({ name, src, price, quatity, size }) {
                                             {/* <div className={cx('cart-price')}>{price}đ</div> */}
                                             {buy ? (
                                                 <div className={cx('content-title')}>
-                                                    <NavLink
-                                                        className={cx('btnMenu')}
-                                                        to="#"
-                                                        onClick={() => setBuy(!buy)}
-                                                    >
+                                                    <NavLink className={cx('btnMenu')} to="#" onClick={handleBuy}>
                                                         Đặt hàng
                                                     </NavLink>
                                                 </div>
@@ -432,8 +464,10 @@ function Header({ name, src, price, quatity, size }) {
                                 </>
                             ) : (
                                 <div className={cx('content-cart')}>
-                                    <h3 className={cx('content-header')}>Giỏ hàng trống</h3>
-                                    <div className={cx('content-title')}>
+                                    <h3 className={cx('content-header')} style={{ textAlign: 'center' }}>
+                                        Giỏ hàng trống
+                                    </h3>
+                                    <div className={cx('content-title')} style={{ textAlign: 'center' }}>
                                         <NavLink
                                             className={cx('btnMenu')}
                                             onClick={handleSubmit}

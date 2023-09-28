@@ -49,7 +49,7 @@ const AdminLayout = ({ children }) => {
     //     setShowModal(false); // Ẩn modal khi rời chuột
     // };
     return (
-        <Layout style={{ height: '948px' }}>
+        <Layout style={{ height: '884px' }}>
             <Sider trigger={null} style={{ width: 256 }} collapsible collapsed={collapsed}>
                 <Space wrap>
                     <div style={{ height: '50px' }}></div>
@@ -74,9 +74,9 @@ const AdminLayout = ({ children }) => {
                             icon: <HiOutlineUserGroup style={{ fontSize: '20px' }} />,
                         },
                         {
-                            label: 'Hóa Đơn',
+                            label: 'Đơn Hàng',
                             icon: <FaMoneyBillAlt style={{ fontSize: '20px' }} />,
-                            key: config.routers.Invoice,
+                            key: config.routers.Order,
                         },
                         {
                             label: 'Tin tức',

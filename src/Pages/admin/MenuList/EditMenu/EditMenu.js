@@ -16,6 +16,7 @@ const schema = yup
     .object()
     .shape({
         name: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        type: yup.string().required('Không được để trống'),
         price: yup.number().required('Cannot be empty').moreThan(0, 'Value must be greater than 0'),
     })
     .required();
@@ -131,17 +132,21 @@ function EditMenu(props) {
                                 name="type"
                                 control={control}
                                 render={({ field }) => (
-                                    <Select
-                                        className={cx('dropdown')}
-                                        value={watch('type')}
-                                        allowClear
-                                        onChange={(val) => setValue('type', val)}
-                                        options={[
-                                            { value: 'Coffee', label: 'Coffee' },
-                                            { value: 'Freeze', label: 'Freeze' },
-                                            { value: 'Tea', label: 'Tea' },
-                                        ]}
-                                    />
+                                    <div style={{ width: '100%' }}>
+                                        <Select
+                                            className={cx('dropdown')}
+                                            value={watch('type')}
+                                            allowClear
+                                            status={errors.type?.message ? 'error' : null}
+                                            onChange={(val) => setValue('type', val)}
+                                            options={[
+                                                { value: 'Coffee', label: 'Coffee' },
+                                                { value: 'Freeze', label: 'Freeze' },
+                                                { value: 'Tea', label: 'Tea' },
+                                            ]}
+                                        />
+                                        <p style={{ margin: '0px', color: 'red' }}>{errors.type?.message}</p>
+                                    </div>
                                 )}
                             />
                         </div>
@@ -158,7 +163,7 @@ function EditMenu(props) {
                                             id="name"
                                             {...field}
                                             status={errors.name?.message ? 'error' : null}
-                                            placeholder="Basic usage"
+                                            placeholder="Nhập thông tin sản phẩm"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.name?.message}</p>
                                     </div>
@@ -166,9 +171,7 @@ function EditMenu(props) {
                             />
                         </div>
                         <div className={cx('contentItem')}>
-                            <div className={cx('name')}>
-                                Link ảnh:<span className={cx('star')}>*</span>
-                            </div>
+                            <div className={cx('name')}>Link ảnh:</div>
                             <div className={cx('inputLink')}>
                                 <div {...getRootProps()}>
                                     <div>{file ? file.name : 'Drag and drop image here or upload from device'}</div>
@@ -206,7 +209,9 @@ function EditMenu(props) {
                                         <InputNumber
                                             style={{ width: '100%' }}
                                             {...field}
+                                            placeholder="Nhập giá tiền(loại tiền VND)"
                                             status={errors.price?.message ? 'error' : null}
+                                            inputStyle={{ color: '#cccc' }}
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.price?.message}</p>
                                     </div>

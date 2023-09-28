@@ -18,11 +18,14 @@ import { Button, Input, InputNumber, message, Select } from 'antd';
 const schema = yup
     .object()
     .shape({
-        name: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
-        // gender: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
-        address: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        name: yup.string().required('Vui lòng nhập thông tin').max(255, 'Maximum length: 255 characters'),
+        gender: yup.string().required('Vui lòng chọn giới tính'),
+        address: yup.string().required('Vui lòng nhập thông tin').max(255, 'Maximum length: 255 characters'),
         // email: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
-        number: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        number: yup
+            .string()
+            .matches(/^(0\d{9})$/, 'Số điện thoại không hợp lệ') // Đây là một ví dụ đơn giản, bạn có thể định nghĩa quy tắc xác thực phức tạp hơn
+            .required('Vui lòng nhập số điện thoại'),
     })
     .required();
 const cx = classNames.bind(styles);
@@ -80,7 +83,7 @@ function AddCustomer() {
                                         <Input
                                             {...field}
                                             status={errors.name?.message ? 'error' : null}
-                                            placeholder="Basic usage"
+                                            placeholder="Nhập họ và tên"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.name?.message}</p>
                                     </div>
@@ -95,16 +98,20 @@ function AddCustomer() {
                                 name="gender"
                                 control={control}
                                 render={({ field }) => (
-                                    <Select
-                                        className={cx('dropdown')}
-                                        value={watch('gender')}
-                                        allowClear
-                                        onChange={(val) => setValue('gender', val)}
-                                        options={[
-                                            { value: 'Nam', label: 'Nam' },
-                                            { value: 'Nữ', label: 'Nữ' },
-                                        ]}
-                                    />
+                                    <div style={{ width: '100%' }}>
+                                        <Select
+                                            className={cx('dropdown')}
+                                            value={watch('gender')}
+                                            allowClear
+                                            onChange={(val) => setValue('gender', val)}
+                                            status={errors.gender?.message ? 'error' : null}
+                                            options={[
+                                                { value: 'Nam', label: 'Nam' },
+                                                { value: 'Nữ', label: 'Nữ' },
+                                            ]}
+                                        />
+                                        <p style={{ margin: '0px', color: 'red' }}>{errors.gender?.message}</p>
+                                    </div>
                                 )}
                             />
                         </div>
@@ -120,7 +127,7 @@ function AddCustomer() {
                                         <Input
                                             {...field}
                                             status={errors.address?.message ? 'error' : null}
-                                            placeholder="Basic usage"
+                                            placeholder="Nhập địa chỉ"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.address?.message}</p>
                                     </div>
@@ -158,7 +165,7 @@ function AddCustomer() {
                                         <Input
                                             {...field}
                                             status={errors.number?.message ? 'error' : null}
-                                            placeholder="Basic usage"
+                                            placeholder="Nhập số điện thoại"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.number?.message}</p>
                                     </div>

@@ -21,7 +21,7 @@ const routers = {
     Customer: '/Admin/Customer',
     AddCustomer: '/Admin/Customer/AddCustomer',
     // EditCustomer:'/Admin/Customer/EditCustomer',
-    Invoice: '/Admin/Invoice',
+    Order: '/Admin/Order',
     NewsAdmin: '/Admin/News',
     AddNews: '/Admin/News/AddNews',
 };

@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './MenuList.module.scss';
+import styles from './Order.module.scss';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import { AddIcons } from '~/Components/icons/icons';
@@ -13,30 +13,30 @@ import listsMenuSlice from '~/Redux/list/list';
 import filterSlice from '~/Redux/filters/filters';
 import { searchitemSelector } from '~/Redux/selector';
 import { Pagination, Select } from 'antd';
-import EditMenu from './EditMenu';
 import { Empty, Button, Modal, message, Alert, Input } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import { MapContainer } from '~/Components/Map/Map';
+import { EyeInvisibleOutlined, EyeOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import OrderDetails from './OrderDetails/OrderDetails';
+import { exportToExcel } from '~/Components/exel/exel';
 
 const { Search } = Input;
 const { confirm } = Modal;
 const cx = classNames.bind(styles);
 
-function MenuList() {
-    const [page, setPage] = useState(1);
-    const [type, setType] = useState('');
-    const [search, setSearch] = useState('');
+function Order() {
     const [open, setOpen] = useState(false);
     const [editData, setEditData] = useState();
-    const [searchValue, setSearchValue] = useState(' ');
+    const [page, setPage] = useState(1);
+    const [select, setSelect] = useState(10);
+    const [search, setSearch] = useState('');
+    const [eye, setEye] = useState({});
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const location = useLocation();
-    const successMessage = location.state?.successMessage;
+    // const location = useLocation();
+    // const successMessage = location.state?.successMessage;
 
-    const [messageApi, contextHolder] = message.useMessage(successMessage);
+    const [messageApi, contextHolder] = message.useMessage();
 
     const success = (message) => {
         messageApi.open({
@@ -45,25 +45,26 @@ function MenuList() {
         });
     };
 
-    useEffect(() => {
-        if (location.state && location.state.successMessage) {
-            success(location.state.successMessage);
-            setOpen(false);
-            refetch();
+    // useEffect(() => {
+    //     if (location.state && location.state.successMessage) {
+    //         success(location.state.successMessage);
+    //         setOpen(false);
+    //         refetch();
 
-            // Đặt giá trị successMessage trong location.state thành null
-            const newLocation = { ...location };
-            newLocation.state.successMessage = null;
-            navigate({ pathname: location.pathname, state: newLocation.state });
-        }
-    }, [location.state]);
+    //         // Đặt giá trị successMessage trong location.state thành null
+    //         const newLocation = { ...location };
+    //         newLocation.state.successMessage = null;
+    //         navigate({ pathname: location.pathname, state: newLocation.state });
+    //     }
+    // }, [location.state]);
+
     const error = () => {
         messageApi.open({
             type: 'error',
             content: 'Bạn xóa không thành công',
         });
     };
-    const handldeDelete = (id) => {
+    const handleDelete = (id) => {
         confirm({
             title: 'Delete',
             icon: <QuestionCircleOutlined />,
@@ -73,7 +74,7 @@ function MenuList() {
             cancelText: 'No',
             onOk() {
                 axios
-                    .delete(`https://coffee-bills.onrender.com/product/deleteProduct/${id}`)
+                    .delete(`https://coffee-bills.onrender.com/orders/deleteOrder/${id}`)
                     .then((res) => {
                         success('Bạn đã xóa thành công');
                         refetch();
@@ -87,28 +88,34 @@ function MenuList() {
             },
         });
     };
-
-    const onSearch = (value, _e, info) => console.log(info?.source, value);
-    const datas = useSelector(searchitemSelector);
+    const handlePageChange = (page) => {
+        setPage(page);
+    };
     const handleSelected = (value) => {
-        if (value === 'Tất cả') {
-            setType('');
-        } else {
-            setType(value);
-        }
+        setSelect(value);
         dispatch(filterSlice.actions.list(value));
     };
-    console.log(type);
     const handleSearch = (e) => {
         setSearch(e);
         // dispatch(filterSlice.actions.searchListMenu(result));
     };
+    const { isLoading, data, refetch } = useQuery({
+        queryKey: ['dataOrder', select, page, search],
+        queryFn: () =>
+            axios
+                .post('https://coffee-bills.onrender.com/orders/listOrder', { page, select, search })
+                .then((res) => res.data),
+    });
+    console.log(data);
+    // const onSearch = (value, _e, info) => console.log(info?.source, value);
+    const datas = useSelector(searchitemSelector);
     const handleUpdate = (data) => {
         setOpen(!open);
         setEditData(data);
-    };
-    const handlePageChange = (page) => {
-        setPage(page);
+        setEye((prevState) => ({
+            ...prevState,
+            [data._id]: !prevState[data._id],
+        }));
     };
     // const handleChange = (value) => {
     //     console.log(`selected ${value}`);
@@ -118,16 +125,19 @@ function MenuList() {
             centered
             open={open}
             onOk={() => setOpen(false)}
-            onCancel={() => setOpen(false)}
-            width={1000}
+            onCancel={() => {
+                setOpen(false);
+                setEye({});
+            }}
+            width={670}
             footer={null}
         >
-            <EditMenu data={editData} />
+            <OrderDetails data={editData} handle={open} />
         </Modal>
     );
     // useEffect(() => {
     //     axios
-    //         .post('/menuList/ListMenu')
+    //         .post('/ Order/ListMenu')
     //         .then((res) => {
     //             dispatch(listsMenuSlice.actions.addListMenu(res.data));
     //             dispatch(filterSlice.actions.list(selected));
@@ -136,49 +146,39 @@ function MenuList() {
     //             console.log(err);
     //         });
     // }, []);
-    const { isLoading, data, refetch } = useQuery({
-        queryKey: ['data', type, page, search],
-        queryFn: () =>
-            axios
-                .post('https://coffee-bills.onrender.com/product/listProduct', { page, type, search })
-                .then((res) => res.data),
-    });
-
+    const handleExl = () => {
+        exportToExcel(data.docs);
+    };
     const isdata = !data?.docs?.length;
-    console.log(isdata);
+
     return (
         <div className={cx('Wrapper')}>
             {contextHolder}
             <div className={cx('Container')}>
                 <div className={cx('header')}>
-                    <div className={cx('NameHeader')}>danh sách sản phẩm</div>
+                    <div className={cx('NameHeader')}>danh sách đơn hàng</div>
                     <div className={cx('btnHeader')}>
-                        <Link to={config.routers.AddMenu} className={cx('btnIconAdd')}>
-                            <AddIcons className={cx('IconAdd')} />
-                            Thêm mới
+                        <Link to="#" className={cx('btnIconAdd')} onClick={handleExl}>
+                            {/* <AddIcons className={cx('IconAdd')} /> */}
+                            Export Exel
                         </Link>
-                        {/* <Link to="#" className={cx('btnIconAdd')}>
-                            <AddIcons className={cx('IconAdd')} />
-                            <MapContainer />
-                        </Link> */}
                     </div>
                 </div>
                 <ModalEdit />
                 <div className={cx('headerContent')}>
                     <div className={cx('leftContent')}>
-                        <div className={cx('name')}>Loại sản phẩm:</div>
+                        <div className={cx('name')}>Hiển thị</div>
                         <Select
-                            defaultValue="Tất cả"
-                            style={{ width: 120 }}
+                            defaultValue="10"
+                            style={{ width: 120, margin: '10px' }}
                             onChange={handleSelected}
                             options={[
-                                { value: 'Tất cả', label: 'Tất cả' },
-                                { value: 'Coffee', label: 'Coffee' },
-                                { value: 'Freeze', label: 'Freeze' },
-                                { value: 'Tea', label: 'Tea' },
+                                { value: 10, label: 10 },
+                                { value: 25, label: 25 },
+                                { value: 40, label: 40 },
                             ]}
                         />
-                        {/* <div className={cx('name')}>bản ghi trên trang</div> */}
+                        <div className={cx('name')}>bản ghi trên trang</div>
                     </div>
                     <div className={cx('rightContent')}>
                         <Search
@@ -194,43 +194,42 @@ function MenuList() {
                     <div className={cx('contentItem')}>
                         <Table striped bordered size="sm">
                             <thead>
-                                <tr style={{ textAlign: 'center' }}>
+                                <tr>
                                     <th>STT</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Ảnh</th>
-                                    <th>Giá</th>
-                                    <th>Thời gian nhập</th>
+                                    <th>Tên khách hàng</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Thời gian tạo</th>
+                                    <th>Thanh toán</th>
                                     <th colSpan={2}>Chức năng</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {isdata ? (
-                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}>
+                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '65%' }}>
                                         <Empty />
                                     </div>
                                 ) : (
                                     <>
-                                        {data?.docs?.map((menu, index) => (
-                                            <tr key={menu._id} style={{ lineHeight: '65px', textAlign: 'center' }}>
+                                        {data?.docs?.map((data, index) => (
+                                            <tr key={data._id}>
                                                 <td>{index + 1}</td>
-                                                <td>{menu.name}</td>
-                                                <td style={{ width: '100px' }}>
-                                                    <img style={{ width: '100%', height: ' 70px' }} src={menu?.link} />
-                                                </td>
-                                                <td>{menu.price.toLocaleString('vi-VN')} VND</td>
-                                                <td>{formatTime(menu.createdAt)}</td>
+                                                <td>{data.customer.name}</td>
+                                                <td>{data.total.toLocaleString('vi-VN')} VND</td>
+                                                <td>{formatTime(data.createdAt)}</td>
+                                                <td>{data.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</td>
                                                 <td>
                                                     <Link
                                                         className={cx('icon')}
                                                         to="#"
-                                                        onClick={() => handleUpdate(menu)}
+                                                        onClick={() => handleUpdate(data)}
                                                     >
-                                                        <BiEditAlt />
+                                                        {eye[data._id] ? <EyeOutlined /> : <EyeInvisibleOutlined />}
                                                     </Link>
+
                                                     <Link
                                                         className={cx('icon')}
+                                                        onClick={() => handleDelete(data._id)}
                                                         to="#"
-                                                        onClick={() => handldeDelete(menu._id)}
                                                     >
                                                         <RiDeleteBin6Line />
                                                     </Link>
@@ -240,16 +239,13 @@ function MenuList() {
                                     </>
                                 )}
                             </tbody>
-                            {/* ))} */}
-                            {/* </>
-                            )} */}
                         </Table>
                         {!isdata && (
                             <div className={cx('footer')}>
                                 <Pagination
                                     defaultCurrent={1}
                                     total={data?.totalDocs}
-                                    defaultPageSize={5}
+                                    // defaultPageSize={10}
                                     current={page}
                                     onChange={handlePageChange}
                                 />
@@ -262,4 +258,4 @@ function MenuList() {
     );
 }
 
-export default MenuList;
+export default Order;
