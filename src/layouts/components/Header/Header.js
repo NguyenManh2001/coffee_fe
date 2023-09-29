@@ -197,7 +197,7 @@ function Header({ name, src, price, quatity, size }) {
                 });
                 if (res) {
                     console.log(res);
-                    const vnpayPaymentURL = res.data.vnp_Url;
+                    const vnp_Url = res.data.vnp_Url;
 
                     // // Thực hiện chuyển hướng đến URL thanh toán
                     window.location.href = vnp_Url;
