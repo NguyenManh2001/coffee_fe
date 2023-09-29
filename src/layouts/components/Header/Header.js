@@ -192,10 +192,15 @@ function Header({ name, src, price, quatity, size }) {
             try {
                 const res = await axios.post('https://coffee-bills.onrender.com/payment/create_payment', {
                     amount: priceList,
-                    isPaid: true,
+                    orderDescription: productId,
+                    // isPaid: true,
                 });
                 if (res) {
-                    navigate(config.routers.Home, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
+                    console.log(res);
+                    const vnpayPaymentURL = res.data.vnpayPaymentURL;
+
+                    // // Thực hiện chuyển hướng đến URL thanh toán
+                    window.location.href = vnpayPaymentURL;
                 } else {
                     console.log('lỗi');
                 }
