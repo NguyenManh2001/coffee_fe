@@ -197,10 +197,10 @@ function Header({ name, src, price, quatity, size }) {
                 });
                 if (res) {
                     console.log(res);
-                    const vnpayPaymentURL = res.data.vnpayPaymentURL;
+                    const vnpayPaymentURL = res.data.vnp_Url;
 
                     // // Thực hiện chuyển hướng đến URL thanh toán
-                    window.location.href = vnpayPaymentURL;
+                    window.location.href = vnp_Url;
                 } else {
                     console.log('lỗi');
                 }
