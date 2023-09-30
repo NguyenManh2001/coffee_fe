@@ -192,13 +192,13 @@ function Header({ name, src, price, quatity, size }) {
             try {
                 const res = await axios.post('https://coffee-bills.onrender.com/payment/create_payment', {
                     amount: priceList,
-                    orderDescription: 'Nap tien cho thue bao 0123456789. So tien 100,000 VND',
-                    orderType: 'other',
+                    // orderDescription: 'Nap tien cho thue bao 0123456789. So tien 100,000 VND',
+                    // orderType: 'other',
                     language: '',
                 });
                 if (res) {
                     console.log(res);
-                    const vnp_Url = res.data.vnp_Url;
+                    const vnp_Url = res.data.vnpUrl;
 
                     // // Thực hiện chuyển hướng đến URL thanh toán
                     window.location.href = vnp_Url;
