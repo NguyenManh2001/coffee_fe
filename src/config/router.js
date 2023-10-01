@@ -22,6 +22,7 @@ const routers = {
     AddCustomer: '/Admin/Customer/AddCustomer',
     // EditCustomer:'/Admin/Customer/EditCustomer',
     Order: '/Admin/Order',
+    OrderPayment: '/order/VnPayReturn',
     NewsAdmin: '/Admin/News',
     AddNews: '/Admin/News/AddNews',
 };

@@ -30,6 +30,7 @@ import Rigister from '~/Pages/admin/Layout/Rigister/Rigister';
 import NewsAdmin from '~/Pages/admin/News/News';
 import AddNews from '~/Pages/admin/News/AddNews';
 import Order from '~/Pages/admin/Order/Order';
+import VnPayReturn from '~/Pages/Order/VnPayReturn';
 
 const publicRoutes = [
     { path: config.routers.Home, component: Home, layout: DefaultLayout },
@@ -44,6 +45,7 @@ const publicRoutes = [
     { path: config.routers.News1, component: News1, layout: NewsLayout },
     { path: config.routers.Rigister, component: Rigister, layout: null },
     { path: config.routers.Login, component: Login, layout: null },
+    { path: config.routers.OrderPayment, component: VnPayReturn, layout: null },
     // { path: config.routers.Account, component: Account, layout: AdminLayout },
     // { path: config.routers.AddAccount, component: AddAccount, layout: AdminLayout },
     // { path: config.routers.EditAccount, component: EditAccount, layout: AdminLayout },
