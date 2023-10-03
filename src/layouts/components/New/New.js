@@ -6,7 +6,7 @@ import NewContent from './NewContent';
 import config from '~/config';
 import { SmoothHorizontalScrolling } from '../Scroll/Scroll';
 import { useRef, useState } from 'react';
-import { NextIcons, PrevIcons} from '~/Components/icons/icons';
+import { NextIcons, PrevIcons } from '~/Components/icons/icons';
 import { BsSliders } from 'react-icons/bs';
 import SliderReactjs from '~/Components/SliderReactjs/Slider';
 const cx = classNames.bind(styles);
@@ -35,11 +35,11 @@ const NEWS = [
         date: '14/01/2022, 15:30',
         src: require('~/assets/images/tintuc-2.jpg'),
     },
-]
+];
 function New() {
     const sliderRef = useRef(null);
-  
-    return ( 
+
+    return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
                 <h2 className={cx('header')}>Tin tức khuyến mãi</h2>
@@ -49,24 +49,34 @@ function New() {
             </div>
             <div className={cx('content')}>
                 <SliderReactjs refs={sliderRef} show={3} scroll={1} className={cx('content')}>
-                  {NEWS.map((NEW,index) => (
-                <div key={index} className={cx('list')}>
-                <NewContent key={index}  to={config.routers.News} name = {NEW.name} date = {NEW.date} src={NEW.src}/>
-                  </div>
-                  ))}
-                  </SliderReactjs>
-                   <div>
-                   <button onClick={() => sliderRef.current.slickPrev()} className={cx('btn-prev')}>
+                    {NEWS.map((NEW, index) => (
+                        <div key={index} className={cx('list')}>
+                            <NewContent
+                                key={index}
+                                to={config.routers.News}
+                                name={NEW.name}
+                                date={NEW.date}
+                                src={NEW.src}
+                            />
+                        </div>
+                    ))}
+                </SliderReactjs>
+                <div>
+                    <button onClick={() => sliderRef.current.slickPrev()} className={cx('btn-prev')}>
                         <PrevIcons />
                     </button>
                     <button onClick={() => sliderRef.current.slickNext()} className={cx('btn-next')}>
                         <NextIcons />
                     </button>
-               </div>
+                </div>
             </div>
-            <Button to={config.routers.News} className={cx('btnMenu')}>Xem thêm nhiều tin khác</Button>
+            <div style={{ textAlign: 'center', padding: '3%' }}>
+                <Button to={config.routers.News} className={cx('btnMenu')}>
+                    Xem thêm nhiều tin khác
+                </Button>
+            </div>
         </div>
-     );
+    );
 }
 
 export default New;

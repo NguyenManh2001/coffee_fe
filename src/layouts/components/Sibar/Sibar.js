@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 const Sibars = [
     {
         id: 1,
-        name: 'Coffee Cup',
+        name: 'Coffee Bliss',
         title: 'Cà phê - Trà - Freeze',
         srcImage: require('~/assets/images/home-4-slide.jpg'),
         iconImage: require('~/assets/images/banner-logo-2.png'),
@@ -16,7 +16,7 @@ const Sibars = [
     },
     {
         id: 2,
-        name: 'Coffee Cup',
+        name: 'Coffee Bliss',
         title: 'Đặt hàng dễ dàng hơn với ứng dụng di dộng',
         srcImage: require('~/assets/images/home-1-slider-4.jpg'),
         iconImage: require('~/assets/images/banner-logo-1.png'),
@@ -24,7 +24,7 @@ const Sibars = [
     },
     {
         id: 3,
-        name: 'Coffee Cup',
+        name: 'Coffee Bliss',
         title: 'Khuyến mãi đầu xuân Nhâm Dần lên tới 20%',
         srcImage: require('~/assets/images/home-1-slider-img-2.jpg'),
         iconImage: require('~/assets/images/banner-logo-2.png'),

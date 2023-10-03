@@ -97,11 +97,11 @@ function News({ children }) {
                     </div>
                 </div>
             </div>
-            <div className={cx('rigister')}>
+            {/* <div className={cx('rigister')}>
                 <Rigister>
                     <RigisterItem header="Đăng ký nhận thông tin khuyến mãi" btn="Đăng ký ngay" />
                 </Rigister>
-            </div>
+            </div> */}
             <Footer />
         </div>
     );

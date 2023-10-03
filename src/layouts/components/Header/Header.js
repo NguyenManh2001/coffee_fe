@@ -248,7 +248,7 @@ function Header({ name, src, price, quatity, size }) {
                                     <MenuItem title="Trang chủ" to={config.routers.Home} />
                                     <MenuItem title="Menu" to={config.routers.Menu} />
                                     <MenuItem title="Tin tức" to={config.routers.News} />
-                                    <MenuItem title="Liên hệ" to={config.routers.Contact} />
+                                    {/* <MenuItem title="Liên hệ" to={config.routers.Contact} /> */}
                                     <MenuItem title="Chúng tôi" to={config.routers.About} />
                                 </div>
                             </div>
@@ -259,13 +259,13 @@ function Header({ name, src, price, quatity, size }) {
                             <MenuIcons />{' '}
                         </div>
                     </Tippy>
-                    <Images className={cx('logo')} src={require('~/assets/images/logo-2.png')} />
+                    <Images className={cx('logo')} src={require('~/assets/images/logo_transparent.png')} />
 
                     <Menu>
                         <MenuItem title="Trang chủ" to={config.routers.Home} />
                         <MenuItem title="Menu" to={config.routers.Menu} />
                         <MenuItem title="Tin tức" to={config.routers.News} />
-                        <MenuItem title="Liên hệ" to={config.routers.Contact} />
+                        {/* <MenuItem title="Liên hệ" to={config.routers.Contact} /> */}
                         <MenuItem title="Chúng tôi" to={config.routers.About} />
                     </Menu>
                     <div style={{ display: 'flex' }}>

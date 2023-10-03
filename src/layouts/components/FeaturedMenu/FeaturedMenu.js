@@ -171,11 +171,11 @@ function FeatureMenu({ select }) {
                         Xem tất cả menu
                     </Button>
                 </div>
-                <div className={cx('rigister')}>
+                {/* <div className={cx('rigister')}>
                     <Rigister>
                         <RigisterItem header="Đăng ký nhận thông tin khuyến mãi" btn="Đăng ký ngay" />
                     </Rigister>
-                </div>
+                </div> */}
             </div>
             {renderItems()}
         </div>

@@ -41,11 +41,17 @@ function Login() {
     const [username, setUserName] = useState('');
     const [password, setPassWord] = useState('');
     const [ischeck, setIscheck] = useState(false);
-    const [error, setError] = useState('');
     const [error1, setError1] = useState('');
     const [userRole, setUserRole] = useState(null);
+    const [messageApi, contextHolder] = message.useMessage();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const error = () => {
+        messageApi.open({
+            type: 'error',
+            content: 'Sai email hoặc mật khẩu',
+        });
+    };
     const {
         register,
         handleSubmit,
@@ -79,7 +85,7 @@ function Login() {
                 }
             }
         } catch (err) {
-            console.log('loi', err);
+            error();
         }
     };
 
@@ -166,6 +172,7 @@ function Login() {
     // };
     return (
         <div className={cx('wrapper')}>
+            {contextHolder}
             <div className={cx('container')}>
                 <div className={cx('content')}>
                     <div className={cx('Iconheader')}>

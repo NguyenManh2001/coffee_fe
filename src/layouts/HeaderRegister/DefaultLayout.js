@@ -6,20 +6,18 @@ import styles from './DefaultLayout.module.scss';
 
 const cx = classNames.bind(styles);
 
-function DefaultLayout({children}) {
+function DefaultLayout({ children }) {
     return (
         <div className={cx('wrapper')}>
             <Header />
             <div className={cx('container')}>
-                <div className={cx('content')}>
-                 {children}
-                </div>
-                <div className={cx('rigister')}>
+                <div className={cx('content')}>{children}</div>
+                {/* <div className={cx('rigister')}>
                 <Rigister>
                 <RigisterItem header='Đăng ký nhận thông tin khuyến mãi' btn = 'Đăng ký ngay' />
                 </Rigister>
-                </div>
-               <Footer />
+                </div> */}
+                <Footer />
             </div>
         </div>
     );
