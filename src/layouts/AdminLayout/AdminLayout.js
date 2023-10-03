@@ -49,7 +49,7 @@ const AdminLayout = ({ children }) => {
     //     setShowModal(false); // Ẩn modal khi rời chuột
     // };
     return (
-        <Layout style={{ height: '884px' }}>
+        <Layout style={{ height: '940px' }}>
             <Sider trigger={null} style={{ width: 256 }} collapsible collapsed={collapsed}>
                 <Space wrap>
                     <div style={{ height: '50px' }}></div>

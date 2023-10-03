@@ -34,7 +34,7 @@ function Footer() {
                     <FooterItem
                         title="dịch vụ khách hàng"
                         linkName="Giao hàng tận nơi"
-                        phone="Thanh toán qua ví MoMo"
+                        phone="Thanh toán qua ví VNPAY"
                         email="Tri ân khách hàng thân thiết"
                         name="Chăm sóc, hậu mãi"
                         src="#"
