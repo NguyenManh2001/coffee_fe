@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import listsMenuSlice from '~/Redux/list/list';
 import filterSlice from '~/Redux/filters/filters';
 import { searchitemSelector } from '~/Redux/selector';
-import { Pagination, Select } from 'antd';
+import { Pagination, Select, Spin } from 'antd';
 import EditMenu from './EditMenu';
 import { Empty, Button, Modal, message, Alert, Input } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
@@ -204,39 +204,58 @@ function MenuList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {isdata ? (
-                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}>
-                                        <Empty />
+                                {isLoading ? (
+                                    <div
+                                        className={cx('loading')}
+                                        style={{ position: 'absolute', left: '48%', top: '55%' }}
+                                    >
+                                        <Spin style={{ color: 'red' }} />
                                     </div>
                                 ) : (
                                     <>
-                                        {data?.docs?.map((menu, index) => (
-                                            <tr key={menu._id} style={{ lineHeight: '65px', textAlign: 'center' }}>
-                                                <td>{index + 1}</td>
-                                                <td>{menu.name}</td>
-                                                <td style={{ width: '100px' }}>
-                                                    <img style={{ width: '100%', height: ' 70px' }} src={menu?.link} />
-                                                </td>
-                                                <td>{menu.price.toLocaleString('vi-VN')} VND</td>
-                                                <td>{formatTime(menu.createdAt)}</td>
-                                                <td>
-                                                    <Link
-                                                        className={cx('icon')}
-                                                        to="#"
-                                                        onClick={() => handleUpdate(menu)}
+                                        {isdata ? (
+                                            <div
+                                                style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}
+                                            >
+                                                <Empty />
+                                            </div>
+                                        ) : (
+                                            <>
+                                                {data?.docs?.map((menu, index) => (
+                                                    <tr
+                                                        key={menu._id}
+                                                        style={{ lineHeight: '65px', textAlign: 'center' }}
                                                     >
-                                                        <BiEditAlt />
-                                                    </Link>
-                                                    <Link
-                                                        className={cx('icon')}
-                                                        to="#"
-                                                        onClick={() => handldeDelete(menu._id)}
-                                                    >
-                                                        <RiDeleteBin6Line />
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                        <td>{index + 1}</td>
+                                                        <td>{menu.name}</td>
+                                                        <td style={{ width: '100px' }}>
+                                                            <img
+                                                                style={{ width: '100%', height: ' 70px' }}
+                                                                src={menu?.link}
+                                                            />
+                                                        </td>
+                                                        <td>{menu.price.toLocaleString('vi-VN')} VND</td>
+                                                        <td>{formatTime(menu.createdAt)}</td>
+                                                        <td>
+                                                            <Link
+                                                                className={cx('icon')}
+                                                                to="#"
+                                                                onClick={() => handleUpdate(menu)}
+                                                            >
+                                                                <BiEditAlt />
+                                                            </Link>
+                                                            <Link
+                                                                className={cx('icon')}
+                                                                to="#"
+                                                                onClick={() => handldeDelete(menu._id)}
+                                                            >
+                                                                <RiDeleteBin6Line />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </>
+                                        )}
                                     </>
                                 )}
                             </tbody>
@@ -244,17 +263,18 @@ function MenuList() {
                             {/* </>
                             )} */}
                         </Table>
-                        {!isdata && (
-                            <div className={cx('footer')}>
-                                <Pagination
-                                    defaultCurrent={1}
-                                    total={data?.totalDocs}
-                                    defaultPageSize={5}
-                                    current={page}
-                                    onChange={handlePageChange}
-                                />
-                            </div>
-                        )}
+                        {isLoading ||
+                            (!isdata && (
+                                <div className={cx('footer')}>
+                                    <Pagination
+                                        defaultCurrent={1}
+                                        total={data?.totalDocs}
+                                        // defaultPageSize={10}
+                                        current={page}
+                                        onChange={handlePageChange}
+                                    />
+                                </div>
+                            ))}
                     </div>
                 </div>
             </div>

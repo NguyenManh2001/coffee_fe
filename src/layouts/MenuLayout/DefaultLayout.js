@@ -18,7 +18,7 @@ import { BsStar } from 'react-icons/bs';
 import Product from '~/layouts/components/Product';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { Input, Menu } from 'antd';
+import { Empty, Input, Menu, Spin } from 'antd';
 import { Rate } from 'antd';
 import { Pagination } from 'antd';
 import Search from 'antd/es/input/Search';
@@ -90,21 +90,6 @@ function MenuLayout({ children }) {
             [getItem('Cà phê', '1'), getItem('Freeze', '2'), getItem('Trà', '3'), getItem('Cà phê gói', '4')],
             'group',
         ),
-        // getItem(
-        //     'Tìm kiếm',
-        //     'grp',
-        //     null,
-        //     [
-        //         getItem(<Input placeholder="Tìm kiếm theo tên sản phẩm" />, '5'),
-        //         getItem(
-        //             <Button className={cx('btnMenu')} style={{ margin: '10px 29px', height: '40px' }}>
-        //                 Tìm kiếm
-        //             </Button>,
-        //             '6',
-        //         ),
-        //     ],
-        //     'group',
-        // ),
     ];
     const renderItems = () => {
         return data?.docs?.map((MENU, index) => {
@@ -142,7 +127,8 @@ function MenuLayout({ children }) {
     const handlePageChange = (page) => {
         setPage(page);
     };
-    console.log(data);
+    const isdata = !data?.docs?.length;
+    console.log(isdata);
     return (
         <div id="top" className={cx('wrapper')}>
             <Header />
@@ -164,7 +150,7 @@ function MenuLayout({ children }) {
                                     <div className={cx('fifter-item')}>
                                         <div className={cx('fifter-name')}>
                                             <Search
-                                                placeholder="input search text"
+                                                placeholder="Tìm kiếm"
                                                 onSearch={handleSearch}
                                                 style={{
                                                     width: 200,
@@ -245,36 +231,48 @@ function MenuLayout({ children }) {
                         <div className={cx('content-right')}>
                             <div className={cx('main-right')}>
                                 <div className={cx('wrapper')}>
-                                    <div className={cx('content-right')}>
-                                        <div className={cx('main-right')}>
-                                            <MenuFeat className={cx('menu')}>
-                                                {data?.docs?.map((MENU, index) => (
-                                                    <MenuItems1
-                                                        key={MENU._id}
-                                                        // autoPlay={3}
-                                                        star={<Rate allowHalf defaultValue={2.5} />}
-                                                        src={MENU.link}
-                                                        price={MENU.price}
-                                                        title={MENU.name}
-                                                        icon={<StarIcons />}
-                                                        onClick={() => {
-                                                            setProduct(!product);
-                                                            setHeader(MENU._id);
-                                                        }}
-                                                    />
-                                                ))}
-                                            </MenuFeat>
+                                    {isLoading ? (
+                                        <div className={cx('loading')}>
+                                            <Spin style={{ color: 'red' }} />
                                         </div>
-                                        <div style={{ textAlign: 'center', margin: '35px' }}>
-                                            <Pagination
-                                                defaultCurrent={1}
-                                                total={data?.totalDocs}
-                                                defaultPageSize={6}
-                                                current={page}
-                                                onChange={handlePageChange}
-                                            />
+                                    ) : (
+                                        <div className={cx('content-right')}>
+                                            {isdata ? (
+                                                <Empty style={{ paddingTop: '110px' }} />
+                                            ) : (
+                                                <>
+                                                    <div className={cx('main-right')}>
+                                                        <MenuFeat className={cx('menu')}>
+                                                            {data?.docs?.map((MENU, index) => (
+                                                                <MenuItems1
+                                                                    key={MENU._id}
+                                                                    // autoPlay={3}
+                                                                    star={<Rate allowHalf defaultValue={2.5} />}
+                                                                    src={MENU.link}
+                                                                    price={MENU.price}
+                                                                    title={MENU.name}
+                                                                    icon={<StarIcons />}
+                                                                    onClick={() => {
+                                                                        setProduct(!product);
+                                                                        setHeader(MENU._id);
+                                                                    }}
+                                                                />
+                                                            ))}
+                                                        </MenuFeat>
+                                                    </div>
+                                                    <div style={{ textAlign: 'center', margin: '35px' }}>
+                                                        <Pagination
+                                                            defaultCurrent={1}
+                                                            total={data?.totalDocs}
+                                                            defaultPageSize={6}
+                                                            current={page}
+                                                            onChange={handlePageChange}
+                                                        />
+                                                    </div>
+                                                </>
+                                            )}
                                         </div>
-                                    </div>
+                                    )}
                                     {renderItems()}
                                 </div>
                             </div>

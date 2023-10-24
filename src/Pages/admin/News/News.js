@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import listsMenuSlice from '~/Redux/list/list';
 import filterSlice from '~/Redux/filters/filters';
 import { searchitemSelector } from '~/Redux/selector';
-import { Pagination, Select } from 'antd';
+import { Pagination, Select, Spin } from 'antd';
 import { Empty, Button, Modal, message, Alert, Input } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -198,39 +198,59 @@ function NewsAdmin() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {isdata ? (
-                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}>
-                                        <Empty />
+                                {isLoading ? (
+                                    <div
+                                        className={cx('loading')}
+                                        style={{ position: 'absolute', left: '48%', top: '55%' }}
+                                    >
+                                        <Spin style={{ color: 'red' }} />
                                     </div>
                                 ) : (
                                     <>
-                                        {data?.docs?.map((data, index) => (
-                                            <tr key={data._id} style={{ lineHeight: '65px' }}>
-                                                <td>{index + 1}</td>
-                                                <td style={{ lineHeight: '24px', width: '300px' }}>{data.title}</td>
-                                                <td style={{ width: '100px' }}>
-                                                    <img style={{ width: '100%', height: '100%' }} src={data?.image} />
-                                                </td>
-                                                <td style={{ lineHeight: '24px', width: '400px' }}>{data.describe}</td>
-                                                <td>{formatTime(data.createdAt)}</td>
-                                                <td>
-                                                    <Link
-                                                        className={cx('icon')}
-                                                        to="#"
-                                                        onClick={() => handleUpdate(data)}
-                                                    >
-                                                        <BiEditAlt />
-                                                    </Link>
-                                                    <Link
-                                                        className={cx('icon')}
-                                                        to="#"
-                                                        onClick={() => handldeDelete(data._id)}
-                                                    >
-                                                        <RiDeleteBin6Line />
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        {isdata ? (
+                                            <div
+                                                style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}
+                                            >
+                                                <Empty />
+                                            </div>
+                                        ) : (
+                                            <>
+                                                {data?.docs?.map((data, index) => (
+                                                    <tr key={data._id} style={{ lineHeight: '65px' }}>
+                                                        <td>{index + 1}</td>
+                                                        <td style={{ lineHeight: '24px', width: '300px' }}>
+                                                            {data.title}
+                                                        </td>
+                                                        <td style={{ width: '100px' }}>
+                                                            <img
+                                                                style={{ width: '100%', height: '100%' }}
+                                                                src={data?.image}
+                                                            />
+                                                        </td>
+                                                        <td style={{ lineHeight: '24px', width: '400px' }}>
+                                                            {data.describe}
+                                                        </td>
+                                                        <td>{formatTime(data.createdAt)}</td>
+                                                        <td>
+                                                            <Link
+                                                                className={cx('icon')}
+                                                                to="#"
+                                                                onClick={() => handleUpdate(data)}
+                                                            >
+                                                                <BiEditAlt />
+                                                            </Link>
+                                                            <Link
+                                                                className={cx('icon')}
+                                                                to="#"
+                                                                onClick={() => handldeDelete(data._id)}
+                                                            >
+                                                                <RiDeleteBin6Line />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </>
+                                        )}
                                     </>
                                 )}
                             </tbody>
@@ -238,17 +258,18 @@ function NewsAdmin() {
                             {/* </>
                             )} */}
                         </Table>
-                        {!isdata && (
-                            <div className={cx('footer')}>
-                                <Pagination
-                                    defaultCurrent={1}
-                                    total={data?.totalDocs}
-                                    defaultPageSize={7}
-                                    current={page}
-                                    onChange={handlePageChange}
-                                />
-                            </div>
-                        )}
+                        {isLoading ||
+                            (!isdata && (
+                                <div className={cx('footer')}>
+                                    <Pagination
+                                        defaultCurrent={1}
+                                        total={data?.totalDocs}
+                                        // defaultPageSize={10}
+                                        current={page}
+                                        onChange={handlePageChange}
+                                    />
+                                </div>
+                            ))}
                     </div>
                 </div>
             </div>

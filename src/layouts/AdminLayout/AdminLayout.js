@@ -19,6 +19,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
 import Cookies from 'js-cookie';
+import Images from '~/Components/Images';
 const { Header, Sider, Content } = Layout;
 
 const AdminLayout = ({ children }) => {
@@ -49,10 +50,12 @@ const AdminLayout = ({ children }) => {
     //     setShowModal(false); // Ẩn modal khi rời chuột
     // };
     return (
-        <Layout style={{ height: '940px' }}>
+        <Layout style={{ height: '941px' }}>
             <Sider trigger={null} style={{ width: 256 }} collapsible collapsed={collapsed}>
                 <Space wrap>
-                    <div style={{ height: '50px' }}></div>
+                    <div style={{ height: '50px' }}>
+                        {/* <Images src={require('~/assets/images/logo_transparent.png')} /> */}
+                    </div>
                 </Space>
                 <Menu
                     style={{ fontSize: '18px' }}

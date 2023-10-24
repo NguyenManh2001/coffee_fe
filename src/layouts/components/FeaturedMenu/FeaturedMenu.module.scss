@@ -91,7 +91,22 @@
     background-size: cover;
     padding: 0 48px;
 }
-
+.loading{
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    font-size: 24px;
+}
+// .ant-space-item .content {
+//     color: red;
+//   }
+  
+//   /* Tùy chỉnh màu biểu tượng (icon) trong Space component */
+//   .ant-space-item .icon {
+//     color: blue;
+//   }
 
 @media (max-width:740px){
     .wrapper{

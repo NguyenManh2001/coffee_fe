@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import listsMenuSlice from '~/Redux/list/list';
 import filterSlice from '~/Redux/filters/filters';
 import { searchitemSelector } from '~/Redux/selector';
-import { Pagination, Select } from 'antd';
+import { Pagination, Select, Spin } from 'antd';
 import { Empty, Button, Modal, message, Alert, Input } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -192,51 +192,65 @@ function Account() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {isdata ? (
-                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}>
-                                        <Empty />
+                                {isLoading ? (
+                                    <div
+                                        className={cx('loading')}
+                                        style={{ position: 'absolute', left: '48%', top: '90%' }}
+                                    >
+                                        <Spin style={{ color: 'red' }} />
                                     </div>
                                 ) : (
                                     <>
-                                        {data?.docs?.map((data, index) => (
-                                            <tr key={data._id}>
-                                                <td>{index + 1}</td>
-                                                <td>{data.email}</td>
-                                                <td>{data.role}</td>
-                                                <td>{formatTime(data.createdAt)}</td>
-                                                <td>
-                                                    <Link
-                                                        className={cx('icon')}
-                                                        to="#"
-                                                        onClick={() => handleUpdate(data)}
-                                                    >
-                                                        <BiEditAlt />
-                                                    </Link>
-                                                    <Link
-                                                        className={cx('icon')}
-                                                        onClick={() => handleDelete(data._id)}
-                                                        to="#"
-                                                    >
-                                                        <RiDeleteBin6Line />
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        {isdata ? (
+                                            <div
+                                                style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}
+                                            >
+                                                <Empty />
+                                            </div>
+                                        ) : (
+                                            <>
+                                                {data?.docs?.map((data, index) => (
+                                                    <tr key={data._id}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{data.email}</td>
+                                                        <td>{data.role}</td>
+                                                        <td>{formatTime(data.createdAt)}</td>
+                                                        <td>
+                                                            <Link
+                                                                className={cx('icon')}
+                                                                to="#"
+                                                                onClick={() => handleUpdate(data)}
+                                                            >
+                                                                <BiEditAlt />
+                                                            </Link>
+                                                            <Link
+                                                                className={cx('icon')}
+                                                                onClick={() => handleDelete(data._id)}
+                                                                to="#"
+                                                            >
+                                                                <RiDeleteBin6Line />
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </>
+                                        )}
                                     </>
                                 )}
                             </tbody>
                         </Table>
-                        {!isdata && (
-                            <div className={cx('footer')}>
-                                <Pagination
-                                    defaultCurrent={1}
-                                    total={data?.totalDocs}
-                                    // defaultPageSize={10}
-                                    current={page}
-                                    onChange={handlePageChange}
-                                />
-                            </div>
-                        )}
+                        {isLoading ||
+                            (!isdata && (
+                                <div className={cx('footer')}>
+                                    <Pagination
+                                        defaultCurrent={1}
+                                        total={data?.totalDocs}
+                                        // defaultPageSize={10}
+                                        current={page}
+                                        onChange={handlePageChange}
+                                    />
+                                </div>
+                            ))}
                     </div>
                 </div>
             </div>

@@ -151,6 +151,14 @@
         color: #c69155;
     }
 }
+.loading{
+    height: 340px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    font-size: 24px;
+}
 @media screen and (max-width: 740px) {
     .content{
         width: 100%;

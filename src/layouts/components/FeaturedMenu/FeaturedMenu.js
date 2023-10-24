@@ -18,7 +18,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import SliderReactjs from '~/Components/SliderReactjs/Slider';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { Rate } from 'antd';
+import { Alert, Rate, Space, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 // import { Carousel } from '@trendyol-js/react-carousel/dist/types/components/carousel';
 
 const cx = classNames.bind(styles);
@@ -138,39 +139,47 @@ function FeatureMenu({ select }) {
                 <div className={cx('lineborder')}>
                     <Images src={require('~/assets/images/line-under-heading.png')} alt="lineborder" />
                 </div>
-                <div className={cx('Menu')}>
-                    <SliderReactjs refs={sliderRef} show={4} scroll={4} className={cx('Menu')}>
-                        {data?.docs?.map((MENU, index) => (
-                            <MenuItems
-                                key={MENU._id}
-                                autoPlay={3}
-                                star={<Rate allowHalf defaultValue={2.5} />}
-                                src={MENU.link}
-                                price={MENU.price}
-                                title={MENU.name}
-                                icon={<StarIcons />}
-                                onClick={() => {
-                                    setProduct(!product);
-                                    setHeader(MENU._id);
-                                }}
-                            />
-                        ))}
-                    </SliderReactjs>
-                </div>
-                <div>
-                    <button onClick={() => sliderRef.current.slickPrev()} className={cx('btn-prev')}>
-                        <PrevIcons />
-                    </button>
-                    <button onClick={() => sliderRef.current.slickNext()} className={cx('btn-next')}>
-                        <NextIcons />
-                    </button>
-                </div>
+                {isLoading ? (
+                    <div className={cx('loading')}>
+                        <Spin style={{ color: 'red' }} />
+                    </div>
+                ) : (
+                    <>
+                        <div className={cx('Menu')}>
+                            <SliderReactjs refs={sliderRef} show={4} scroll={4} className={cx('Menu')}>
+                                {data?.docs?.map((MENU, index) => (
+                                    <MenuItems
+                                        key={MENU._id}
+                                        autoPlay={3}
+                                        star={<Rate allowHalf defaultValue={2.5} />}
+                                        src={MENU.link}
+                                        price={MENU.price}
+                                        title={MENU.name}
+                                        icon={<StarIcons />}
+                                        onClick={() => {
+                                            setProduct(!product);
+                                            setHeader(MENU._id);
+                                        }}
+                                    />
+                                ))}
+                            </SliderReactjs>
+                        </div>
+                        <div>
+                            <button onClick={() => sliderRef.current.slickPrev()} className={cx('btn-prev')}>
+                                <PrevIcons />
+                            </button>
+                            <button onClick={() => sliderRef.current.slickNext()} className={cx('btn-next')}>
+                                <NextIcons />
+                            </button>
+                        </div>
 
-                <div className={cx('btn')}>
-                    <Button className={cx('btnMenu')} to={config.routers.Menu}>
-                        Xem tất cả menu
-                    </Button>
-                </div>
+                        <div className={cx('btn')}>
+                            <Button className={cx('btnMenu')} to={config.routers.Menu}>
+                                Xem tất cả menu
+                            </Button>
+                        </div>
+                    </>
+                )}
                 {/* <div className={cx('rigister')}>
                     <Rigister>
                         <RigisterItem header="Đăng ký nhận thông tin khuyến mãi" btn="Đăng ký ngay" />
