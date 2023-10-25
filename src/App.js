@@ -60,58 +60,58 @@ function App() {
                     {publicRoutes.map((router, index) => {
                         const Page = router.component;
                         const Layout = router.layout || Fragment;
-                        const FacebookChat = () => {
-                            useEffect(() => {
-                                // Create a chatbox element
-                                const chatbox = document.createElement('div');
-                                chatbox.id = 'fb-customer-chat';
-                                chatbox.className = 'fb-customerchat';
+                        // const FacebookChat = () => {
+                        //     useEffect(() => {
+                        //         // Create a chatbox element
+                        //         const chatbox = document.createElement('div');
+                        //         chatbox.id = 'fb-customer-chat';
+                        //         chatbox.className = 'fb-customerchat';
 
-                                // Set page_id and attribution
-                                chatbox.setAttribute('page_id', '148092848380107');
-                                chatbox.setAttribute('attribution', 'biz_inbox');
+                        //         // Set page_id and attribution
+                        //         chatbox.setAttribute('page_id', '148092848380107');
+                        //         chatbox.setAttribute('attribution', 'biz_inbox');
 
-                                // Append the chatbox element to the document body
-                                document.body.appendChild(chatbox);
+                        //         // Append the chatbox element to the document body
+                        //         document.body.appendChild(chatbox);
 
-                                // Load and initialize the Facebook SDK script
-                                const loadFacebookSDK = () => {
-                                    window.fbAsyncInit = function () {
-                                        FB.init({
-                                            xfbml: true,
-                                            version: 'v18.0',
-                                        });
-                                    };
+                        //         // Load and initialize the Facebook SDK script
+                        //         const loadFacebookSDK = () => {
+                        //             window.fbAsyncInit = function () {
+                        //                 FB.init({
+                        //                     xfbml: true,
+                        //                     version: 'v18.0',
+                        //                 });
+                        //             };
 
-                                    (function (d, s, id) {
-                                        var js,
-                                            fjs = d.getElementsByTagName(s)[0];
-                                        if (d.getElementById(id)) return;
-                                        js = d.createElement(s);
-                                        js.id = id;
-                                        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
-                                        fjs.parentNode.insertBefore(js, fjs);
-                                    })(document, 'script', 'facebook-jssdk');
-                                };
+                        //             (function (d, s, id) {
+                        //                 var js,
+                        //                     fjs = d.getElementsByTagName(s)[0];
+                        //                 if (d.getElementById(id)) return;
+                        //                 js = d.createElement(s);
+                        //                 js.id = id;
+                        //                 js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+                        //                 fjs.parentNode.insertBefore(js, fjs);
+                        //             })(document, 'script', 'facebook-jssdk');
+                        //         };
 
-                                // Check if the Facebook SDK is already loaded
-                                if (window.FB) {
-                                    loadFacebookSDK(); // Initialize immediately if it's already loaded
-                                } else {
-                                    // Add a listener for when the SDK is loaded
-                                    window.addEventListener('load', loadFacebookSDK);
-                                }
-                            }, []);
+                        //         // Check if the Facebook SDK is already loaded
+                        //         if (window.FB) {
+                        //             loadFacebookSDK(); // Initialize immediately if it's already loaded
+                        //         } else {
+                        //             // Add a listener for when the SDK is loaded
+                        //             window.addEventListener('load', loadFacebookSDK);
+                        //         }
+                        //     }, []);
 
-                            return null; // Return null since this component doesn't render anything
-                        };
+                        //     return null; // Return null since this component doesn't render anything
+                        // };
                         return (
                             <Route
                                 key={index}
                                 path={router.path}
                                 element={
                                     <Layout>
-                                        <FacebookChat />
+                                        {/* <FacebookChat /> */}
                                         <Page />
                                     </Layout>
                                 }
