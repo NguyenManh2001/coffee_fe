@@ -72,6 +72,7 @@ function Product({ _id, src, name, cart, onClick }) {
     const [quatity, setQuatity] = useState(1);
     const [price, setPrice] = useState(0);
     const [size, setSize] = useState('s');
+    const [userId, setUserId] = useState();
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -81,9 +82,10 @@ function Product({ _id, src, name, cart, onClick }) {
         if (token !== undefined) {
             const deToken = jwt_decode(token);
             setEmail(deToken?.email);
+            setUserId(deToken?.userId);
         }
     }, [token]);
-
+    console.log(userId);
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['listCustomer', email],
         queryFn: () => axios.post('/customer/listCustomer', { email }).then((res) => res.data),
@@ -113,11 +115,16 @@ function Product({ _id, src, name, cart, onClick }) {
         </Modal>
     );
     console.log(_id);
+    const product = {};
     const handleAdd = () => {
         if (token) {
             if (data?.docs?.length > 0) {
-                if (_id !== undefined) {
-                    dispatch(listsMenuSlice.actions.addProduct({ src, name, price, quatity, size, _id }));
+                if (_id !== undefined && userId !== undefined) {
+                    // dispatch(listsMenuSlice.actions.addProduct({ src, name, price, quatity, size, _id }));
+                    dispatch(listsMenuSlice.actions.addUser({ userId }));
+                    dispatch(
+                        listsMenuSlice.actions.addProductForUser({ userId, src, name, price, quatity, size, _id }),
+                    );
                     setClose(!close);
                     onClick();
                 }

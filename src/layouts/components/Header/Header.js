@@ -9,8 +9,8 @@ import Menu, { MenuItem } from './menu';
 import Tippy from '@tippyjs/react/headless';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Empty, Avatar, Badge, Button, Modal, Dropdown, message, Alert, Input } from 'antd';
-import { addProductSelector, tokenSelector } from '~/Redux/selector';
-import { useSelector } from 'react-redux';
+import { addProductSelector, addUserProductSelector, tokenSelector } from '~/Redux/selector';
+import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 import { Checkbox, Radio } from 'antd';
@@ -18,6 +18,7 @@ import EditCustomer from '~/Pages/admin/Customer/EditCustomer';
 import AddCustomer from '~/Pages/admin/Customer/AddCustomer';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import listsMenuSlice from '~/Redux/list/list';
 
 const cx = classNames.bind(styles);
 
@@ -27,6 +28,7 @@ function Header({ name, src, price, quatity, size }) {
     const [open, setOpen] = useState(false);
     const [buy, setBuy] = useState(false);
     const [email, setEmail] = useState();
+    const [user, setUser] = useState();
     const [Name, setName] = useState(name);
     const navigate = useNavigate();
     const location = useLocation();
@@ -39,7 +41,8 @@ function Header({ name, src, price, quatity, size }) {
     const successMessage = location.state?.successMessage;
 
     const [messageApi, contextHolder] = message.useMessage(successMessage);
-
+    const token = Cookies.get('token');
+    const dispatch = useDispatch();
     const success = (message) => {
         messageApi.open({
             type: 'success',
@@ -59,10 +62,18 @@ function Header({ name, src, price, quatity, size }) {
             navigate({ pathname: location.pathname, state: newLocation.state });
         }
     }, [location.state]);
+    useEffect(() => {
+        if (token !== undefined) {
+            const deToken = jwt_decode(token);
+            setEmail(deToken?.email);
+            setUser(deToken?.userId);
+        }
+    }, [token]);
+
     // const userRole = useSelector(tokenSelector);
-    const token = Cookies.get('token');
     const menus = useSelector(addProductSelector);
-    console.log(menus[0]);
+    const usersData = useSelector(addUserProductSelector);
+    console.log(usersData);
     const handleLogout = () => {
         Cookies.remove('token');
         window.location.reload();
@@ -73,22 +84,13 @@ function Header({ name, src, price, quatity, size }) {
     const [value, setValue] = useState(1);
 
     const onChange = (e) => {
-        console.log('radio checked', e.target.value);
         setValue(e.target.value);
     };
-    useEffect(() => {
-        if (token !== undefined) {
-            const deToken = jwt_decode(token);
-            setEmail(deToken?.email);
-        }
-    }, [token]);
-
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['listCustomer', email],
         queryFn: () =>
             axios.post('https://coffee-bills.onrender.com/customer/listCustomer', { email }).then((res) => res.data),
     });
-    console.log(data);
 
     const ModalEdit = () => (
         <Modal
@@ -157,7 +159,7 @@ function Header({ name, src, price, quatity, size }) {
         }
 
         // Kiểm tra xem tất cả các checkbox cá nhân có được chọn hay không
-        const allChecked = updatedCheckedList.length === menus.length;
+        const allChecked = updatedCheckedList.length === usersData[user]?.listProduct?.length;
         setChecked(allChecked);
 
         // Cập nhật danh sách checkbox cá nhân
@@ -197,7 +199,6 @@ function Header({ name, src, price, quatity, size }) {
                     language: '',
                 });
                 if (res) {
-                    console.log(res);
                     const vnp_Url = res.data.vnpUrl;
 
                     // // Thực hiện chuyển hướng đến URL thanh toán
@@ -208,18 +209,24 @@ function Header({ name, src, price, quatity, size }) {
             } catch (error) {}
         }
     };
-    console.log(data?.docs[0]?._id);
+
     const onChangeAll = (e) => {
         const newSelectAllChecked = !checked; // Đảo ngược trạng thái checkbox tổng cộng
         setChecked(newSelectAllChecked);
 
         if (newSelectAllChecked) {
             // Nếu checkbox tổng cộng được chọn, chọn tất cả các checkbox cá nhân
-            const allIndices = menus.map((_, index) => index);
+            const allIndices = usersData[user]?.listProduct?.map((_, index) => index);
             setCheckedList(allIndices);
-            setList(menus);
-            setProductId(menus.map((menu) => ({ product: menu._id, quantity: menu.quatity, size: menu.size })));
-            const totalPrice = menus.reduce((acc, menu) => {
+            setList(usersData[user]?.listProduct);
+            setProductId(
+                usersData[user]?.listProduct?.map((menu) => ({
+                    product: menu._id,
+                    quantity: menu.quatity,
+                    size: menu.size,
+                })),
+            );
+            const totalPrice = usersData[user]?.listProduct?.reduce((acc, menu) => {
                 const price = parseInt(menu.price); // Chuyển price thành số
                 return acc + price;
             }, 0);
@@ -227,11 +234,15 @@ function Header({ name, src, price, quatity, size }) {
         } else {
             // Nếu checkbox tổng cộng bị bỏ chọn, bỏ chọn tất cả các checkbox cá nhân
             setCheckedList([]);
+            setList([]);
             setPriceList(0);
         }
     };
-    console.log(productId);
-
+    console.log(list);
+    const handleDelete = (id) => {
+        console.log(id);
+        dispatch(listsMenuSlice.actions.deleteProductForUser({ user, id }));
+    };
     return (
         <div className={cx('wraper')}>
             <>
@@ -270,7 +281,7 @@ function Header({ name, src, price, quatity, size }) {
                     </Menu>
                     <div style={{ display: 'flex' }}>
                         <button className={cx('ColorCartIcon')} onClick={handleSubmit} to="#">
-                            <Badge count={menus.length}>
+                            <Badge count={usersData[user]?.listProduct?.length}>
                                 <ShoppingCartOutlined style={{ fontSize: '34px', color: '#ffffff' }} />
                             </Badge>
                         </button>
@@ -353,7 +364,7 @@ function Header({ name, src, price, quatity, size }) {
                                     </>
                                 )}
                             </div>
-                            {menus.length > 0 ? (
+                            {usersData[user]?.listProduct?.length > 0 ? (
                                 <>
                                     <div className={cx('content-cart')}>
                                         <div className={cx('content-cart-item')}>
@@ -398,39 +409,65 @@ function Header({ name, src, price, quatity, size }) {
                                                 </div>
                                             ) : (
                                                 <>
-                                                    {menus.map((menu, index) => (
-                                                        <div className={cx('cart-item')} key={index}>
-                                                            <Checkbox
-                                                                checked={
-                                                                    checked ? checked : checkedList.includes(index)
-                                                                }
-                                                                style={{ paddingRight: '14px' }}
-                                                                onChange={() => onChangeCheckBox(index, menu)}
-                                                            ></Checkbox>
-                                                            {/* ... Rest of your menu item rendering */}
-                                                            <Images className={cx('logo-cart')} src={menu.src} />
-                                                            <div className={cx('cart-title')}>
-                                                                <div className={cx('cart-name')}>{menu.name}</div>
-                                                                <div className={cx('cart-size')}>
-                                                                    <div style={{ display: 'flex', width: '120px' }}>
-                                                                        <div className={cx('size')}>
-                                                                            Size {menu.size}{' '}
-                                                                            <span>x {menu.quatity}</span>
-                                                                        </div>
-                                                                        <div className={cx('edit')}>
-                                                                            <EditIcons />
+                                                    {Object.keys(usersData).map((userId) => (
+                                                        <div key={userId}>
+                                                            {/* <h2>Người dùng: {userId}</h2> */}
+
+                                                            {user === userId &&
+                                                                usersData[userId].listProduct.map((product, index) => (
+                                                                    <div className={cx('cart-item')} key={index}>
+                                                                        <Checkbox
+                                                                            checked={
+                                                                                checked
+                                                                                    ? checked
+                                                                                    : checkedList.includes(index)
+                                                                            }
+                                                                            style={{ paddingRight: '14px' }}
+                                                                            onChange={() =>
+                                                                                onChangeCheckBox(index, product)
+                                                                            }
+                                                                        ></Checkbox>
+                                                                        {/* ... Rest of your product item rendering */}
+                                                                        <Images
+                                                                            className={cx('logo-cart')}
+                                                                            src={product.src}
+                                                                        />
+                                                                        <div className={cx('cart-title')}>
+                                                                            <div className={cx('cart-name')}>
+                                                                                {product.name}
+                                                                            </div>
+                                                                            <div className={cx('cart-size')}>
+                                                                                <div
+                                                                                    style={{
+                                                                                        display: 'flex',
+                                                                                        width: '120px',
+                                                                                    }}
+                                                                                >
+                                                                                    <div className={cx('size')}>
+                                                                                        Size {product.size}{' '}
+                                                                                        <span>x {product.quatity}</span>
+                                                                                    </div>
+                                                                                    {/* <div className={cx('edit')}>
+                                                                                        <EditIcons />
+                                                                                    </div> */}
+                                                                                </div>
+                                                                                <div style={{ display: 'flex' }}>
+                                                                                    <div className={cx('cart-price')}>
+                                                                                        {product.price} VND
+                                                                                    </div>
+                                                                                    <div
+                                                                                        className={cx('delete')}
+                                                                                        onClick={() =>
+                                                                                            handleDelete(product._id)
+                                                                                        }
+                                                                                    >
+                                                                                        <DeleteIcons />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div style={{ display: 'flex' }}>
-                                                                        <div className={cx('cart-price')}>
-                                                                            {menu.price} VND
-                                                                        </div>
-                                                                        <div className={cx('delete')}>
-                                                                            <DeleteIcons />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                                ))}
                                                         </div>
                                                     ))}
                                                 </>
@@ -459,7 +496,11 @@ function Header({ name, src, price, quatity, size }) {
                                                     <NavLink
                                                         className={cx('btnMenu')}
                                                         to="#"
-                                                        onClick={() => setBuy(!buy)}
+                                                        onClick={() => {
+                                                            if (priceList !== 0) {
+                                                                setBuy(!buy);
+                                                            }
+                                                        }}
                                                     >
                                                         Mua hàng
                                                     </NavLink>
