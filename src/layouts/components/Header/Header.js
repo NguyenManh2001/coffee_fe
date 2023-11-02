@@ -135,9 +135,16 @@ function Header({ name, src, price, quatity, size }) {
         };
         window.addEventListener('scroll', handleScroll);
     });
-
     const handleSubmit = () => {
         setContent(!content);
+        if (usersData[user]?.listProduct?.length !== undefined) {
+            const maxLength = usersData[user]?.listProduct?.reduce((max, arr) => Math.max(max, arr.length));
+            if (maxLength === usersData[user]?.listProduct?.length) {
+                setChecked(true);
+            } else {
+                setChecked(false);
+            }
+        }
     };
     const onChangeCheckBox = (index, menu) => {
         const updatedCheckedList = [...checkedList];
@@ -194,14 +201,12 @@ function Header({ name, src, price, quatity, size }) {
             try {
                 const res = await axios.post('https://coffee-bills.onrender.com/payment/create_payment', {
                     amount: priceList,
-                    // orderDescription: 'Nap tien cho thue bao 0123456789. So tien 100,000 VND',
-                    // orderType: 'other',
+                    customerId: data?.docs[0]?._id,
+                    productId: productId,
                     language: '',
                 });
                 if (res) {
                     const vnp_Url = res.data.vnpUrl;
-
-                    // // Thực hiện chuyển hướng đến URL thanh toán
                     window.location.href = vnp_Url;
                 } else {
                     console.log('lỗi');
@@ -240,7 +245,6 @@ function Header({ name, src, price, quatity, size }) {
     };
     console.log(list);
     const handleDelete = (id) => {
-        console.log(id);
         dispatch(listsMenuSlice.actions.deleteProductForUser({ user, id }));
     };
     return (

@@ -192,7 +192,7 @@ function Customer() {
                                     <th>Địa chỉ</th>
                                     <th>Email</th>
                                     <th>Số điện thoại</th>
-                                    <th>Thời gian mua</th>
+                                    <th>Thời gian tạo</th>
                                     <th colSpan={2}>Chức năng</th>
                                 </tr>
                             </thead>

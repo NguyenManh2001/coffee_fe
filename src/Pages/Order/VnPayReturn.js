@@ -1,11 +1,12 @@
 import { Modal } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './VnPayReturn.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import config from '~/config';
+import axios from 'axios';
 const cx = classNames.bind(styles);
 export default function VnPayReturn() {
     const [open, setOpen] = useState(true);
@@ -21,6 +22,41 @@ export default function VnPayReturn() {
     const vnp_PayDate = moment(vnp_PayDateStr, 'YYYYMMDDHHmmss');
     const formattedTime = vnp_PayDate.format('YYYY-MM-DD HH:mm:ss');
     const navigate = useNavigate();
+    const [requestSent, setRequestSent] = useState(false);
+    const decodedOrderInfo = decodeURIComponent(vnp_OrderInfo); // Giải mã URL-encoded
+    const orderInfoData = JSON.parse(decodedOrderInfo);
+    useEffect(() => {
+        async function postData() {
+            if (!requestSent && vnp_ResponseCode === '00') {
+                try {
+                    const res = await axios.post('https://coffee-bills.onrender.com/orders/addOrder', {
+                        customerId: orderInfoData.customerId,
+                        productId: orderInfoData.productId,
+                        total: vnp_Amount / 100,
+                        isPaid: true,
+                    });
+                    setRequestSent(true);
+                } catch (error) {
+                    console.error('Lỗi khi gửi yêu cầu:', error);
+                }
+            } else {
+                try {
+                    const res = await axios.post('https://coffee-bills.onrender.com/orders/addOrder', {
+                        customerId: orderInfoData.customerId,
+                        productId: orderInfoData.productId,
+                        total: vnp_Amount / 100,
+                        isPaid: false,
+                    });
+                    // Xử lý kết quả nếu cần
+                } catch (error) {
+                    console.error('Lỗi khi gửi yêu cầu:', error);
+                }
+            }
+        }
+
+        postData(); // Gọi hàm async từ đây
+    }, [vnp_ResponseCode]);
+
     return (
         <Modal
             centered
@@ -48,7 +84,7 @@ export default function VnPayReturn() {
                     </div>
                     <div className={cx('form-group')}>
                         <label className={cx('name')}>Nội dung thanh toán:</label>
-                        <label>{vnp_OrderInfo}</label>
+                        <label>Thanh toan cho ma GD: {orderInfoData.orderId}</label>
                     </div>
                     <div className={cx('form-group')}>
                         <label className={cx('name')}>Mã phản hồi (vnp_ResponseCode):</label>
