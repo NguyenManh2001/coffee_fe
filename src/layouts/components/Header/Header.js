@@ -385,6 +385,7 @@ function Header({ name, src, price, quatity, size }) {
                     }}
                     width={600}
                     height={500}
+                    className={cx('ant')}
                     footer={null}
                 >
                     <div className={cx('content')}>
@@ -409,7 +410,10 @@ function Header({ name, src, price, quatity, size }) {
                                         <div className={cx('content-cart-item')}>
                                             {buy ? (
                                                 <div>
-                                                    <div style={{ fontSize: '22px', marginBottom: '16px' }}>
+                                                    <div
+                                                        className={cx('pprice')}
+                                                        style={{ fontSize: '22px', marginBottom: '16px' }}
+                                                    >
                                                         Phương thức thanh toán
                                                     </div>
                                                     <div
@@ -426,10 +430,24 @@ function Header({ name, src, price, quatity, size }) {
                                                             onChange={onChange}
                                                             value={value}
                                                         >
-                                                            <Radio style={{ fontSize: '18px' }} value={1}>
+                                                            <Radio
+                                                                style={
+                                                                    isMobile
+                                                                        ? { fontSize: '16px' }
+                                                                        : { fontSize: '18px' }
+                                                                }
+                                                                value={1}
+                                                            >
                                                                 Thanh toán tiền mặt sau khi nhận hàng
                                                             </Radio>
-                                                            <Radio style={{ fontSize: '18px' }} value={2}>
+                                                            <Radio
+                                                                style={
+                                                                    isMobile
+                                                                        ? { fontSize: '16px' }
+                                                                        : { fontSize: '18px' }
+                                                                }
+                                                                value={2}
+                                                            >
                                                                 {' '}
                                                                 Thanh toán tiền bằng VNPay
                                                             </Radio>
@@ -476,12 +494,7 @@ function Header({ name, src, price, quatity, size }) {
                                                                                 {product.name}
                                                                             </div>
                                                                             <div className={cx('cart-size')}>
-                                                                                <div
-                                                                                    style={{
-                                                                                        display: 'flex',
-                                                                                        width: '120px',
-                                                                                    }}
-                                                                                >
+                                                                                <div classNames={cx('sizeCart')}>
                                                                                     <div className={cx('size')}>
                                                                                         Size {product.size}{' '}
                                                                                         <span>x {product.quatity}</span>
