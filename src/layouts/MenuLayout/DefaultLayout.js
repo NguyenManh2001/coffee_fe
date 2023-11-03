@@ -247,7 +247,13 @@ function MenuLayout({ children }) {
                                                                 <MenuItems1
                                                                     key={MENU._id}
                                                                     // autoPlay={3}
-                                                                    star={<Rate allowHalf defaultValue={2.5} />}
+                                                                    star={
+                                                                        <Rate
+                                                                            allowHalf
+                                                                            defaultValue={2.5}
+                                                                            className={cx('rate')}
+                                                                        />
+                                                                    }
                                                                     src={MENU.link}
                                                                     price={MENU.price}
                                                                     title={MENU.name}
@@ -260,7 +266,7 @@ function MenuLayout({ children }) {
                                                             ))}
                                                         </MenuFeat>
                                                     </div>
-                                                    <div style={{ textAlign: 'center', margin: '35px' }}>
+                                                    <div className={cx('pagination')} style={{ textAlign: 'center' }}>
                                                         <Pagination
                                                             defaultCurrent={1}
                                                             total={data?.totalDocs}
