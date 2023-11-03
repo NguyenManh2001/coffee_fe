@@ -20,6 +20,7 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { Alert, Rate, Space, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { useMediaQuery } from 'react-responsive';
 // import { Carousel } from '@trendyol-js/react-carousel/dist/types/components/carousel';
 
 const cx = classNames.bind(styles);
@@ -102,6 +103,9 @@ function FeatureMenu({ select }) {
     const [type, setType] = useState('');
     const [search, setSearch] = useState('');
     const sliderRef = useRef(null);
+    const isMobile = useMediaQuery({ maxWidth: 767 }); // Điều này kiểm tra nếu kích thước màn hình nhỏ hơn 768px
+
+    const slidesToShow = isMobile ? 2 : 4;
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['data', type, page, search, limit],
         queryFn: () =>
@@ -146,7 +150,7 @@ function FeatureMenu({ select }) {
                 ) : (
                     <>
                         <div className={cx('Menu')}>
-                            <SliderReactjs refs={sliderRef} show={4} scroll={4} className={cx('Menu')}>
+                            <SliderReactjs refs={sliderRef} show={slidesToShow} scroll={4} className={cx('Menu')}>
                                 {data?.docs?.map((MENU, index) => (
                                     <MenuItems
                                         key={MENU._id}

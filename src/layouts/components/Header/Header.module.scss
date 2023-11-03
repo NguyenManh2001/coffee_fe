@@ -226,12 +226,19 @@
 @media (max-width:740px){
     .container{
         width: 100%;
-        padding: 0px 0 0px 8%;
-        margin: 10px 0;
+        // padding: 0px 0 0px 8%;
+        // margin: 10px 0;
+    }
+    .container1{
+        height: 100px;   
+        margin-top: 20px;
     }
     // .menu{
     //     padding-right: 10%;
     // }
+    .email{
+        display: none;
+    }
     .menuIcon{
         padding-right: 15%;
         display: block;

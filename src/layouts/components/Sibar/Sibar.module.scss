@@ -40,6 +40,9 @@
     background-color:transparent;
 
     .content {
+        display: flex;
+    flex-direction: column;
+    justify-content: center;
         width: 100%;
         height: 100%;
     }
@@ -102,7 +105,12 @@
     width:401px;
     height: 300px;
    }
-
+  .carousel1{
+    height: 305px;
+  }
+  .carousellogo{
+    bottom: -32px;
+  }
    .fQtaVz {
     padding-left: none;
     grid-template-columns:none;
@@ -112,22 +120,23 @@
     height: 232px;
     left: 34%;
     .logo-icon{
-        width: 95px;
-        margin: 8% 47% 0 12%;
+        width: 63px;
+        margin: 20% 40% 0 40%;    
     }
     .banner-heading {
         justify-content: flex-start;
         padding: 5px;
-        margin-left: 14%;
+        margin-left: 28%;
         font-family: Caveat, cursive;
         font-size: 22px;}
     .banner-subheading {
         font-size: 17px;
-        justify-content: flex-start;
+        justify-content: center;
         margin: 0px;
         }
     .btn {
-        margin: 5% -4px;
+        margin: 7% -4px;
+        height: 32px;
     }
 }
 }

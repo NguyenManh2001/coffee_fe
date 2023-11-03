@@ -25,6 +25,7 @@ export default function VnPayReturn() {
     const [requestSent, setRequestSent] = useState(false);
     const decodedOrderInfo = decodeURIComponent(vnp_OrderInfo); // Giải mã URL-encoded
     const orderInfoData = JSON.parse(decodedOrderInfo);
+    console.log(orderInfoData);
     useEffect(() => {
         async function postData() {
             if (!requestSent && vnp_ResponseCode === '00') {

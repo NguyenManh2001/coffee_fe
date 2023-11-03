@@ -130,3 +130,23 @@
     text-decoration: revert !important;
    }
 }
+@media (max-width:740px){
+   .content{
+    width: 90%;
+    left: 5%;
+   } ;
+   .formItem{
+    margin-bottom: 40px;
+    flex-direction: column;
+   }
+   .Name{
+    width: 242px;
+   }
+   .btn{
+    width: 100%;
+   }
+   .linkRegister{
+    font-size: 13px;
+    color: #ff4605  !important;
+   }
+}

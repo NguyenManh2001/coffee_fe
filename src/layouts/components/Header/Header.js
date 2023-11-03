@@ -19,6 +19,8 @@ import AddCustomer from '~/Pages/admin/Customer/AddCustomer';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import listsMenuSlice from '~/Redux/list/list';
+import { useMediaQuery } from 'react-responsive';
+import { FaUserCircle } from 'react-icons/fa';
 
 const cx = classNames.bind(styles);
 
@@ -69,6 +71,7 @@ function Header({ name, src, price, quatity, size }) {
             setUser(deToken?.userId);
         }
     }, [token]);
+    const isMobile = useMediaQuery({ maxWidth: 767 }); // Điều này kiểm tra nếu kích thước màn hình nhỏ hơn 768px
 
     // const userRole = useSelector(tokenSelector);
     const menus = useSelector(addProductSelector);
@@ -104,24 +107,35 @@ function Header({ name, src, price, quatity, size }) {
             {data?.docs?.length > 0 ? <EditCustomer data={data} /> : <AddCustomer />}
         </Modal>
     );
-    const items = [
-        {
-            key: '1',
-            label: (
-                <NavLink to="#" onClick={handleInfomation}>
-                    Thông tin cá nhân
-                </NavLink>
-            ),
-        },
-        {
-            key: '2',
-            label: (
-                <NavLink to="#" onClick={handleLogout}>
-                    Đăng xuất
-                </NavLink>
-            ),
-        },
-    ];
+    const items = email
+        ? [
+              {
+                  key: '1',
+                  label: (
+                      <NavLink to="#" onClick={handleInfomation}>
+                          Thông tin cá nhân
+                      </NavLink>
+                  ),
+              },
+              {
+                  key: '2',
+                  label: (
+                      <NavLink to="#" onClick={handleLogout}>
+                          Đăng xuất
+                      </NavLink>
+                  ),
+              },
+          ]
+        : [
+              {
+                  key: '1',
+                  label: <NavLink to={config.routers.Login}>Đăng nhập</NavLink>,
+              },
+              {
+                  key: '2',
+                  label: <NavLink to={config.routers.Rigister}>Đăng ký</NavLink>,
+              },
+          ];
 
     useEffect(() => {
         const handleScroll = () => {
@@ -207,6 +221,7 @@ function Header({ name, src, price, quatity, size }) {
                 });
                 if (res) {
                     const vnp_Url = res.data.vnpUrl;
+                    // console.log(vnp_Url);
                     window.location.href = vnp_Url;
                 } else {
                     console.log('lỗi');
@@ -305,7 +320,9 @@ function Header({ name, src, price, quatity, size }) {
                                         <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
                                     </NavLink>
                                 </Dropdown>
-                                <span style={{ lineHeight: '41px', color: '#fff' }}>{email}</span>
+                                <span className={cx('email')} style={{ lineHeight: '41px', color: '#fff' }}>
+                                    {email}
+                                </span>
                             </>
                         ) : (
                             // <Dropdown
@@ -322,16 +339,34 @@ function Header({ name, src, price, quatity, size }) {
                             //         <LoginIcons />
                             //     </NavLink>
                             // </Dropdown>
-
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <NavLink className={cx('ColorLoginIcon')} to={config.routers.Login}>
-                                    Đăng nhập
-                                </NavLink>
-                                <p style={{ color: '#fff', margin: ' 5px' }}>/</p>
-                                <NavLink className={cx('ColorLoginIcon')} to={config.routers.Rigister}>
-                                    Đăng ký
-                                </NavLink>
-                            </div>
+                            <>
+                                {isMobile ? (
+                                    <Dropdown
+                                        className={cx('ColorLoginIcon')}
+                                        menu={{
+                                            items,
+                                        }}
+                                        placement="bottom"
+                                        arrow={{
+                                            pointAtCenter: true,
+                                        }}
+                                    >
+                                        <NavLink className={cx('ColorLoginIcon')} to="#">
+                                            <FaUserCircle style={{ fontSize: '32px' }} />
+                                        </NavLink>
+                                    </Dropdown>
+                                ) : (
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <NavLink className={cx('ColorLoginIcon')} to={config.routers.Login}>
+                                            Đăng nhập
+                                        </NavLink>
+                                        <p style={{ color: '#fff', margin: ' 5px' }}>/</p>
+                                        <NavLink className={cx('ColorLoginIcon')} to={config.routers.Rigister}>
+                                            Đăng ký
+                                        </NavLink>
+                                    </div>
+                                )}
+                            </>
                         )}
                     </div>
                     <ModalEdit />

@@ -89,7 +89,7 @@ function Rigister() {
                             </Link>
                         </div>
                     </div>
-                    <div className={cx('header')}>Đăng ký tài khoản</div>
+                    <div className={cx('header')}>Đăng ký</div>
                     <div className={cx('Form1')}>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className={cx('formItem')}>

@@ -9,6 +9,7 @@ import { useRef, useState } from 'react';
 import { NextIcons, PrevIcons } from '~/Components/icons/icons';
 import { BsSliders } from 'react-icons/bs';
 import SliderReactjs from '~/Components/SliderReactjs/Slider';
+import { useMediaQuery } from 'react-responsive';
 const cx = classNames.bind(styles);
 const NEWS = [
     {
@@ -38,7 +39,9 @@ const NEWS = [
 ];
 function New() {
     const sliderRef = useRef(null);
+    const isMobile = useMediaQuery({ maxWidth: 767 }); // Điều này kiểm tra nếu kích thước màn hình nhỏ hơn 768px
 
+    const slidesToShow = isMobile ? 1 : 3;
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -48,10 +51,11 @@ function New() {
                 </div>
             </div>
             <div className={cx('content')}>
-                <SliderReactjs refs={sliderRef} show={3} scroll={1} className={cx('content')}>
+                <SliderReactjs refs={sliderRef} show={slidesToShow} scroll={1} className={cx('content')}>
                     {NEWS.map((NEW, index) => (
                         <div key={index} className={cx('list')}>
                             <NewContent
+                                // style={{ width: '210px' }}
                                 key={index}
                                 to={config.routers.News}
                                 name={NEW.name}
