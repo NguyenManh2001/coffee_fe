@@ -263,7 +263,7 @@ function Order() {
                                     <Pagination
                                         defaultCurrent={1}
                                         total={data?.totalDocs}
-                                        // defaultPageSize={10}
+                                        defaultPageSize={15}
                                         current={page}
                                         onChange={handlePageChange}
                                     />

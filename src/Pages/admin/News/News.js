@@ -176,7 +176,7 @@ function NewsAdmin() {
                     </div>
                     <div className={cx('rightContent')}>
                         <Search
-                            placeholder="input search text"
+                            placeholder="Tìm kiếm theo tiêu đề"
                             onSearch={handleSearch}
                             style={{
                                 width: 200,

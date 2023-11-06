@@ -205,7 +205,8 @@ function Header({ name, src, price, quatity, size }) {
                     isPaid: false,
                 });
                 if (res) {
-                    navigate(config.routers.Home, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
+                    setContent(false);
+                    navigate(config.routers.Home, { state: { successMessage: 'Bạn đã mua hàng thành công!!!' } });
                 } else {
                     console.log('lỗi');
                 }
@@ -438,7 +439,7 @@ function Header({ name, src, price, quatity, size }) {
                                                                 }
                                                                 value={1}
                                                             >
-                                                                Thanh toán tiền mặt sau khi nhận hàng
+                                                                Thanh toán tiền sau khi nhận hàng
                                                             </Radio>
                                                             <Radio
                                                                 style={

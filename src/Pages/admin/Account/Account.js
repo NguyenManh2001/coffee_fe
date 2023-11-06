@@ -146,12 +146,11 @@ function Account() {
             <div className={cx('Container')}>
                 <div className={cx('header')}>
                     <div className={cx('NameHeader')}>danh sách tài khoản</div>
-                    <div className={cx('btnHeader')}>
+                    {/* <div className={cx('btnHeader')}>
                         <Link to="#" className={cx('btnIconAdd')}>
-                            {/* <AddIcons className={cx('IconAdd')} /> */}
                             Export Exel
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
                 <ModalEdit />
                 <div className={cx('headerContent')}>

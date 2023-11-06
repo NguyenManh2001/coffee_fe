@@ -73,7 +73,7 @@ function AddCustomer() {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>
-                                Tên khách hàng:<span className={cx('star')}>*</span>
+                                Tên người dùng:<span className={cx('star')}>*</span>
                             </div>
                             <Controller
                                 name="name"
@@ -103,6 +103,7 @@ function AddCustomer() {
                                             className={cx('dropdown')}
                                             value={watch('gender')}
                                             allowClear
+                                            placeholder="Chọn giới tính"
                                             onChange={(val) => setValue('gender', val)}
                                             status={errors.gender?.message ? 'error' : null}
                                             options={[

@@ -182,7 +182,7 @@ function MenuList() {
                     </div>
                     <div className={cx('rightContent')}>
                         <Search
-                            placeholder="input search text"
+                            placeholder="Tìm kiếm theo tên sản phẩm"
                             onSearch={handleSearch}
                             style={{
                                 width: 200,

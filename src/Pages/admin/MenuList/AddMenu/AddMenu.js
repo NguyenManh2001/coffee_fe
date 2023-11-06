@@ -86,6 +86,7 @@ function AddMenu() {
                                             className={cx('dropdown')}
                                             value={watch('type')}
                                             allowClear
+                                            placeholder="Chọn loại sản phẩm"
                                             onChange={(val) => setValue('type', val)}
                                             status={errors.type?.message ? 'error' : null}
                                             options={[
@@ -172,11 +173,11 @@ function AddMenu() {
                                     Lưu lại
                                 </button>
                             </div>
-                            {/* <div className={cx('btnPrev')}>
-                        <Link to={config.routers.MenuAdmin} className={cx('bt')}>
-                            Quay lại
-                        </Link>
-                    </div> */}
+                            <div className={cx('btnPrev')}>
+                                <Link to={config.routers.MenuAdmin} className={cx('bt')}>
+                                    Quay lại
+                                </Link>
+                            </div>
                         </div>
                     </form>
                 </div>

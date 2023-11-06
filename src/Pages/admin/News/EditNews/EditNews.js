@@ -137,6 +137,7 @@ function EditNews(props) {
                                         className={cx('dropdown')}
                                         value={watch('type')}
                                         allowClear
+                                        placeholder="Chọn loại tin tức"
                                         onChange={(val) => setValue('type', val)}
                                         options={[
                                             { value: 'Tin tức', label: 'Tin tức' },
@@ -159,7 +160,7 @@ function EditNews(props) {
                                             id="title"
                                             {...field}
                                             status={errors.title?.message ? 'error' : null}
-                                            placeholder="Basic usage"
+                                            placeholder="Nhập tiêu đề"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.title?.message}</p>
                                     </div>
@@ -186,7 +187,7 @@ function EditNews(props) {
                                 <img
                                     src={watch('image')}
                                     style={{
-                                        height: '200px',
+                                        height: '150px',
                                         objectFit: 'cover',
                                         display: 'block',
                                         margin: '4% 19% 0',
@@ -211,6 +212,7 @@ function EditNews(props) {
                                                 height: '100px',
                                                 cursor: 'pointer',
                                             }}
+                                            placeholder="Nhập mô tả"
                                             {...field}
                                             status={errors.describe?.message ? 'error' : null}
                                         />

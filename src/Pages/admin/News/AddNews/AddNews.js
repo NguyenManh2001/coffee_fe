@@ -87,6 +87,7 @@ function AddNews() {
                                             className={cx('dropdown')}
                                             value={watch('type')}
                                             allowClear
+                                            placeholder="Chọn loại tin tức"
                                             onChange={(val) => setValue('type', val)}
                                             options={[
                                                 { value: 'Tin tức', label: 'Tin tức' },
@@ -112,7 +113,7 @@ function AddNews() {
                                         <Input
                                             {...field}
                                             status={errors.title?.message ? 'error' : null}
-                                            placeholder="Basic usage"
+                                            placeholder="Nhập tiêu đề"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.title?.message}</p>
                                     </div>
@@ -139,7 +140,7 @@ function AddNews() {
                                 <img
                                     src={imgPreview}
                                     style={{
-                                        height: '200px',
+                                        height: '150px',
                                         objectFit: 'cover',
                                         display: 'block',
                                         margin: '4% 19% 0',
@@ -165,6 +166,7 @@ function AddNews() {
                                                 cursor: 'pointer',
                                             }}
                                             {...field}
+                                            placeholder="Nhập mô tả"
                                             status={errors.describe?.message ? 'error' : null}
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.describe?.message}</p>
@@ -178,11 +180,11 @@ function AddNews() {
                                     Lưu lại
                                 </button>
                             </div>
-                            {/* <div className={cx('btnPrev')}>
-                        <Link to={config.routers.MenuAdmin} className={cx('bt')}>
-                            Quay lại
-                        </Link>
-                    </div> */}
+                            <div className={cx('btnPrev')}>
+                                <Link to={config.routers.NewsAdmin} className={cx('bt')}>
+                                    Quay lại
+                                </Link>
+                            </div>
                         </div>
                     </form>
                 </div>

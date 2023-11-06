@@ -82,7 +82,7 @@ function EditCustomer(props) {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>
-                                Tên khách hàng:<span className={cx('star')}>*</span>
+                                Tên người dùng:<span className={cx('star')}>*</span>
                             </div>
                             <Controller
                                 name="name"
@@ -92,7 +92,7 @@ function EditCustomer(props) {
                                         <Input
                                             {...field}
                                             status={errors.name?.message ? 'error' : null}
-                                            placeholder="Basic usage"
+                                            placeholder="Nhập họ và tên"
                                             disabled={!edit}
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.name?.message}</p>
@@ -113,6 +113,7 @@ function EditCustomer(props) {
                                         className={cx('dropdown')}
                                         value={watch('gender')}
                                         allowClear
+                                        placeholder="Chọn giới tính"
                                         onChange={(val) => setValue('gender', val)}
                                         options={[
                                             { value: 'Nam', label: 'Nam' },
@@ -134,7 +135,7 @@ function EditCustomer(props) {
                                         <Input
                                             {...field}
                                             status={errors.address?.message ? 'error' : null}
-                                            placeholder="Basic usage"
+                                            placeholder="Nhập địa chỉ"
                                             disabled={!edit}
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.address?.message}</p>
@@ -154,7 +155,7 @@ function EditCustomer(props) {
                                         <Input
                                             {...field}
                                             status={errors.email?.message ? 'error' : null}
-                                            placeholder="Basic usage"
+                                            placeholder="Nhập Email"
                                             disabled="false"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.email?.message}</p>
@@ -174,7 +175,7 @@ function EditCustomer(props) {
                                         <Input
                                             {...field}
                                             status={errors.number?.message ? 'error' : null}
-                                            placeholder="Basic usage"
+                                            placeholder="Nhập số điện thoại"
                                             disabled={!edit}
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.number?.message}</p>
