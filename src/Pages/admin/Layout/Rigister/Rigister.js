@@ -49,7 +49,7 @@ function Rigister() {
         // e.preventDefault();
         console.log(data);
         const res = await axios
-            .post('/account/register', {
+            .post('https://coffee-bills.onrender.com/account/register', {
                 ...data,
                 role: 0,
             })
@@ -103,7 +103,7 @@ function Rigister() {
                                                 style={{ height: '40px' }}
                                                 {...field}
                                                 status={errors.email?.message ? 'error' : null}
-                                                placeholder="Basic usage"
+                                                placeholder="Nhập Email"
                                             />
                                             <p style={{ margin: '0px', color: 'red' }}>{errors.email?.message}</p>
                                         </div>
@@ -120,7 +120,7 @@ function Rigister() {
                                             <Input.Password
                                                 style={{ height: '40px' }}
                                                 {...field}
-                                                placeholder="input password"
+                                                placeholder="Nhập password"
                                                 status={errors.password?.message ? 'error' : null}
                                                 iconRender={(visible) =>
                                                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />

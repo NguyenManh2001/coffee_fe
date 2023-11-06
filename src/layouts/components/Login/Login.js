@@ -195,7 +195,7 @@ function Login() {
                                                 style={{ height: '40px' }}
                                                 {...field}
                                                 status={errors.email?.message ? 'error' : null}
-                                                placeholder="Basic usage"
+                                                placeholder="Nhập Email"
                                             />
                                             <p style={{ margin: '0px', color: 'red' }}>{errors.email?.message}</p>
                                         </div>
@@ -212,7 +212,7 @@ function Login() {
                                             <Input.Password
                                                 style={{ height: '40px' }}
                                                 {...field}
-                                                placeholder="input password"
+                                                placeholder="Nhập password"
                                                 status={errors.password?.message ? 'error' : null}
                                                 iconRender={(visible) =>
                                                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
