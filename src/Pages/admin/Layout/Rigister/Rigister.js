@@ -89,7 +89,7 @@ function Rigister() {
                             </Link>
                         </div>
                     </div>
-                    <div className={cx('header')}>Đăng ký</div>
+                    <div className={cx('header')}>Register</div>
                     <div className={cx('Form1')}>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className={cx('formItem')}>
@@ -134,13 +134,13 @@ function Rigister() {
                             <div className={cx('submit')}>
                                 <div className={cx('btn')}>
                                     <button type="submit" className={cx('btnLogin')}>
-                                        Xác nhận
+                                        Đăng ký
                                     </button>
                                 </div>
                             </div>
                         </form>
                         <div className={cx('register')}>
-                            <span>Bạn chưa có tài khoản? </span>
+                            <span>Bạn đã có tài khoản? </span>
                             <a className={cx('linkRegister')} href={config.routers.Login}>
                                 Đăng nhập
                             </a>
