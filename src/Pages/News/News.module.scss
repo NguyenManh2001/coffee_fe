@@ -1,9 +1,18 @@
+.wrapper{
 
+    position: relative;
+}
 .container{
     min-height: 500px;
     width: 100%;
 }
-
+ .loading{
+    position: absolute;
+    display: flex;
+    top: 314px;
+    left: 51%;
+    right: auto;
+ }
 .header{
     height: 400px;
     background: url(../../assets/images/tintuc-bn-3.jpeg) no-repeat top;
@@ -101,6 +110,12 @@
 .img-content{
     width: 30%;
     height: 240px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 9px;
+}
+.img-content1{
+    min-height: 240px;
+    width: 250px;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 9px;
 }

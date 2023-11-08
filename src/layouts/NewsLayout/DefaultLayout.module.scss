@@ -20,7 +20,12 @@
     min-height: 500px;
     width: 100%;
 }
-
+ .loading{
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+ }
 .header{
     height: 520px;
     background: url(../../assets/images/tintuc-bn-3.jpeg) no-repeat top;

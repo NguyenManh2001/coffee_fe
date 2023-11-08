@@ -7,10 +7,18 @@ import Rigister, { RigisterItem } from '~/layouts/components/Rigister';
 import { DateIcons } from '~/Components/icons/icons';
 import Menu, { MenuItem } from '~/Pages/News/Menu';
 import config from '~/config';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import formatDate from '~/Components/FormatDate/FormatDate';
+import { Spin } from 'antd';
 
 const cx = classNames.bind(styles);
 
 function News({ children }) {
+    const { isLoading, data, refetch } = useQuery({
+        queryKey: ['listNews'],
+        queryFn: () => axios.post('https://coffee-bills.onrender.com/news/listNews').then((res) => res.data),
+    });
     return (
         <div id="top" className={cx('wrapper')}>
             <Header />
@@ -29,67 +37,45 @@ function News({ children }) {
                             <div className={cx('fifter')}>
                                 <div className={cx('title')}>Bài viết mới nhất</div>
                                 <Menu>
-                                    <MenuItem
-                                        src="https://coffee-cup-react.vercel.app/images/tintuc-3.jpg"
-                                        icon={<DateIcons />}
-                                        name="Khai trương cơ sở Tây Sơn, giảm giá lên tới 50%"
-                                        date="14/02/2022"
-                                        to={config.routers.News1}
-                                    />
-                                    <MenuItem
-                                        src="https://coffee-cup-react.vercel.app/images/giohang.jpg"
-                                        name="Năm mới vạn điều may, uống thả ga"
-                                        icon={<DateIcons />}
-                                        date="24/01/2022"
-                                        to={config.routers.News1}
-                                    />
-                                    <MenuItem
-                                        src="https://coffee-cup-react.vercel.app/images/tintuc-1.jpg"
-                                        name="Coffee Cup - Cảm nhận cà phê mạnh"
-                                        icon={<DateIcons />}
-                                        date="14/01/2022"
-                                        to={config.routers.News1}
-                                    />
-                                    <MenuItem
-                                        src="https://coffee-cup-react.vercel.app/images/tintuc-2.jpg"
-                                        name="Xuân mới phát tài - Uống dài dài"
-                                        icon={<DateIcons />}
-                                        date="04/01/2022"
-                                        to={config.routers.News1}
-                                    />
+                                    {isLoading ? (
+                                        <div className={cx('loading')}>
+                                            <Spin style={{ color: 'red' }} />
+                                        </div>
+                                    ) : (
+                                        <>
+                                            {data?.docs.map((data) => (
+                                                <MenuItem
+                                                    src={data.image}
+                                                    icon={<DateIcons />}
+                                                    name={data.title}
+                                                    date={formatDate(data.createdAt)}
+                                                    to={config.routers.News1}
+                                                />
+                                            ))}
+                                        </>
+                                    )}
                                 </Menu>
                             </div>
                             <div className={cx('fifter')}>
                                 <div className={cx('title')}>Bài viết đọc nhiều</div>
                                 <Menu>
-                                    <MenuItem
-                                        src="https://coffee-cup-react.vercel.app/images/tintuc-3.jpg"
-                                        icon={<DateIcons />}
-                                        name="Khai trương cơ sở Tây Sơn, giảm giá lên tới 50%"
-                                        date="14/02/2022"
-                                        to={config.routers.News1}
-                                    />
-                                    <MenuItem
-                                        src="https://coffee-cup-react.vercel.app/images/giohang.jpg"
-                                        name="Năm mới vạn điều may, uống thả ga"
-                                        icon={<DateIcons />}
-                                        date="24/01/2022"
-                                        to={config.routers.News1}
-                                    />
-                                    <MenuItem
-                                        src="https://coffee-cup-react.vercel.app/images/tintuc-1.jpg"
-                                        name="Coffee Cup - Cảm nhận cà phê mạnh"
-                                        icon={<DateIcons />}
-                                        date="14/01/2022"
-                                        to={config.routers.News1}
-                                    />
-                                    <MenuItem
-                                        src="https://coffee-cup-react.vercel.app/images/tintuc-2.jpg"
-                                        name="Xuân mới phát tài - Uống dài dài"
-                                        icon={<DateIcons />}
-                                        date="04/01/2022"
-                                        to={config.routers.News1}
-                                    />
+                                    {isLoading ? (
+                                        <div className={cx('loading')}>
+                                            <Spin style={{ color: 'red' }} />
+                                        </div>
+                                    ) : (
+                                        <>
+                                            {data?.docs.map((data) => (
+                                                <MenuItem
+                                                    src={data.image}
+                                                    icon={<DateIcons />}
+                                                    name={data.title}
+                                                    date={formatDate(data.createdAt)}
+                                                    to={config.routers.News1}
+                                                />
+                                            ))}
+                                        </>
+                                    )}
                                 </Menu>
                             </div>
                         </div>
