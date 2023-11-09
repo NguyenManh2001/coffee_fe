@@ -137,8 +137,16 @@ function Customer() {
     //             console.log(err);
     //         });
     // }, []);
+
+    const exl = data?.docs.map((doc) => ({
+        'Họ và tên': doc.name,
+        'Giới tính': doc.gender,
+        'Địa chỉ': doc.address,
+        Email: doc.email,
+        'Số điện thoại': doc.number,
+    }));
     const handleExl = () => {
-        exportToExcel(data.docs);
+        exportToExcel(exl);
     };
     const isdata = !data?.docs?.length;
 

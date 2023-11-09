@@ -1,4 +1,4 @@
-import React, { Children, useState } from 'react';
+import React, { Children, useEffect, useState } from 'react';
 import { Avatar, Dropdown, Space } from 'antd';
 import { HiClipboardList } from 'react-icons/hi';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { FaUserCircle, FaMoneyBillAlt } from 'react-icons/fa';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { HiOutlineNewspaper } from 'react-icons/hi';
+import jwt_decode from 'jwt-decode';
 import { Pagination } from 'antd';
 import { Modal } from 'antd';
 
@@ -24,11 +25,19 @@ const { Header, Sider, Content } = Layout;
 
 const AdminLayout = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false);
+    const [email, setEmail] = useState();
     const handleLogout = () => {
         Cookies.remove('token');
         window.location.reload();
     };
-
+    const token = Cookies.get('token');
+    useEffect(() => {
+        if (token !== undefined) {
+            const deToken = jwt_decode(token);
+            setEmail(deToken?.email);
+            // setUser(deToken?.userId);
+        }
+    }, [token]);
     const items = [
         {
             key: '1',
@@ -125,7 +134,8 @@ const AdminLayout = ({ children }) => {
                             }}
                         >
                             <NavLink to="#">
-                                <Avatar size={40} style={{ marginRight: '30px' }} icon={<UserOutlined />} />
+                                <Avatar size={40} style={{ marginRight: '10px' }} icon={<UserOutlined />} />
+                                <span style={{ marginRight: '20px' }}>{email}</span>
                             </NavLink>
                         </Dropdown>
                     </>
