@@ -264,7 +264,7 @@ function NewsAdmin() {
                                     <Pagination
                                         defaultCurrent={1}
                                         total={data?.totalDocs}
-                                        // defaultPageSize={10}
+                                        defaultPageSize={7}
                                         current={page}
                                         onChange={handlePageChange}
                                     />

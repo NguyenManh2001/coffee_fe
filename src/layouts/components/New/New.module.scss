@@ -107,7 +107,12 @@
     transform: translateY(-8px);
     }
 }
-
+ .loading{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 200px;
+ }
 
 @media (max-width:740px){
     .content{

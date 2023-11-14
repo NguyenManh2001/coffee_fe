@@ -157,12 +157,12 @@ function Order() {
             <div className={cx('Container')}>
                 <div className={cx('header')}>
                     <div className={cx('NameHeader')}>danh sách đơn hàng</div>
-                    <div className={cx('btnHeader')}>
+                    {/* <div className={cx('btnHeader')}>
                         <Link to="#" className={cx('btnIconAdd')} onClick={handleExl}>
-                            {/* <AddIcons className={cx('IconAdd')} /> */}
+                            <AddIcons className={cx('IconAdd')} />
                             Export Exel
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
                 <ModalEdit />
                 <div className={cx('headerContent')}>
