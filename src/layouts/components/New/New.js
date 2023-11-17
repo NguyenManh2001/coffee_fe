@@ -15,32 +15,6 @@ import axios from 'axios';
 import { Spin } from 'antd';
 import formatDate, { formatTime } from '~/Components/FormatDate/FormatDate';
 const cx = classNames.bind(styles);
-const NEWS = [
-    {
-        id: 1,
-        name: 'NĂM MỚI, UỐNG "KHỞI ĐẦU SUNG" - NHẬN LÌ XÌ KHỦNG',
-        date: '02/02/2022, 20:02',
-        src: require('~/assets/images/giohang.jpg'),
-    },
-    {
-        id: 2,
-        name: 'Khai trương cơ sở tây sơn, giảm giá lên tới 50%',
-        date: '14/01/2022, 15:30',
-        src: require('~/assets/images/tintuc-3.jpg'),
-    },
-    {
-        id: 3,
-        name: 'Mừng xuân mới, Uống thả ga, Nhận quà liền tay',
-        date: '14/01/2022, 15:30',
-        src: require('~/assets/images/tintuc-1.jpg'),
-    },
-    {
-        id: 4,
-        name: 'Ô long mùa xuân" - Hương vị mới lạ',
-        date: '14/01/2022, 15:30',
-        src: require('~/assets/images/tintuc-2.jpg'),
-    },
-];
 
 function New() {
     const sliderRef = useRef(null);

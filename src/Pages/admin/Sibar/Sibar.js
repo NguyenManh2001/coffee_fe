@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './News.module.scss';
+import styles from './Sibar.module.scss';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 // import Table from 'react-bootstrap/Table';
 import { AddIcons } from '~/Components/icons/icons';
@@ -12,18 +12,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import listsMenuSlice from '~/Redux/list/list';
 import filterSlice from '~/Redux/filters/filters';
 import { searchitemSelector } from '~/Redux/selector';
-import { Pagination, Select, Space, Spin } from 'antd';
-import { Empty, Button, Modal, message, Alert, Input, Table, Tag } from 'antd';
+import { Pagination, Select, Space, Spin, Table } from 'antd';
+import { Empty, Button, Modal, message, Alert, Input } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import EditNews from './EditNews';
+import EditSibar from './EditSibar';
 
 const { Search } = Input;
 const { confirm } = Modal;
 const cx = classNames.bind(styles);
 
-function NewsAdmin() {
+function SibarAdmin() {
     const [page, setPage] = useState(1);
     const [type, setType] = useState('');
     const [search, setSearch] = useState('');
@@ -72,7 +72,7 @@ function NewsAdmin() {
             cancelText: 'No',
             onOk() {
                 axios
-                    .delete(`https://coffee-bills.onrender.com/news/deleteNews/${id}`)
+                    .delete(`https://coffee-bills.onrender.com/sibar/deleteSibar/${id}`)
                     .then((res) => {
                         success('Bạn đã xóa thành công');
                         refetch();
@@ -121,7 +121,7 @@ function NewsAdmin() {
             width={1000}
             footer={null}
         >
-            <EditNews data={editData} />
+            <EditSibar data={editData} />
         </Modal>
     );
     // useEffect(() => {
@@ -136,35 +136,54 @@ function NewsAdmin() {
     //         });
     // }, []);
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ['dataNews', type, page, search],
+        queryKey: ['dataSibar', type, page, search],
         queryFn: () =>
             axios
-                .post('https://coffee-bills.onrender.com/news/listNews', { page, type, search })
+                .post('https://coffee-bills.onrender.com/sibar/listSibar', { page, type, search })
                 .then((res) => res.data),
     });
     const isdata = !data?.docs?.length;
     const columns = [
         {
+            title: 'Tên quán',
+            dataIndex: 'name',
+            key: 'name',
+            className: cx('custom-column'),
+        },
+        {
             title: 'Tiêu đề',
             dataIndex: 'title',
             key: 'title',
+            className: cx('custom-title'),
         },
         {
-            title: 'Ảnh',
-            dataIndex: 'image',
-            key: 'image',
+            title: 'Ảnh nền',
+            dataIndex: 'srcImage',
+            key: 'srcImage',
             className: cx('custom-column'),
             render: (text, record) => (
                 <span>
                     {' '}
-                    <img style={{ width: '100%', height: '100%' }} src={record?.image} />
+                    <img style={{ width: '100%', height: '100%' }} src={record?.srcImage} />
                 </span>
             ),
         },
         {
-            title: 'Mô tả',
-            dataIndex: 'describe',
-            key: 'describe',
+            title: 'Logo',
+            dataIndex: 'iconImage',
+            key: 'iconImage',
+            className: cx('custom-column'),
+            render: (text, record) => (
+                <span>
+                    {' '}
+                    <img style={{ width: '100%', height: '100%' }} src={record?.iconImage} />
+                </span>
+            ),
+        },
+        {
+            title: 'Tên Button',
+            dataIndex: 'btnName',
+            key: 'btnName',
         },
         {
             title: 'Thời gian tạo',
@@ -198,9 +217,9 @@ function NewsAdmin() {
             {contextHolder}
             <div className={cx('Container')}>
                 <div className={cx('header')}>
-                    <div className={cx('NameHeader')}>danh sách tin tức</div>
+                    <div className={cx('NameHeader')}>danh sách thông tin</div>
                     <div className={cx('btnHeader')}>
-                        <Link to={config.routers.AddNews} className={cx('btnIconAdd')}>
+                        <Link to={config.routers.AddSibar} className={cx('btnIconAdd')}>
                             <AddIcons className={cx('IconAdd')} />
                             Thêm mới
                         </Link>
@@ -209,22 +228,22 @@ function NewsAdmin() {
                 <ModalEdit />
                 <div className={cx('headerContent')}>
                     <div className={cx('leftContent')}>
-                        <div className={cx('name')}>Loại sản phẩm:</div>
+                        <div className={cx('name')}>Hiển thị</div>
                         <Select
-                            defaultValue="Tất cả"
-                            style={{ width: 120 }}
+                            defaultValue="10"
+                            style={{ width: 120, margin: '10px' }}
                             onChange={handleSelected}
                             options={[
-                                { value: 'Tất cả', label: 'Tất cả' },
-                                { value: 'Tin tức', label: 'Tin tức' },
-                                { value: 'Sự kiện', label: 'Sự kiện' },
+                                { value: 10, label: 10 },
+                                { value: 25, label: 25 },
+                                { value: 40, label: 40 },
                             ]}
                         />
-                        {/* <div className={cx('name')}>bản ghi trên trang</div> */}
+                        <div className={cx('name')}>bản ghi trên trang</div>
                     </div>
                     <div className={cx('rightContent')}>
                         <Search
-                            placeholder="Tìm kiếm theo tiêu đề"
+                            placeholder="Tìm kiếm theo tên"
                             onSearch={handleSearch}
                             style={{
                                 width: 200,
@@ -238,6 +257,7 @@ function NewsAdmin() {
                             <thead>
                                 <tr>
                                     <th>STT</th>
+                                    <th>Tên</th>
                                     <th>Tiêu đề</th>
                                     <th>Ảnh</th>
                                     <th>Mô tả</th>
@@ -261,6 +281,9 @@ function NewsAdmin() {
                                         {/* {data?.docs?.map((data, index) => (
                                                     <tr key={data._id} style={{ lineHeight: '65px' }}>
                                                         <td>{index + 1}</td>
+                                                        <td style={{ lineHeight: '24px', width: '300px' }}>
+                                                            {data.name}
+                                                        </td>
                                                         <td style={{ lineHeight: '24px', width: '300px' }}>
                                                             {data.title}
                                                         </td>
@@ -297,7 +320,7 @@ function NewsAdmin() {
                                             style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '17px' }}
                                             defaultCurrent={1}
                                             total={data?.totalDocs}
-                                            defaultPageSize={4}
+                                            defaultPageSize={7}
                                             current={page}
                                             onChange={handlePageChange}
                                         />
@@ -305,7 +328,9 @@ function NewsAdmin() {
                                 )}
                             </>
                         )}
-                        {/* </Table> */}
+                        {/* </tbody>
+                           
+                        </Table> */}
                         {/* {isLoading ||
                             (!isdata && (
                                 <div className={cx('footer')}>
@@ -317,7 +342,7 @@ function NewsAdmin() {
                                         onChange={handlePageChange}
                                     />
                                 </div>
-                            ))}  */}
+                            ))} */}
                     </div>
                 </div>
             </div>
@@ -325,4 +350,4 @@ function NewsAdmin() {
     );
 }
 
-export default NewsAdmin;
+export default SibarAdmin;

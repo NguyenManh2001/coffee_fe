@@ -4,6 +4,8 @@ import styles from './Sibar.module.scss';
 import React from 'react';
 // import Carousel from 'better-react-carousel';
 import Carousel from 'react-bootstrap/Carousel';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 const cx = classNames.bind(styles);
 const Sibars = [
     {
@@ -32,13 +34,19 @@ const Sibars = [
     },
 ];
 function Sibar() {
+    const { isLoading, data, refetch } = useQuery({
+        queryKey: ['data'],
+        queryFn: () => axios.post('https://coffee-bills.onrender.com/sibar/listSibar').then((res) => res.data),
+    });
+
+    console.log(data);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('carousel')}>
                 <div className={cx('carousel-inner')}>
                     <div className={cx('carousel-item active')}>
                         <Carousel className={cx('carousel1')}>
-                            {Sibars.map((Sibar) => (
+                            {data?.docs?.map((Sibar) => (
                                 <Carousel.Item key={Sibar.id}>
                                     <Images className={cx('carousel-img')} src={Sibar.srcImage} alt="..." />
                                     <Carousel.Caption className={cx('carouselItem')}>
@@ -54,7 +62,7 @@ function Sibar() {
                                                 <h1 className={cx('banner-heading')}>{Sibar.name}</h1>
                                                 <h4 className={cx('banner-subheading')}>{Sibar.title}</h4>
                                                 <a className={cx('')} href="/menu">
-                                                    <button className={cx('btn')}>{Sibar.btn}</button>
+                                                    <button className={cx('btn')}>{Sibar.btnName}</button>
                                                 </a>
                                             </div>
                                         </div>

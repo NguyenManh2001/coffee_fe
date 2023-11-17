@@ -1,4 +1,4 @@
-import Menu from '~/Pages/Menu';
+// import Menu from '~/Pages/Menu';
 import Home from '~/Pages/Home';
 import News from '~/Pages/News';
 import Contact from '~/Pages/Contact';
@@ -31,11 +31,15 @@ import NewsAdmin from '~/Pages/admin/News/News';
 import AddNews from '~/Pages/admin/News/AddNews';
 import Order from '~/Pages/admin/Order/Order';
 import VnPayReturn from '~/Pages/Order/VnPayReturn';
+import AboutsAdmin from '~/Pages/admin/Abouts/Abouts';
+import AddAbouts from '~/Pages/admin/Abouts/AddAbouts';
+import SibarAdmin from '~/Pages/admin/Sibar/Sibar';
+import AddSibar from '~/Pages/admin/Sibar/AddSibar';
 
 const publicRoutes = [
     { path: config.routers.Home, component: Home, layout: DefaultLayout },
     { path: config.routers.News, component: News, layout: NewsLayout },
-    { path: config.routers.Menu, layout: MenuLayout, component: Menu },
+    { path: config.routers.Menu, layout: MenuLayout },
     { path: config.routers.Contact, component: Contact, layout: HeaderRegister },
     { path: config.routers.About, component: About, layout: HeaderRegister },
     { path: config.routers.Tea, layout: MenuLayout, component: Tea },
@@ -70,5 +74,9 @@ const privateRoutes = [
     { path: config.routers.Order, component: Order, layout: AdminLayout },
     { path: config.routers.NewsAdmin, component: NewsAdmin, layout: AdminLayout },
     { path: config.routers.AddNews, component: AddNews, layout: AdminLayout },
+    { path: config.routers.AboutsAdmin, component: AboutsAdmin, layout: AdminLayout },
+    { path: config.routers.AddAbouts, component: AddAbouts, layout: AdminLayout },
+    { path: config.routers.SibarAdmin, component: SibarAdmin, layout: AdminLayout },
+    { path: config.routers.AddSibar, component: AddSibar, layout: AdminLayout },
 ];
 export { publicRoutes, privateRoutes };

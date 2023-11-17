@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Order.module.scss';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import Table from 'react-bootstrap/Table';
+// import Table from 'react-bootstrap/Table';
 import { AddIcons } from '~/Components/icons/icons';
 import { BiEditAlt } from 'react-icons/bi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
@@ -13,7 +13,7 @@ import listsMenuSlice from '~/Redux/list/list';
 import filterSlice from '~/Redux/filters/filters';
 import { searchitemSelector } from '~/Redux/selector';
 import { Pagination, Select, Spin } from 'antd';
-import { Empty, Button, Modal, message, Alert, Input } from 'antd';
+import { Empty, Button, Modal, message, Alert, Input, Space, Table, Tag } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { EyeInvisibleOutlined, EyeOutlined, QuestionCircleOutlined } from '@ant-design/icons';
@@ -151,6 +151,52 @@ function Order() {
     };
     const isdata = !data?.docs?.length;
 
+    const columns = [
+        {
+            title: 'Tên khách hàng',
+            dataIndex: 'name',
+            key: 'name',
+            render: (text, record) => <span>{record?.customer?.name}</span>,
+        },
+        {
+            title: 'Tổng tiền',
+            dataIndex: 'total',
+            key: 'total',
+            render: (text, record) => <span>{record.total.toLocaleString('vi-VN')} VND</span>,
+        },
+        {
+            title: 'Thời gian tạo',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            render: (text, record) => <span>{formatTime(record?.createdAt)}</span>,
+        },
+        {
+            title: 'Thanh toán',
+            dataIndex: 'isPaid',
+            key: 'isPaid',
+            render: (text, record) => <span>{record?.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</span>,
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (_, record) => (
+                <Space size="middle">
+                    <Link className={cx('icon')} to="#" onClick={() => handleUpdate(record)}>
+                        {eye[record._id] ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                    </Link>
+
+                    <Link className={cx('icon')} onClick={() => handleDelete(record._id)} to="#">
+                        <RiDeleteBin6Line />
+                    </Link>
+                </Space>
+            ),
+        },
+    ];
+
+    const Menudata = data?.docs;
+
+    console.log(Menudata);
+
     return (
         <div className={cx('Wrapper')}>
             {contextHolder}
@@ -173,7 +219,7 @@ function Order() {
                             style={{ width: 120, margin: '10px' }}
                             onChange={handleSelected}
                             options={[
-                                { value: 10, label: 10 },
+                                { value: 7, label: 7 },
                                 { value: 25, label: 25 },
                                 { value: 40, label: 40 },
                             ]}
@@ -192,7 +238,7 @@ function Order() {
                 </div>
                 <div className={cx('content')}>
                     <div className={cx('contentItem')}>
-                        <Table striped bordered size="sm">
+                        {/* <Table striped bordered size="sm">
                             <thead>
                                 <tr>
                                     <th>STT</th>
@@ -203,31 +249,26 @@ function Order() {
                                     <th colSpan={2}>Chức năng</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {isLoading ? (
-                                    <div
-                                        className={cx('loading')}
-                                        style={{ position: 'absolute', left: '48%', top: '90%' }}
-                                    >
-                                        <Spin style={{ color: 'red' }} />
+                            <tbody> */}
+                        {isLoading ? (
+                            <div className={cx('loading')} style={{ position: 'absolute', left: '48%', top: '65%' }}>
+                                <Spin style={{ color: 'red' }} />
+                            </div>
+                        ) : (
+                            <>
+                                {isdata ? (
+                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '65%' }}>
+                                        <Empty />
                                     </div>
                                 ) : (
                                     <>
-                                        {isdata ? (
-                                            <div
-                                                style={{ position: 'absolute', right: '34%', left: '34%', top: '65%' }}
-                                            >
-                                                <Empty />
-                                            </div>
-                                        ) : (
-                                            <>
-                                                {data?.docs?.map((data, index) => (
+                                        {/* {data?.docs?.map((data, index) => (
                                                     <tr key={data._id}>
                                                         <td>{index + 1}</td>
-                                                        <td>{data.customer.name}</td>
-                                                        <td>{data.total.toLocaleString('vi-VN')} VND</td>
-                                                        <td>{formatTime(data.createdAt)}</td>
-                                                        <td>{data.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</td>
+                                                        <td>{data?.customer?.name}</td>
+                                                        <td>{data?.total.toLocaleString('vi-VN')} VND</td>
+                                                        <td>{formatTime(data?.createdAt)}</td>
+                                                        <td>{data?.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</td>
                                                         <td>
                                                             <Link
                                                                 className={cx('icon')}
@@ -250,25 +291,34 @@ function Order() {
                                                             </Link>
                                                         </td>
                                                     </tr>
-                                                ))}
-                                            </>
-                                        )}
+                                                ))} */}
+                                        <Table columns={columns} dataSource={Menudata} pagination={false} />
+                                        <Pagination
+                                            style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '17px' }}
+                                            defaultCurrent={1}
+                                            total={data?.totalDocs}
+                                            defaultPageSize={10}
+                                            current={page}
+                                            onChange={handlePageChange}
+                                        />
                                     </>
                                 )}
-                            </tbody>
-                        </Table>
-                        {isLoading ||
+                            </>
+                        )}
+                        {/* </tbody>
+                        </Table> */}
+                        {/* {isLoading ||
                             (!isdata && (
                                 <div className={cx('footer')}>
                                     <Pagination
                                         defaultCurrent={1}
                                         total={data?.totalDocs}
-                                        defaultPageSize={15}
+                                        defaultPageSize={10}
                                         current={page}
                                         onChange={handlePageChange}
                                     />
                                 </div>
-                            ))}
+                            ))} */}
                     </div>
                 </div>
             </div>

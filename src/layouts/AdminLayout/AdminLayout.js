@@ -96,6 +96,16 @@ const AdminLayout = ({ children }) => {
                             key: config.routers.NewsAdmin,
                         },
                         {
+                            label: 'Giới thiệu',
+                            icon: <HiOutlineNewspaper style={{ fontSize: '20px' }} />,
+                            key: config.routers.AboutsAdmin,
+                        },
+                        {
+                            label: 'Quảng cáo',
+                            icon: <HiOutlineNewspaper style={{ fontSize: '20px' }} />,
+                            key: config.routers.SibarAdmin,
+                        },
+                        {
                             label: 'Tài Khoản',
                             icon: <FaUserCircle style={{ fontSize: '20px' }} />,
                             key: config.routers.Account,
@@ -135,7 +145,7 @@ const AdminLayout = ({ children }) => {
                         >
                             <NavLink to="#">
                                 <Avatar size={40} style={{ marginRight: '10px' }} icon={<UserOutlined />} />
-                                <span style={{ marginRight: '20px' }}>{email}</span>
+                                <span style={{ marginRight: '20px' }}>{email?.split('@')[0]}</span>
                             </NavLink>
                         </Dropdown>
                     </>

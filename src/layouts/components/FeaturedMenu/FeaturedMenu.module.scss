@@ -9,13 +9,14 @@
     height: 100%;
 }
 .header {
-    font-weight: 500;
+    color: #000000e6;
     padding: 15px 0px;
     font-size: 5rem;
     line-height: 56px;
     text-align: center;
     text-transform: capitalize;
-    color: var(--black);
+    font-family: var(--font-family);
+    font-weight: 600;
 }
 .lineborder {
     display: flex;

@@ -3,10 +3,18 @@ import styles from './About.module.scss';
 import Images from '~/Components/Images';
 import config from '~/config';
 import Content, { ContentItem } from '~/layouts/components/About/Content';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { Spin } from 'antd';
 
 const cx = classNames.bind(styles);
 
 function About() {
+    const { isLoading, data, refetch } = useQuery({
+        queryKey: ['listNews'],
+        queryFn: () => axios.post('https://coffee-bills.onrender.com/abouts/ListAbouts').then((res) => res.data),
+    });
+    console.log(data);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -19,61 +27,37 @@ function About() {
                             alt="lineborder"
                         />
                     </div>
-                    <div className={cx('main-content','tent')}>
-                        <div className={cx('content-left')}>
-                            <div className={cx('img-content', 'image-1')}></div>
+                    {isLoading ? (
+                        <div className={cx('loading')}>
+                            <Spin style={{ color: 'red' }} />
                         </div>
-                        <div className={cx('content-right')}>
-                            <div className={cx('main-right')}>
-                                <Content>
-                                    <div className={cx('content-item')}>
-                                        <ContentItem
-                                         to='#'
-                                            header="Khởi nguồn"
-                                            title="thương hiệu bắt nguồn từ cà phê việt nam"
-                                            text=" Coffee Cup được sinh ra từ niềm đam mê bất tận với hạt cà phê Việt Nam. Qua một chặng đường dài, chúng tôi đã không ngừng mang đến những sản phẩm cà phê thơm ngon, sánh đượm trong không gian thoải mái và lịch sự với mức giá hợp lý."
-                                        />
+                    ) : (
+                        <>
+                            {data?.docs.map((data) => (
+                                <div key={data._id} className={cx('main-content', 'tent')}>
+                                    <div className={cx('content-left')}>
+                                        <div className={cx('img-content')}>
+                                            <Images src={data.image} className={cx('Image')} alt="lineborder" />
+                                        </div>
                                     </div>
-                                </Content>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={cx('main-content','main')}>
-                        <div className={cx('content-left')}>
-                            <Content>
-                                <div className={cx('content-item')}>
-                                    <ContentItem
-                                    to='#'
-                                        header="Phát triển"
-                                        title="Xây dựng niềm tin bằng chất lượng sản phẩm"
-                                        text=" Chúng tôi mong muốn mang đến cho bạn những trải nghiệm đáng nhớ mỗi lần đến Coffee Cup. Hãy chia sẻ với chúng tôi để chúng tôi có thể mang đến cho bạn những trải nghiệm tuyệt vời hơn thế."
-                                    />
+                                    <div className={cx('content-right')}>
+                                        <div className={cx('main-right')}>
+                                            <Content>
+                                                <div className={cx('content-item')}>
+                                                    <ContentItem
+                                                        to="#"
+                                                        header={data.name}
+                                                        title={data.title}
+                                                        text={data.describe}
+                                                    />
+                                                </div>
+                                            </Content>
+                                        </div>
+                                    </div>
                                 </div>
-                            </Content>
-                        </div>
-                        <div className={cx('content-right','right')}>
-                            <div className={cx('img-content', 'image-2')}></div>
-                        </div>
-                    </div>
-                    <div className={cx('main-content')}>
-                        <div className={cx('content-left')}>
-                            <div className={cx('img-content', 'image-3')}></div>
-                        </div>
-                        <div className={cx('content-right')}>
-                            <div className={cx('main-right')}>
-                                <Content>
-                                    <div className={cx('content-item')}>
-                                        <ContentItem
-                                          to='#'
-                                            header="Vươn tới đỉnh cao"
-                                            title="Hướng tới một hệ thống cơ sở toàn quốc"
-                                            text="Với sứ mệnh trở thành thương hiệu cà phê Việt Nam dẫn đầu, Chúng tôi mong muốn mang đến cho bạn những trải nghiệm đáng nhớ mỗi lần đến Cup Coffee®. Hãy chia sẻ với chúng tôi để chúng tôi có thể mang đến cho bạn những trải nghiệm tuyệt vời hơn thế."
-                                        />
-                                    </div>
-                                </Content>
-                            </div>
-                        </div>
-                    </div>
+                            ))}
+                        </>
+                    )}
                 </div>
             </div>
         </div>

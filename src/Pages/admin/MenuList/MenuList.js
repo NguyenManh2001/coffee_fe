@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './MenuList.module.scss';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import Table from 'react-bootstrap/Table';
+// import Table from 'react-bootstrap/Table';
 import { AddIcons } from '~/Components/icons/icons';
 import { BiEditAlt } from 'react-icons/bi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import listsMenuSlice from '~/Redux/list/list';
 import filterSlice from '~/Redux/filters/filters';
 import { searchitemSelector } from '~/Redux/selector';
-import { Pagination, Select, Spin } from 'antd';
+import { Pagination, Select, Space, Spin, Table } from 'antd';
 import EditMenu from './EditMenu';
 import { Empty, Button, Modal, message, Alert, Input } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
@@ -145,7 +145,57 @@ function MenuList() {
     });
 
     const isdata = !data?.docs?.length;
-    console.log(isdata);
+    const columns = [
+        {
+            title: 'Tên sản phẩm',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Ảnh',
+            dataIndex: 'link',
+            key: 'link',
+            className: cx('custom-column'),
+            render: (text, record) => (
+                <span>
+                    {' '}
+                    <img style={{ width: '100%', height: '100%' }} src={record?.link} />
+                </span>
+            ),
+        },
+        {
+            title: 'Giá',
+            dataIndex: 'price',
+            key: 'price',
+            render: (text, record) => <span>{record.price.toLocaleString('vi-VN')} VND</span>,
+        },
+        {
+            title: 'Thời gian nhập',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            className: cx('custom-create'),
+            style: {
+                with: '155px',
+            },
+            render: (text, record) => <span>{formatTime(record?.createdAt)}</span>,
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (_, record) => (
+                <Space size="middle">
+                    <Link className={cx('icon')} to="#" onClick={() => handleUpdate(record)}>
+                        <BiEditAlt />
+                    </Link>
+                    <Link className={cx('icon')} to="#" onClick={() => handldeDelete(record._id)}>
+                        <RiDeleteBin6Line />
+                    </Link>
+                </Space>
+            ),
+        },
+    ];
+
+    const Menudata = data?.docs;
     return (
         <div className={cx('Wrapper')}>
             {contextHolder}
@@ -192,7 +242,7 @@ function MenuList() {
                 </div>
                 <div className={cx('content')}>
                     <div className={cx('contentItem')}>
-                        <Table striped bordered size="sm">
+                        {/* <Table striped bordered size="sm">
                             <thead>
                                 <tr style={{ textAlign: 'center' }}>
                                     <th>STT</th>
@@ -203,25 +253,20 @@ function MenuList() {
                                     <th colSpan={2}>Chức năng</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {isLoading ? (
-                                    <div
-                                        className={cx('loading')}
-                                        style={{ position: 'absolute', left: '48%', top: '55%' }}
-                                    >
-                                        <Spin style={{ color: 'red' }} />
+                            <tbody> */}
+                        {isLoading ? (
+                            <div className={cx('loading')} style={{ position: 'absolute', left: '48%', top: '55%' }}>
+                                <Spin style={{ color: 'red' }} />
+                            </div>
+                        ) : (
+                            <>
+                                {isdata ? (
+                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}>
+                                        <Empty />
                                     </div>
                                 ) : (
                                     <>
-                                        {isdata ? (
-                                            <div
-                                                style={{ position: 'absolute', right: '34%', left: '34%', top: '40%' }}
-                                            >
-                                                <Empty />
-                                            </div>
-                                        ) : (
-                                            <>
-                                                {data?.docs?.map((menu, index) => (
+                                        {/* {data?.docs?.map((menu, index) => (
                                                     <tr
                                                         key={menu._id}
                                                         style={{ lineHeight: '65px', textAlign: 'center' }}
@@ -253,15 +298,22 @@ function MenuList() {
                                                             </Link>
                                                         </td>
                                                     </tr>
-                                                ))}
-                                            </>
-                                        )}
+                                                ))} */}
+                                        <Table columns={columns} dataSource={Menudata} pagination={false} />
+                                        <Pagination
+                                            style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '17px' }}
+                                            defaultCurrent={1}
+                                            total={data?.totalDocs}
+                                            defaultPageSize={7}
+                                            current={page}
+                                            onChange={handlePageChange}
+                                        />
                                     </>
                                 )}
-                            </tbody>
-                            {/* ))} */}
-                            {/* </>
-                            )} */}
+                            </>
+                        )}
+                        {/* </tbody>
+                          
                         </Table>
                         {isLoading ||
                             (!isdata && (
@@ -274,7 +326,7 @@ function MenuList() {
                                         onChange={handlePageChange}
                                     />
                                 </div>
-                            ))}
+                            ))} */}
                     </div>
                 </div>
             </div>

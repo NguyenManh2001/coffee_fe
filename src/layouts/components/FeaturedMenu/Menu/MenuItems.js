@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 function MenuItems({ star, price, title, icon, src, onClick }) {
     return (
         <div className={cx('menu-content')}>
-            <div className={cx('card')}>
+            <div className={cx('card')} onClick={onClick}>
                 <div className={cx('card-img')}>
                     <Images className={cx('card-img')} src={src} alt="Cà phê mocha" />
                 </div>

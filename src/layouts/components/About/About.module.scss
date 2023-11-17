@@ -8,13 +8,14 @@
     height: 100%;
 }
 .header {
-    font-weight: 500;
+    font-weight: 600;
     padding: 15px 0px;
     font-size: 5rem;
     line-height: 56px;
+    font-family: var(--font-family);
     text-align: center;
     text-transform: capitalize;
-    color: var(--black);
+    color: #000000e6;
     margin: 50px 20px 0;
 }
 .lineborder {
@@ -44,22 +45,36 @@
     border-top-left-radius: 12px;
     border-bottom-left-radius: 9px;
 }
-.image-1{
-   height: 281px;
-    background: url(../../../assets/images/chungtoi-1.png) no-repeat center;
-    background-size: cover;
-}
-.image-2{
-   height: 281px;
-    background: url(../../../assets/images/chungtoi-2.jpg) no-repeat center;
-    background-size: cover;
-}
-.image-3{
-   height: 281px;
-    background: url(../../../assets/images/chungtoi-3.jpg) no-repeat center;
-    background-size: cover;
-}
+// .image-1{
+//    height: 281px;
+//     background: url(../../../assets/images/chungtoi-1.png) no-repeat center;
+//     background-size: cover;
+// }
+// .image-2{
+//    height: 281px;
+//     background: url(../../../assets/images/chungtoi-2.jpg) no-repeat center;
+//     background-size: cover;
+// }
+// .image-3{
+//    height: 281px;
+//     background: url(../../../assets/images/chungtoi-3.jpg) no-repeat center;
+//     background-size: cover;
+// }
 
+.Image{
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 7px;
+}
+.loading{
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    font-size: 24px;
+}
 @media (max-width:740px){
     .content{
         display: block;

@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Customer.module.scss';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import Table from 'react-bootstrap/Table';
+// import Table from 'react-bootstrap/Table';
 import { AddIcons } from '~/Components/icons/icons';
 import { BiEditAlt } from 'react-icons/bi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import listsMenuSlice from '~/Redux/list/list';
 import filterSlice from '~/Redux/filters/filters';
 import { searchitemSelector } from '~/Redux/selector';
-import { Pagination, Select, Spin } from 'antd';
+import { Pagination, Select, Space, Spin, Table } from 'antd';
 import { Empty, Button, Modal, message, Alert, Input } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -149,7 +149,52 @@ function Customer() {
         exportToExcel(exl);
     };
     const isdata = !data?.docs?.length;
+    const columns = [
+        {
+            title: 'Tên khách hàng',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Giới tính',
+            dataIndex: 'gender',
+            key: 'gender',
+        },
+        {
+            title: 'Địa chỉ',
+            dataIndex: 'address',
+            key: 'address',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'Số điện thoại',
+            dataIndex: 'number',
+            key: 'number',
+        },
+        {
+            title: 'Thời gian tạo',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            render: (text, record) => <span>{formatTime(record?.createdAt)}</span>,
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (_, record) => (
+                <Space size="middle">
+                    <Link className={cx('icon')} onClick={() => handleDelete(record._id)} to="#">
+                        <RiDeleteBin6Line />
+                    </Link>
+                </Space>
+            ),
+        },
+    ];
 
+    const Menudata = data?.docs;
     return (
         <div className={cx('Wrapper')}>
             {contextHolder}
@@ -191,7 +236,7 @@ function Customer() {
                 </div>
                 <div className={cx('content')}>
                     <div className={cx('contentItem')}>
-                        <Table striped bordered size="sm">
+                        {/* <Table striped bordered size="sm">
                             <thead>
                                 <tr>
                                     <th>STT</th>
@@ -204,25 +249,20 @@ function Customer() {
                                     <th colSpan={2}>Chức năng</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {isLoading ? (
-                                    <div
-                                        className={cx('loading')}
-                                        style={{ position: 'absolute', left: '48%', top: '90%' }}
-                                    >
-                                        <Spin style={{ color: 'red' }} />
+                            <tbody> */}
+                        {isLoading ? (
+                            <div className={cx('loading')} style={{ position: 'absolute', left: '48%', top: '90%' }}>
+                                <Spin style={{ color: 'red' }} />
+                            </div>
+                        ) : (
+                            <>
+                                {isdata ? (
+                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '65%' }}>
+                                        <Empty />
                                     </div>
                                 ) : (
                                     <>
-                                        {isdata ? (
-                                            <div
-                                                style={{ position: 'absolute', right: '34%', left: '34%', top: '65%' }}
-                                            >
-                                                <Empty />
-                                            </div>
-                                        ) : (
-                                            <>
-                                                {data?.docs?.map((data, index) => (
+                                        {/* {data?.docs?.map((data, index) => (
                                                     <tr key={data._id}>
                                                         <td>{index + 1}</td>
                                                         <td>{data.name}</td>
@@ -232,9 +272,9 @@ function Customer() {
                                                         <td>{data.number}</td>
                                                         <td>{formatTime(data.createdAt)}</td>
                                                         <td>
-                                                            {/* <Link className={cx('icon')} to="#" onClick={() => handleUpdate(data)}>
+                                                            <Link className={cx('icon')} to="#" onClick={() => handleUpdate(data)}>
                                                 <BiEditAlt />
-                                            </Link> */}
+                                            </Link>
                                                             <Link
                                                                 className={cx('icon')}
                                                                 onClick={() => handleDelete(data._id)}
@@ -244,14 +284,24 @@ function Customer() {
                                                             </Link>
                                                         </td>
                                                     </tr>
-                                                ))}
-                                            </>
-                                        )}
+                                                ))} */}
+                                        <Table columns={columns} dataSource={Menudata} pagination={false} />
+                                        <Pagination
+                                            style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '17px' }}
+                                            className="cumor-pagination"
+                                            defaultCurrent={1}
+                                            total={data?.totalDocs}
+                                            defaultPageSize={15}
+                                            current={page}
+                                            onChange={handlePageChange}
+                                        />
                                     </>
                                 )}
-                            </tbody>
-                        </Table>
-                        {isLoading ||
+                            </>
+                        )}
+                        {/* </tbody>
+                        </Table> */}
+                        {/* {isLoading ||
                             (!isdata && (
                                 <div className={cx('footer')}>
                                     <Pagination
@@ -262,7 +312,7 @@ function Customer() {
                                         onChange={handlePageChange}
                                     />
                                 </div>
-                            ))}
+                            ))} */}
                     </div>
                 </div>
             </div>

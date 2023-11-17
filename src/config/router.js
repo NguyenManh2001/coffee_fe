@@ -25,6 +25,10 @@ const routers = {
     OrderPayment: '/order/VnPayReturn',
     NewsAdmin: '/Admin/News',
     AddNews: '/Admin/News/AddNews',
+    AboutsAdmin: '/Admin/Abouts',
+    AddAbouts: '/Admin/News/AddAbouts',
+    SibarAdmin: '/Admin/Sibar',
+    AddSibar: '/Admin/Sibar/AddSibar',
 };
 
 export default routers;
