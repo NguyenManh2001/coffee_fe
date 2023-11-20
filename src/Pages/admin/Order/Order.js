@@ -19,6 +19,7 @@ import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-quer
 import { EyeInvisibleOutlined, EyeOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import OrderDetails from './OrderDetails/OrderDetails';
 import { exportToExcel } from '~/Components/exel/exel';
+import moment from 'moment';
 
 const { Search } = Input;
 const { confirm } = Modal;
@@ -150,42 +151,67 @@ function Order() {
         exportToExcel(data.docs);
     };
     const isdata = !data?.docs?.length;
-
+    const compareDate = (a, b) => {
+        const dateA = moment(a.createdAt);
+        const dateB = moment(b.createdAt);
+        return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
+    };
     const columns = [
         {
             title: 'Tên khách hàng',
             dataIndex: 'name',
             key: 'name',
+            sorter: true,
             render: (text, record) => <span>{record?.customer?.name}</span>,
         },
         {
             title: 'Tổng tiền',
             dataIndex: 'total',
             key: 'total',
+            sorter: {
+                compare: (a, b) => a.total - b.total,
+                multiple: 2,
+                tooltip: 'Sắp xếp theo ngày tạo',
+            },
             render: (text, record) => <span>{record.total.toLocaleString('vi-VN')} VND</span>,
         },
         {
             title: 'Thời gian tạo',
             dataIndex: 'createdAt',
             key: 'createdAt',
+            sorter: {
+                compare: (a, b) => compareDate(a, b),
+                multiple: 2,
+                tooltip: false,
+            },
             render: (text, record) => <span>{formatTime(record?.createdAt)}</span>,
         },
         {
             title: 'Thanh toán',
             dataIndex: 'isPaid',
             key: 'isPaid',
-            render: (text, record) => <span>{record?.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</span>,
+            sorter: true,
+            render: (text, record) => (
+                <span>
+                    {record?.isPaid ? (
+                        <p style={{ color: '#23b123' }}>Đã thanh toán</p>
+                    ) : (
+                        <p style={{ color: '#ff2605 ' }}>Chưa thanh toán</p>
+                    )}
+                </span>
+            ),
         },
         {
-            title: 'Action',
+            title: 'Chức năng',
             key: 'action',
+            sorter: true,
             render: (_, record) => (
                 <Space size="middle">
-                    <Link className={cx('icon')} to="#" onClick={() => handleUpdate(record)}>
+                    <Link className={cx('icon1')} to="#" onClick={() => handleUpdate(record)}>
                         {eye[record._id] ? <EyeOutlined /> : <EyeInvisibleOutlined />}
                     </Link>
 
-                    <Link className={cx('icon')} onClick={() => handleDelete(record._id)} to="#">
+                    <Link className={cx('icon2')} onClick={() => handleDelete(record._id)} to="#">
                         <RiDeleteBin6Line />
                     </Link>
                 </Space>
@@ -251,7 +277,7 @@ function Order() {
                             </thead>
                             <tbody> */}
                         {isLoading ? (
-                            <div className={cx('loading')} style={{ position: 'absolute', left: '48%', top: '65%' }}>
+                            <div className={cx('loading')} style={{ position: 'absolute', left: '48%', top: '50%' }}>
                                 <Spin style={{ color: 'red' }} />
                             </div>
                         ) : (

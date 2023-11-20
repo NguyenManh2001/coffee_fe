@@ -12,8 +12,12 @@ import { Pagination } from 'antd';
 import { Modal } from 'antd';
 
 import {
+    FileProtectOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
+    NotificationOutlined,
+    TeamOutlined,
+    UnorderedListOutlined,
     UploadOutlined,
     UserOutlined,
     VideoCameraOutlined,
@@ -60,34 +64,67 @@ const AdminLayout = ({ children }) => {
     // };
     return (
         <Layout style={{ height: '941px' }}>
-            <Sider trigger={null} style={{ width: 256 }} collapsible collapsed={collapsed}>
+            <Sider trigger={null} theme="light" style={{ width: 256 }} collapsible collapsed={collapsed}>
                 <Space wrap>
-                    <div style={{ height: '50px' }}>
-                        {/* <Images src={require('~/assets/images/logo_transparent.png')} /> */}
-                    </div>
+                    {/* {collapsed ? (
+                            <Images
+                            style={{ height: '50px', margin: '20px' }}
+                            src={require('~/assets/images/logo_transparent.png')}
+                            />
+                            ) : (
+                            <> */}
+                    <Link to={config.routers.Dasboard}>
+                        <div style={{ height: '63px', display: 'flex', alignItems: 'center' }}>
+                            <Images
+                                style={{ height: '50px', marginLeft: '17px' }}
+                                src={require('~/assets/images/logo_transparent.png')}
+                            />
+                            {collapsed == false && (
+                                <span
+                                    style={{
+                                        fontSize: '21px',
+                                        color: '#d2b780',
+                                        fontFamily: 'Caveat,cursive',
+                                        lineHeight: '52px',
+                                    }}
+                                >
+                                    Coffee Bliss
+                                </span>
+                            )}
+                        </div>
+                    </Link>
+                    {/* </>
+                        )} */}
                 </Space>
                 <Menu
-                    style={{ fontSize: '18px' }}
-                    theme="dark"
+                    style={{
+                        fontSize: '18px',
+                    }}
+                    theme="light"
                     mode="inline"
                     onClick={(item) => {
                         navigate(item.key);
                     }}
-                    defaultSelectedKeys={['1']}
+                    // defaultSelectedKeys={['1']}
                     items={[
                         {
                             label: 'Sản phẩm',
-                            icon: <HiClipboardList style={{ fontSize: '20px' }} />,
-                            key: config.routers.MenuAdmin,
+                            icon: <UnorderedListOutlined style={{ fontSize: '20px' }} />,
+                            key: config.routers.ProductAdmin,
                         },
                         {
                             key: config.routers.Customer,
                             label: 'Khách Hàng',
-                            icon: <HiOutlineUserGroup style={{ fontSize: '20px' }} />,
+                            icon: <TeamOutlined style={{ fontSize: '20px' }} />,
+                        },
+                        {
+                            label: 'Thực đơn',
+                            icon: <UnorderedListOutlined style={{ fontSize: '20px' }} />,
+                            key: config.routers.MenuAdmin,
                         },
                         {
                             label: 'Đơn Hàng',
-                            icon: <FaMoneyBillAlt style={{ fontSize: '20px' }} />,
+                            icon: <FileProtectOutlined style={{ fontSize: '20px' }} />,
                             key: config.routers.Order,
                         },
                         {
@@ -96,13 +133,13 @@ const AdminLayout = ({ children }) => {
                             key: config.routers.NewsAdmin,
                         },
                         {
-                            label: 'Giới thiệu',
-                            icon: <HiOutlineNewspaper style={{ fontSize: '20px' }} />,
+                            label: 'Giới thiệu về chúng tôi',
+                            icon: <UserOutlined style={{ fontSize: '20px' }} />,
                             key: config.routers.AboutsAdmin,
                         },
                         {
                             label: 'Quảng cáo',
-                            icon: <HiOutlineNewspaper style={{ fontSize: '20px' }} />,
+                            icon: <NotificationOutlined style={{ fontSize: '20px' }} />,
                             key: config.routers.SibarAdmin,
                         },
                         {

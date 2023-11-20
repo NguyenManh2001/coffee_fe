@@ -18,6 +18,7 @@ import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import EditNews from './EditNews';
+import moment from 'moment';
 
 const { Search } = Input;
 const { confirm } = Modal;
@@ -143,6 +144,11 @@ function NewsAdmin() {
                 .then((res) => res.data),
     });
     const isdata = !data?.docs?.length;
+    const compareDate = (a, b) => {
+        const dateA = moment(a.createdAt);
+        const dateB = moment(b.createdAt);
+        return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
+    };
     const columns = [
         {
             title: 'Tiêu đề',
@@ -171,20 +177,22 @@ function NewsAdmin() {
             dataIndex: 'createdAt',
             key: 'createdAt',
             className: cx('custom-create'),
-            style: {
-                with: '155px',
+            sorter: {
+                compare: (a, b) => compareDate(a, b),
+                multiple: 2,
+                tooltip: false,
             },
             render: (text, record) => <span>{formatTime(record?.createdAt)}</span>,
         },
         {
-            title: 'Action',
+            title: 'Chức năng',
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <Link className={cx('icon')} to="#" onClick={() => handleUpdate(record)}>
+                    <Link className={cx('icon1')} to="#" onClick={() => handleUpdate(record)}>
                         <BiEditAlt />
                     </Link>
-                    <Link className={cx('icon')} to="#" onClick={() => handldeDelete(record._id)}>
+                    <Link className={cx('icon2')} to="#" onClick={() => handldeDelete(record._id)}>
                         <RiDeleteBin6Line />
                     </Link>
                 </Space>

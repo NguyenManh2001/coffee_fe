@@ -83,14 +83,7 @@ function MenuLayout({ children }) {
                 .then((res) => res.data),
     });
     console.log(type);
-    const items = [
-        getItem(
-            'SẢN PHẨM',
-            'grp',
-            [getItem('Cà phê', '1'), getItem('Freeze', '2'), getItem('Trà', '3'), getItem('Cà phê gói', '4')],
-            'group',
-        ),
-    ];
+    const items = [getItem('Cà phê', '1'), getItem('Freeze', '2'), getItem('Trà', '3'), getItem('Cà phê gói', '4')];
     const renderItems = () => {
         return data?.docs?.map((MENU, index) => {
             if (MENU._id === header) {
@@ -178,16 +171,18 @@ function MenuLayout({ children }) {
                                 </div>
                             </div>
                             <aside className={cx('fifter')}>
+                                <div className={cx('title1')}>Sản phẩm</div>
                                 <Menu
                                     onClick={onClick}
                                     style={{
                                         width: 212,
-                                        height: 230,
+                                        height: 200,
                                     }}
                                     // defaultSelectedKeys={['1']}
                                     // defaultOpenKeys={['sub1']}
                                     mode="inline"
                                     items={items}
+                                    className={cx('custom-menu')}
                                 />
                                 {/* <div className={cx('title')}>sản phẩm</div> */}
                                 {/* <Items> */}

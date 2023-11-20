@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './Abouts.module.scss';
+import styles from './Menu.module.scss';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 // import Table from 'react-bootstrap/Table';
 import { AddIcons } from '~/Components/icons/icons';
@@ -17,14 +17,14 @@ import { Empty, Button, Modal, message, Alert, Input } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import EditAbouts from './EditAbouts';
 import moment from 'moment';
+import EditMenu from './EditMenu';
 
 const { Search } = Input;
 const { confirm } = Modal;
 const cx = classNames.bind(styles);
 
-function AboutsAdmin() {
+function MenuAdmin() {
     const [page, setPage] = useState(1);
     const [type, setType] = useState('');
     const [search, setSearch] = useState('');
@@ -73,7 +73,7 @@ function AboutsAdmin() {
             cancelText: 'No',
             onOk() {
                 axios
-                    .delete(`https://coffee-bills.onrender.com/abouts/deleteAbouts/${id}`)
+                    .delete(`https://coffee-bills.onrender.com/menu/deleteMenu/${id}`)
                     .then((res) => {
                         success('Bạn đã xóa thành công');
                         refetch();
@@ -122,7 +122,7 @@ function AboutsAdmin() {
             width={1000}
             footer={null}
         >
-            <EditAbouts data={editData} />
+            <EditMenu data={editData} />
         </Modal>
     );
     // useEffect(() => {
@@ -140,7 +140,7 @@ function AboutsAdmin() {
         queryKey: ['dataAbouts', type, page, search],
         queryFn: () =>
             axios
-                .post('https://coffee-bills.onrender.com/abouts/listAbouts', { page, type, search })
+                .post('https://coffee-bills.onrender.com/menu/listMenu', { page, type, search })
                 .then((res) => res.data),
     });
     const isdata = !data?.docs?.length;
@@ -154,13 +154,7 @@ function AboutsAdmin() {
             title: 'Tên',
             dataIndex: 'name',
             key: 'name',
-            className: cx('custom-column'),
-        },
-        {
-            title: 'Tiêu đề',
-            dataIndex: 'title',
-            key: 'title',
-            className: cx('custom-title'),
+            // className: cx('custom-column'),
         },
         {
             title: 'Ảnh',
@@ -175,15 +169,10 @@ function AboutsAdmin() {
             ),
         },
         {
-            title: 'Mô tả',
-            dataIndex: 'describe',
-            key: 'describe',
-        },
-        {
             title: 'Thời gian tạo',
             dataIndex: 'createdAt',
             key: 'createdAt',
-            className: cx('custom-create'),
+            // className: cx('custom-create'),
             sorter: {
                 compare: (a, b) => compareDate(a, b),
                 multiple: 2,
@@ -215,7 +204,7 @@ function AboutsAdmin() {
                 <div className={cx('header')}>
                     <div className={cx('NameHeader')}>danh sách thông tin</div>
                     <div className={cx('btnHeader')}>
-                        <Link to={config.routers.AddAbouts} className={cx('btnIconAdd')}>
+                        <Link to={config.routers.AddMenu} className={cx('btnIconAdd')}>
                             <AddIcons className={cx('IconAdd')} />
                             Thêm mới
                         </Link>
@@ -346,4 +335,4 @@ function AboutsAdmin() {
     );
 }
 
-export default AboutsAdmin;
+export default MenuAdmin;

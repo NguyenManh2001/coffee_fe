@@ -103,13 +103,14 @@
 tr:hover {
     background: none !important;
   }
-.icon{
+  .icon{
     font-size: 20px;
     padding: 7px;
     margin: 5px;
+    color:#ff2605 !important;
     cursor: pointer;
     &:hover{
-        color:#ff2605;
+        color: #8d2919 !important;
     }
 }
 .footer{

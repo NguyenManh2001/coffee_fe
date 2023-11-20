@@ -37,7 +37,13 @@ const OrderDetails = (props) => {
                     </div>
                     <div className={cx('content')}>
                         <div className={cx('title')}>Thanh toán:</div>
-                        <div className={cx('name')}>{data.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</div>
+                        <div className={cx('name')}>
+                            {data?.isPaid ? (
+                                <p style={{ color: '#23b123' }}>Đã thanh toán</p>
+                            ) : (
+                                <p style={{ color: '#ff2605 ' }}>Chưa thanh toán</p>
+                            )}
+                        </div>
                     </div>
                     <div className={cx('content1')}>
                         <div className={cx('title')} style={{ width: '160px' }}>

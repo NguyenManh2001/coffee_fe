@@ -1,0 +1,67 @@
+.wrapper{
+    width: 100%;
+    height:100%;
+}
+.container{
+    width: 100%;
+    height:100%;
+}
+.content{
+    width: 100%;
+    height:23%;
+    margin: 33px 0;
+    display: flex;
+    justify-content: space-around;
+}
+.header{
+    width: 25%;
+    height: 120px;
+    color: #fff;
+    box-shadow: 0 0 10px 0px rgb(136 131 131 / 16%);
+    border-radius: 15px;
+    background: linear-gradient(to right,#fe9365,#feb798);
+}
+.header1{
+    width: 25%;
+    height: 120px;
+    color: #fff;
+    box-shadow: 0 0 10px 0px rgb(136 131 131 / 16%);
+    border-radius: 15px;
+    background: linear-gradient(to right,#0ac282,#0df3a3);
+}
+.header2{
+    width: 25%;
+    height: 120px;
+    color: #fff;
+    box-shadow: 0 0 10px 0px rgb(136 131 131 / 16%);
+    border-radius: 15px;
+    background: linear-gradient(to right,#fe5d70,#fe909d);
+}
+.Name{
+    font-size: 25px;
+    margin: 13px 14px;
+   
+}
+.quantity{
+    display: flex;
+    /* margin: 0 14px; */
+    /* height: 62px; */
+    margin-left: 14px;
+    margin-right: 30px;
+    justify-content: space-between;
+    align-items: center;
+}
+.number{
+    font-size: 33px;
+    display: flex;
+    align-items: center;
+}
+.icon{
+
+}
+
+.ant-progress-inner{
+    width: 45px;
+    height: 44px;
+    font-size: 16px;
+}

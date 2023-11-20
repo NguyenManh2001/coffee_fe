@@ -31,7 +31,7 @@ function New() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
-                <h2 className={cx('header')}>Tin tức khuyến mãi</h2>
+                <h2 className={cx('header')}>Tin tức khuyến mại</h2>
                 <div className={cx('lineborder')}>
                     <Images src={require('~/assets/images/line-under-heading.png')} alt="lineborder" />
                 </div>

@@ -7,32 +7,32 @@ import Carousel from 'react-bootstrap/Carousel';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 const cx = classNames.bind(styles);
-const Sibars = [
-    {
-        id: 1,
-        name: 'Coffee Bliss',
-        title: 'Cà phê - Trà - Freeze',
-        srcImage: require('~/assets/images/home-4-slide.jpg'),
-        iconImage: require('~/assets/images/banner-logo-2.png'),
-        btn: 'Khám phá ngay',
-    },
-    {
-        id: 2,
-        name: 'Coffee Bliss',
-        title: 'Đặt hàng dễ dàng hơn với ứng dụng di dộng',
-        srcImage: require('~/assets/images/home-1-slider-4.jpg'),
-        iconImage: require('~/assets/images/banner-logo-1.png'),
-        btn: 'Tải App ngay',
-    },
-    {
-        id: 3,
-        name: 'Coffee Bliss',
-        title: 'Khuyến mãi đầu xuân Nhâm Dần lên tới 20%',
-        srcImage: require('~/assets/images/home-1-slider-img-2.jpg'),
-        iconImage: require('~/assets/images/banner-logo-2.png'),
-        btn: 'Khám phá ngay',
-    },
-];
+// const Sibars = [
+//     {
+//         id: 1,
+//         name: 'Coffee Bliss',
+//         title: 'Cà phê - Trà - Freeze',
+//         srcImage: require('~/assets/images/home-4-slide.jpg'),
+//         iconImage: require('~/assets/images/banner-logo-2.png'),
+//         btn: 'Khám phá ngay',
+//     },
+//     {
+//         id: 2,
+//         name: 'Coffee Bliss',
+//         title: 'Đặt hàng dễ dàng hơn với ứng dụng di dộng',
+//         srcImage: require('~/assets/images/home-1-slider-4.jpg'),
+//         iconImage: require('~/assets/images/banner-logo-1.png'),
+//         btn: 'Tải App ngay',
+//     },
+//     {
+//         id: 3,
+//         name: 'Coffee Bliss',
+//         title: 'Khuyến mãi đầu xuân Nhâm Dần lên tới 20%',
+//         srcImage: require('~/assets/images/home-1-slider-img-2.jpg'),
+//         iconImage: require('~/assets/images/banner-logo-2.png'),
+//         btn: 'Khám phá ngay',
+//     },
+// ];
 function Sibar() {
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['data'],

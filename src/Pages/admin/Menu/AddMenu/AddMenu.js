@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './AddMenu.module.scss';
 import { Link } from 'react-router-dom';
 import config from '~/config/config';
+// import Select from 'react-select';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Controller, useForm } from 'react-hook-form';
@@ -11,13 +12,13 @@ import Autocomplete from 'react-autocomplete';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Input, InputNumber, message, Select } from 'antd';
-
+const { TextArea } = Input;
 const schema = yup
     .object()
     .shape({
-        name: yup.string().required('Không được để trống').max(255, 'Maximum length: 255 characters'),
-        type: yup.string().required('Không được để trống'),
-        price: yup.number().required('Không được để trống').moreThan(0, 'Giá trị phải lớn hơn 0'),
+        name: yup.string().required('Cannot be empty'),
+        // title: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        // describe: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
     })
     .required();
 const cx = classNames.bind(styles);
@@ -53,12 +54,10 @@ function AddMenu() {
         // e.preventDefault();
         console.log(data);
         const uploadData = new FormData();
-        uploadData.append('link', file, file.name);
-        uploadData.append('type', data.type);
+        uploadData.append('image', file, file.name);
         uploadData.append('name', data.name);
-        uploadData.append('price', data.price);
         const res = await axios
-            .post('https://coffee-bills.onrender.com/product/addProduct', uploadData)
+            .post('https://coffee-bills.onrender.com/menu/AddMenu', uploadData)
             .then((res) => {
                 navigate(config.routers.MenuAdmin, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
             })
@@ -75,34 +74,7 @@ function AddMenu() {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>
-                                Loại sản phẩm:<span className={cx('star')}>*</span>
-                            </div>
-                            <Controller
-                                name="type"
-                                control={control}
-                                render={({ field }) => (
-                                    <div style={{ width: '100%' }}>
-                                        <Select
-                                            className={cx('dropdown')}
-                                            value={watch('type')}
-                                            allowClear
-                                            placeholder="Chọn loại sản phẩm"
-                                            onChange={(val) => setValue('type', val)}
-                                            status={errors.type?.message ? 'error' : null}
-                                            options={[
-                                                { value: 'Coffee', label: 'Coffee' },
-                                                { value: 'Freeze', label: 'Freeze' },
-                                                { value: 'Tea', label: 'Tea' },
-                                            ]}
-                                        />
-                                        <p style={{ margin: '0px', color: 'red' }}>{errors.type?.message}</p>
-                                    </div>
-                                )}
-                            />
-                        </div>
-                        <div className={cx('contentItem')}>
-                            <div className={cx('name')}>
-                                Tên sản phẩm:<span className={cx('star')}>*</span>
+                                Tên:<span className={cx('star')}>*</span>
                             </div>
                             <Controller
                                 name="name"
@@ -112,15 +84,18 @@ function AddMenu() {
                                         <Input
                                             {...field}
                                             status={errors.name?.message ? 'error' : null}
-                                            placeholder="Nhập thông tin sản phẩm"
+                                            placeholder="Nhập tên"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.name?.message}</p>
                                     </div>
                                 )}
                             />
                         </div>
+
                         <div className={cx('contentItem')}>
-                            <div className={cx('name')}>Link ảnh:</div>
+                            <div className={cx('name')}>
+                                Ảnh:<span className={cx('star')}>*</span>
+                            </div>
                             <div className={cx('inputLink')}>
                                 <div {...getRootProps()}>
                                     <div>{file ? file.name : 'Drag and drop image here or upload from device'}</div>
@@ -137,7 +112,7 @@ function AddMenu() {
                                 <img
                                     src={imgPreview}
                                     style={{
-                                        height: '200px',
+                                        height: '150px',
                                         objectFit: 'cover',
                                         display: 'block',
                                         margin: '4% 19% 0',
@@ -146,27 +121,7 @@ function AddMenu() {
                                 />
                             )}
                         </div>
-                        <div className={cx('contentItem')} style={{ marginBottom: '15px' }}>
-                            <div className={cx('name')}>
-                                Price:<span className={cx('star')}>*</span>
-                            </div>
-                            <Controller
-                                name="price"
-                                control={control}
-                                render={({ field }) => (
-                                    <div style={{ width: '100%' }}>
-                                        <InputNumber
-                                            style={{ width: '100%' }}
-                                            placeholder="Nhập giá tiền(loại tiền VND)"
-                                            {...field}
-                                            status={errors.price?.message ? 'error' : null}
-                                            className={cx('placeHoler')}
-                                        />
-                                        <p style={{ margin: '0px', color: 'red' }}>{errors.price?.message}</p>
-                                    </div>
-                                )}
-                            />
-                        </div>
+
                         <div className={cx('footer')}>
                             <div className={cx('btnPrev')}>
                                 <button to="#" type="submit" className={cx('bt')}>
@@ -174,7 +129,7 @@ function AddMenu() {
                                 </button>
                             </div>
                             <div className={cx('btnPrev')}>
-                                <Link to={config.routers.MenuAdmin} className={cx('bt')}>
+                                <Link to={config.routers.NewsAdmin} className={cx('bt')}>
                                     Quay lại
                                 </Link>
                             </div>

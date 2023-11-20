@@ -21,16 +21,19 @@
     background: #cccccc42;
     padding: 10px;
 }
+.custom-column {
+    width: 250px !important;
+}
+.custom-create{
+    width: 150px ;
+}
+.custom-title{
+    width: 180px ;
+}
 .NameHeader{
     text-transform: uppercase;
     font-weight: 600;
 }
-.custom-column {
-    width: 85px;
-}
-// .custom-create{
-//     width: 150px ;
-// }
 .btnHeader{
     width: 120px;
     height: 38px;
@@ -103,7 +106,7 @@
 tr:hover {
     background: none !important;
   }
-.icon1{
+  .icon1{
     font-size: 20px;
     padding: 7px;
     margin: 5px;

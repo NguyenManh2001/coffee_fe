@@ -15,8 +15,8 @@ const routers = {
     Account: '/Admin/Account',
     AddAccount: '/Admin/Account/AddAccount',
     EditAccount: '/Admin/Account/EditAccount',
-    MenuAdmin: '/Admin/MenuList',
-    AddMenu: '/Admin/MenuList/AddMenu',
+    ProductAdmin: '/Admin/MenuList',
+    AddProduct: '/Admin/MenuList/AddMenu',
     // EditMenu:'/Admin/MenuList/EditMenu/:id2/:id1',
     Customer: '/Admin/Customer',
     AddCustomer: '/Admin/Customer/AddCustomer',
@@ -24,11 +24,14 @@ const routers = {
     Order: '/Admin/Order',
     OrderPayment: '/order/VnPayReturn',
     NewsAdmin: '/Admin/News',
+    Dasboard: '/Admin/Dasboard',
     AddNews: '/Admin/News/AddNews',
     AboutsAdmin: '/Admin/Abouts',
     AddAbouts: '/Admin/News/AddAbouts',
     SibarAdmin: '/Admin/Sibar',
     AddSibar: '/Admin/Sibar/AddSibar',
+    MenuAdmin: '/Admin/Menu',
+    AddMenu: '/Admin/Menu/AddMenu',
 };
 
 export default routers;

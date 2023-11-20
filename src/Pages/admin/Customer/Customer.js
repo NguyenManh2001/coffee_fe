@@ -19,6 +19,7 @@ import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-quer
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import EditCustomer from './EditCustomer';
 import { exportToExcel } from '~/Components/exel/exel';
+import moment from 'moment';
 
 const { Search } = Input;
 const { confirm } = Modal;
@@ -98,6 +99,7 @@ function Customer() {
         setSearch(e);
         // dispatch(filterSlice.actions.searchListMenu(result));
     };
+
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['dataCustomer', select, page, search],
         queryFn: () =>
@@ -149,41 +151,57 @@ function Customer() {
         exportToExcel(exl);
     };
     const isdata = !data?.docs?.length;
+    const compareDate = (a, b) => {
+        const dateA = moment(a.createdAt);
+        const dateB = moment(b.createdAt);
+        return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
+    };
     const columns = [
         {
             title: 'Tên khách hàng',
             dataIndex: 'name',
             key: 'name',
+            sorter: true,
         },
         {
             title: 'Giới tính',
             dataIndex: 'gender',
             key: 'gender',
+            sorter: true,
         },
         {
             title: 'Địa chỉ',
             dataIndex: 'address',
             key: 'address',
+            sorter: true,
         },
         {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
+            sorter: true,
         },
         {
             title: 'Số điện thoại',
             dataIndex: 'number',
             key: 'number',
+            sorter: true,
         },
         {
             title: 'Thời gian tạo',
             dataIndex: 'createdAt',
             key: 'createdAt',
+            sorter: {
+                compare: (a, b) => compareDate(a, b),
+                multiple: 2,
+                tooltip: 'Sắp xếp theo ngày tạo',
+            },
             render: (text, record) => <span>{formatTime(record?.createdAt)}</span>,
         },
         {
-            title: 'Action',
+            title: 'Chức năng',
             key: 'action',
+            sorter: true,
             render: (_, record) => (
                 <Space size="middle">
                     <Link className={cx('icon')} onClick={() => handleDelete(record._id)} to="#">
@@ -251,7 +269,7 @@ function Customer() {
                             </thead>
                             <tbody> */}
                         {isLoading ? (
-                            <div className={cx('loading')} style={{ position: 'absolute', left: '48%', top: '90%' }}>
+                            <div className={cx('loading')} style={{ position: 'absolute', left: '48%', top: '65%' }}>
                                 <Spin style={{ color: 'red' }} />
                             </div>
                         ) : (

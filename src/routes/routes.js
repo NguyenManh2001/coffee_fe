@@ -19,7 +19,6 @@ import Account from '~/Pages/admin/Account/Account';
 import AddAccount from '~/Pages/admin/Account/AddAccount/AddAccount';
 import EditAccount from '~/Pages/admin/Account/EditAccount/EditAccount';
 import MenuList from '~/Pages/admin/MenuList/MenuList';
-import AddMenu from '~/Pages/admin/MenuList/AddMenu/AddMenu';
 import EditMenu from '~/Pages/admin/MenuList/EditMenu/EditMenu';
 import Customer from '~/Pages/admin/Customer/Customer';
 import AddCustomer from '~/Pages/admin/Customer/AddCustomer/AddCustomer';
@@ -35,6 +34,10 @@ import AboutsAdmin from '~/Pages/admin/Abouts/Abouts';
 import AddAbouts from '~/Pages/admin/Abouts/AddAbouts';
 import SibarAdmin from '~/Pages/admin/Sibar/Sibar';
 import AddSibar from '~/Pages/admin/Sibar/AddSibar';
+import Menu from '~/Pages/admin/Menu';
+import AddProduct from '~/Pages/admin/MenuList/AddProduct/AddProduct';
+import AddMenu from '~/Pages/admin/Menu/AddMenu';
+import Dasboard from '~/Pages/admin/Dasboard';
 
 const publicRoutes = [
     { path: config.routers.Home, component: Home, layout: DefaultLayout },
@@ -62,11 +65,12 @@ const publicRoutes = [
     // { path: config.routers.Invoice, component: Invoice, layout: AdminLayout },
 ];
 const privateRoutes = [
+    { path: config.routers.Dasboard, component: Dasboard, layout: AdminLayout },
     { path: config.routers.Account, component: Account, layout: AdminLayout },
     { path: config.routers.AddAccount, component: AddAccount, layout: AdminLayout },
     { path: config.routers.EditAccount, component: EditAccount, layout: AdminLayout },
-    { path: config.routers.MenuAdmin, component: MenuList, layout: AdminLayout },
-    { path: config.routers.AddMenu, component: AddMenu, layout: AdminLayout },
+    { path: config.routers.ProductAdmin, component: MenuList, layout: AdminLayout },
+    { path: config.routers.AddProduct, component: AddProduct, layout: AdminLayout },
     { path: config.routers.EditMenu, component: EditMenu, layout: AdminLayout },
     { path: config.routers.Customer, component: Customer, layout: AdminLayout },
     { path: config.routers.AddCustomer, component: AddCustomer, layout: AdminLayout },
@@ -78,5 +82,7 @@ const privateRoutes = [
     { path: config.routers.AddAbouts, component: AddAbouts, layout: AdminLayout },
     { path: config.routers.SibarAdmin, component: SibarAdmin, layout: AdminLayout },
     { path: config.routers.AddSibar, component: AddSibar, layout: AdminLayout },
+    { path: config.routers.MenuAdmin, component: Menu, layout: AdminLayout },
+    { path: config.routers.AddMenu, component: AddMenu, layout: AdminLayout },
 ];
 export { publicRoutes, privateRoutes };

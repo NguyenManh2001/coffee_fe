@@ -96,13 +96,25 @@
 tr:hover {
     background: none !important;
   }
-.icon{
+  .icon1{
     font-size: 20px;
     padding: 7px;
     margin: 5px;
+    color: #23b123 !important;
+    cursor: pointer;
+
+    &:hover{
+        color:rgb(14 92 14)!important;
+    }
+}
+.icon2{
+    font-size: 20px;
+    padding: 7px;
+    margin: 5px;
+    color:#ff2605 !important;
     cursor: pointer;
     &:hover{
-        color:#ff2605;
+        color: #8d2919 !important;
     }
 }
 .footer{

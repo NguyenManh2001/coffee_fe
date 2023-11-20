@@ -76,7 +76,7 @@ function Login() {
                 dispatch(filterSlice.actions.token(decodedToken));
                 const token1 = Cookies.get('token');
                 if (newUserRole === 1) {
-                    navigate(config.routers.MenuAdmin, {
+                    navigate(config.routers.Dasboard, {
                         state: { successMessage: 'Bạn đã đăng nhập thành công!!!' },
                     });
                 } else if (newUserRole === 0) {
