@@ -18,12 +18,12 @@ import Login from '~/layouts/components/Login/Login';
 import Account from '~/Pages/admin/Account/Account';
 import AddAccount from '~/Pages/admin/Account/AddAccount/AddAccount';
 import EditAccount from '~/Pages/admin/Account/EditAccount/EditAccount';
-import MenuList from '~/Pages/admin/MenuList/MenuList';
-import EditMenu from '~/Pages/admin/MenuList/EditMenu/EditMenu';
+// import MenuList from '~/Pages/admin/MenuList/MenuList';
+// import EditMenu from '~/Pages/admin/MenuList/EditProduct/EditProduct';
 import Customer from '~/Pages/admin/Customer/Customer';
 import AddCustomer from '~/Pages/admin/Customer/AddCustomer/AddCustomer';
-import EditCustomer from '~/Pages/admin/Customer/EditCustomer/EditCustomer';
-import Invoice from '~/Pages/admin/Order/Order';
+// import EditCustomer from '~/Pages/admin/Customer/EditCustomer/EditCustomer';
+// import Invoice from '~/Pages/admin/Order/Order';
 // import Rigister from '~/layouts/components/Rigister/Rigister';
 import Rigister from '~/Pages/admin/Layout/Rigister/Rigister';
 import NewsAdmin from '~/Pages/admin/News/News';
@@ -35,9 +35,10 @@ import AddAbouts from '~/Pages/admin/Abouts/AddAbouts';
 import SibarAdmin from '~/Pages/admin/Sibar/Sibar';
 import AddSibar from '~/Pages/admin/Sibar/AddSibar';
 import Menu from '~/Pages/admin/Menu';
-import AddProduct from '~/Pages/admin/MenuList/AddProduct/AddProduct';
 import AddMenu from '~/Pages/admin/Menu/AddMenu';
 import Dasboard from '~/Pages/admin/Dasboard';
+import Product from '~/Pages/admin/Product';
+import AddProduct from '~/Pages/admin/Product/AddProduct';
 
 const publicRoutes = [
     { path: config.routers.Home, component: Home, layout: DefaultLayout },
@@ -68,13 +69,13 @@ const privateRoutes = [
     { path: config.routers.Dasboard, component: Dasboard, layout: AdminLayout },
     { path: config.routers.Account, component: Account, layout: AdminLayout },
     { path: config.routers.AddAccount, component: AddAccount, layout: AdminLayout },
-    { path: config.routers.EditAccount, component: EditAccount, layout: AdminLayout },
-    { path: config.routers.ProductAdmin, component: MenuList, layout: AdminLayout },
+    // { path: config.routers.EditAccount, component: EditAccount, layout: AdminLayout },
+    { path: config.routers.ProductAdmin, component: Product, layout: AdminLayout },
     { path: config.routers.AddProduct, component: AddProduct, layout: AdminLayout },
-    { path: config.routers.EditMenu, component: EditMenu, layout: AdminLayout },
+    // { path: config.routers.EditMenu, component: EditMenu, layout: AdminLayout },
     { path: config.routers.Customer, component: Customer, layout: AdminLayout },
     { path: config.routers.AddCustomer, component: AddCustomer, layout: AdminLayout },
-    { path: config.routers.EditCustomer, component: EditCustomer, layout: AdminLayout },
+    // { path: config.routers.EditCustomer, component: EditCustomer, layout: AdminLayout },
     { path: config.routers.Order, component: Order, layout: AdminLayout },
     { path: config.routers.NewsAdmin, component: NewsAdmin, layout: AdminLayout },
     { path: config.routers.AddNews, component: AddNews, layout: AdminLayout },

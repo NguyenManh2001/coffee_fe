@@ -96,15 +96,17 @@ function AddMenu() {
                             <div className={cx('name')}>
                                 Ảnh:<span className={cx('star')}>*</span>
                             </div>
-                            <div className={cx('inputLink')}>
-                                <div {...getRootProps()}>
-                                    <div>{file ? file.name : 'Drag and drop image here or upload from device'}</div>
-                                    <input
-                                        {...getInputProps()}
-                                        multiple={false}
-                                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                                    />
-                                </div>
+                            <div
+                                {...getRootProps()}
+                                style={{
+                                    border: '2px dashed #eee',
+                                    padding: '20px',
+                                    textAlign: 'center',
+                                    width: '100%',
+                                }}
+                            >
+                                <input {...getInputProps()} />
+                                {file ? file.name : 'Drag and drop image here or upload from device'}
                             </div>
                         </div>
                         <div>

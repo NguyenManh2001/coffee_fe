@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './EditMenu.module.scss';
+import styles from './EditProduct.module.scss';
 import { Link } from 'react-router-dom';
 import config from '~/config/config';
 import { useState, useEffect } from 'react';

@@ -251,7 +251,7 @@ function SibarAdmin() {
                     </div>
                     <div className={cx('rightContent')}>
                         <Search
-                            placeholder="Tìm kiếm theo tên"
+                            placeholder="Tìm kiếm theo tiêu đề"
                             onSearch={handleSearch}
                             style={{
                                 width: 200,

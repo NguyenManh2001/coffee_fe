@@ -217,7 +217,7 @@ function Customer() {
                     <div className={cx('btnHeader')}>
                         <Link to="#" className={cx('btnIconAdd')} onClick={handleExl}>
                             {/* <AddIcons className={cx('IconAdd')} /> */}
-                            Export Exel
+                            Export Excel
                         </Link>
                     </div>
                 </div>
@@ -239,7 +239,7 @@ function Customer() {
                     </div>
                     <div className={cx('rightContent')}>
                         <Search
-                            placeholder="input search text"
+                            placeholder="Tìm kiếm theo tên"
                             onSearch={handleSearch}
                             style={{
                                 width: 200,

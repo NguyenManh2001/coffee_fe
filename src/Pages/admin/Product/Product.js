@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './MenuList.module.scss';
+import styles from './Product.module.scss';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 // import Table from 'react-bootstrap/Table';
 import { AddIcons } from '~/Components/icons/icons';
@@ -13,7 +13,7 @@ import listsMenuSlice from '~/Redux/list/list';
 import filterSlice from '~/Redux/filters/filters';
 import { searchitemSelector } from '~/Redux/selector';
 import { Pagination, Select, Space, Spin, Table } from 'antd';
-import EditMenu from './EditMenu';
+import EditMenu from './EditProduct';
 import { Empty, Button, Modal, message, Alert, Input } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -26,7 +26,7 @@ const { Search } = Input;
 const { confirm } = Modal;
 const cx = classNames.bind(styles);
 
-function MenuList() {
+function Product() {
     const [page, setPage] = useState(1);
     const [type, setType] = useState('');
     const [search, setSearch] = useState('');
@@ -145,7 +145,7 @@ function MenuList() {
     );
     // useEffect(() => {
     //     axios
-    //         .post('/menuList/ListMenu')
+    //         .post('/Product/ListMenu')
     //         .then((res) => {
     //             dispatch(listsMenuSlice.actions.addListMenu(res.data));
     //             dispatch(filterSlice.actions.list(selected));
@@ -370,4 +370,4 @@ function MenuList() {
     );
 }
 
-export default MenuList;
+export default Product;
