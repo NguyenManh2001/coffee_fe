@@ -170,12 +170,18 @@ function Header({ name, src, price, quatity, size }) {
                 setProductId(productId.filter((item) => item !== menu._id));
             } else {
                 setList([...list, menu]);
-                setProductId([...productId, { product: menu._id, quantity: menu.quatity, size: menu.size }]);
+                setProductId([
+                    ...productId,
+                    { product: menu._id, quantity: menu.quatity, size: menu.size, notes: menu.input },
+                ]);
             }
             updatedCheckedList.splice(updatedCheckedList.indexOf(index), 1);
         } else {
             setList([...list, menu]);
-            setProductId([...productId, { product: menu._id, quantity: menu.quatity, size: menu.size }]);
+            setProductId([
+                ...productId,
+                { product: menu._id, quantity: menu.quatity, size: menu.size, notes: menu.input },
+            ]);
             updatedCheckedList.push(index);
         }
 

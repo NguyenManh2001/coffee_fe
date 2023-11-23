@@ -161,7 +161,6 @@ function Order() {
             title: 'Tên khách hàng',
             dataIndex: 'name',
             key: 'name',
-            sorter: true,
             render: (text, record) => <span>{record?.customer?.name}</span>,
         },
         {
@@ -190,7 +189,6 @@ function Order() {
             title: 'Thanh toán',
             dataIndex: 'isPaid',
             key: 'isPaid',
-            sorter: true,
             render: (text, record) => (
                 <span>
                     {record?.isPaid ? (
@@ -204,7 +202,6 @@ function Order() {
         {
             title: 'Chức năng',
             key: 'action',
-            sorter: true,
             render: (_, record) => (
                 <Space size="middle">
                     <Link className={cx('icon1')} to="#" onClick={() => handleUpdate(record)}>

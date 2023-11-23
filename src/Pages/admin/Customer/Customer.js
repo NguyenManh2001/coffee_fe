@@ -161,31 +161,26 @@ function Customer() {
             title: 'Tên khách hàng',
             dataIndex: 'name',
             key: 'name',
-            sorter: true,
         },
         {
             title: 'Giới tính',
             dataIndex: 'gender',
             key: 'gender',
-            sorter: true,
         },
         {
             title: 'Địa chỉ',
             dataIndex: 'address',
             key: 'address',
-            sorter: true,
         },
         {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
-            sorter: true,
         },
         {
             title: 'Số điện thoại',
             dataIndex: 'number',
             key: 'number',
-            sorter: true,
         },
         {
             title: 'Thời gian tạo',
@@ -201,7 +196,7 @@ function Customer() {
         {
             title: 'Chức năng',
             key: 'action',
-            sorter: true,
+
             render: (_, record) => (
                 <Space size="middle">
                     <Link className={cx('icon')} onClick={() => handleDelete(record._id)} to="#">

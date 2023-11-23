@@ -60,7 +60,7 @@ function AddProduct() {
         const res = await axios
             .post('https://coffee-bills.onrender.com/product/addProduct', uploadData)
             .then((res) => {
-                navigate(config.routers.MenuAdmin, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
+                navigate(config.routers.ProductAdmin, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
             })
             .catch((err) => {
                 console.log('loi');
@@ -121,15 +121,17 @@ function AddProduct() {
                         </div>
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>Link ảnh:</div>
-                            <div className={cx('inputLink')}>
-                                <div {...getRootProps()}>
-                                    <div>{file ? file.name : 'Drag and drop image here or upload from device'}</div>
-                                    <input
-                                        {...getInputProps()}
-                                        multiple={false}
-                                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                                    />
-                                </div>
+                            <div
+                                {...getRootProps()}
+                                style={{
+                                    border: '2px dashed #eee',
+                                    padding: '20px',
+                                    textAlign: 'center',
+                                    width: '100%',
+                                }}
+                            >
+                                <input {...getInputProps()} />
+                                {file ? file.name : 'Drag and drop image here or upload from device'}
                             </div>
                         </div>
                         <div>
@@ -174,7 +176,7 @@ function AddProduct() {
                                 </button>
                             </div>
                             <div className={cx('btnPrev')}>
-                                <Link to={config.routers.MenuAdmin} className={cx('bt')}>
+                                <Link to={config.routers.ProductAdmin} className={cx('bt')}>
                                     Quay lại
                                 </Link>
                             </div>

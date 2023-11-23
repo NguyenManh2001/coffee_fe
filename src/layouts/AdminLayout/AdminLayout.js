@@ -10,7 +10,6 @@ import { HiOutlineNewspaper } from 'react-icons/hi';
 import jwt_decode from 'jwt-decode';
 import { Pagination } from 'antd';
 import { Modal } from 'antd';
-
 import {
     FileProtectOutlined,
     MenuFoldOutlined,
@@ -20,6 +19,7 @@ import {
     UnorderedListOutlined,
     UploadOutlined,
     UserOutlined,
+    BarChartOutlined,
     VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
@@ -62,6 +62,7 @@ const AdminLayout = ({ children }) => {
     // const handleMouseLeave = () => {
     //     setShowModal(false); // Ẩn modal khi rời chuột
     // };
+
     return (
         <Layout style={{ height: '941px' }}>
             <Sider trigger={null} theme="light" style={{ width: 256 }} collapsible collapsed={collapsed}>
@@ -105,8 +106,13 @@ const AdminLayout = ({ children }) => {
                     onClick={(item) => {
                         navigate(item.key);
                     }}
-                    // defaultSelectedKeys={['1']}
+                    defaultSelectedKeys={config.routers.Dasboard}
                     items={[
+                        {
+                            label: 'Tổng quan',
+                            icon: <BarChartOutlined style={{ fontSize: '20px' }} />,
+                            key: config.routers.Dasboard,
+                        },
                         {
                             label: 'Sản phẩm',
                             icon: <UnorderedListOutlined style={{ fontSize: '20px' }} />,

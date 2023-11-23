@@ -173,7 +173,7 @@ function AddAbouts() {
                                 </button>
                             </div>
                             <div className={cx('btnPrev')}>
-                                <Link to={config.routers.NewsAdmin} className={cx('bt')}>
+                                <Link to={config.routers.AboutsAdmin} className={cx('bt')}>
                                     Quay lại
                                 </Link>
                             </div>

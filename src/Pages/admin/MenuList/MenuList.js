@@ -20,6 +20,7 @@ import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-quer
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { MapContainer } from '~/Components/Map/Map';
 import moment from 'moment';
+import ExcelDropzone from '~/Components/exelUpload/exelUpload';
 
 const { Search } = Input;
 const { confirm } = Modal;
@@ -30,6 +31,7 @@ function MenuList() {
     const [type, setType] = useState('');
     const [search, setSearch] = useState('');
     const [open, setOpen] = useState(false);
+    const [uploadExel, setUploadExel] = useState(false);
     const [editData, setEditData] = useState();
     const [searchValue, setSearchValue] = useState(' ');
     const dispatch = useDispatch();
@@ -111,6 +113,9 @@ function MenuList() {
     const handlePageChange = (page) => {
         setPage(page);
     };
+    const handleUploadExel = () => {
+        setUploadExel(!uploadExel);
+    };
     // const handleChange = (value) => {
     //     console.log(`selected ${value}`);
     // };
@@ -124,6 +129,18 @@ function MenuList() {
             footer={null}
         >
             <EditMenu data={editData} />
+        </Modal>
+    );
+    const ModalUploadExel = (data) => (
+        <Modal
+            centered
+            open={uploadExel}
+            onOk={() => setUploadExel(false)}
+            onCancel={() => setUploadExel(false)}
+            width={1000}
+            footer={null}
+        >
+            <ExcelDropzone />
         </Modal>
     );
     // useEffect(() => {
@@ -156,13 +173,12 @@ function MenuList() {
             title: 'Tên sản phẩm',
             dataIndex: 'name',
             key: 'name',
-            sorter: true,
         },
         {
             title: 'Ảnh',
             dataIndex: 'link',
             key: 'link',
-            sorter: true,
+
             className: cx('custom-column'),
             render: (text, record) => (
                 <span>
@@ -200,7 +216,7 @@ function MenuList() {
         {
             title: 'Chức năng',
             key: 'action',
-            sorter: true,
+
             render: (_, record) => (
                 <Space size="middle">
                     <Link className={cx('icon1')} to="#" onClick={() => handleUpdate(record)}>
@@ -222,17 +238,18 @@ function MenuList() {
                 <div className={cx('header')}>
                     <div className={cx('NameHeader')}>danh sách sản phẩm</div>
                     <div className={cx('btnHeader')}>
-                        <Link to={config.routers.AddMenu} className={cx('btnIconAdd')}>
+                        <Link to={config.routers.AddProduct} className={cx('btnIconAdd')}>
                             <AddIcons className={cx('IconAdd')} />
                             Thêm mới
                         </Link>
-                        {/* <Link to="#" className={cx('btnIconAdd')}>
+                        {/* <Link onClick={() => handleUploadExel()} to="#" className={cx('btnIconAdd')}>
                             <AddIcons className={cx('IconAdd')} />
-                            <MapContainer />
+                            Upload excel
                         </Link> */}
                     </div>
                 </div>
                 <ModalEdit />
+                <ModalUploadExel />
                 <div className={cx('headerContent')}>
                     <div className={cx('leftContent')}>
                         <div className={cx('name')}>Loại sản phẩm:</div>

@@ -85,7 +85,6 @@ function Product({ _id, src, name, cart, onClick }) {
             setUserId(deToken?.userId);
         }
     }, [token]);
-    console.log(userId);
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['listCustomer', email],
         queryFn: () => axios.post('/customer/listCustomer', { email }).then((res) => res.data),
@@ -114,7 +113,7 @@ function Product({ _id, src, name, cart, onClick }) {
             <AddCustomer />
         </Modal>
     );
-    console.log(_id);
+    console.log(input);
     const product = {};
     const handleAdd = () => {
         if (token) {
@@ -123,7 +122,16 @@ function Product({ _id, src, name, cart, onClick }) {
                     // dispatch(listsMenuSlice.actions.addProduct({ src, name, price, quatity, size, _id }));
                     dispatch(listsMenuSlice.actions.addUser({ userId }));
                     dispatch(
-                        listsMenuSlice.actions.addProductForUser({ userId, src, name, price, quatity, size, _id }),
+                        listsMenuSlice.actions.addProductForUser({
+                            userId,
+                            src,
+                            name,
+                            price,
+                            quatity,
+                            size,
+                            _id,
+                            input,
+                        }),
                     );
                     setClose(!close);
                     onClick();

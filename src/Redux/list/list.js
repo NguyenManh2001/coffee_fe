@@ -45,11 +45,11 @@ const listsMenuSlice = createSlice({
             }
         },
         addProductForUser: (state, action) => {
-            const { userId, src, name, price, quatity, size, _id } = action.payload;
+            const { userId, src, name, price, quatity, size, _id, input } = action.payload;
 
             console.log(`state ${state.users[userId]}`);
             if (state.users[userId]) {
-                state.users[userId].listProduct.push({ src, name, price, quatity, size, _id });
+                state.users[userId].listProduct.push({ src, name, price, quatity, size, _id, input });
                 Cookies.set('store', JSON.stringify(state));
             }
         },

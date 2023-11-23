@@ -129,7 +129,7 @@ function AddMenu() {
                                 </button>
                             </div>
                             <div className={cx('btnPrev')}>
-                                <Link to={config.routers.NewsAdmin} className={cx('bt')}>
+                                <Link to={config.routers.MenuAdmin} className={cx('bt')}>
                                     Quay lại
                                 </Link>
                             </div>
