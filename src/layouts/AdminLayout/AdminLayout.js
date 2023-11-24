@@ -25,6 +25,7 @@ import {
 import { Layout, Menu, Button, theme } from 'antd';
 import Cookies from 'js-cookie';
 import Images from '~/Components/Images';
+import { CoffeeIcons } from '~/Components/icons/icons';
 const { Header, Sider, Content } = Layout;
 
 const AdminLayout = ({ children }) => {
@@ -115,7 +116,7 @@ const AdminLayout = ({ children }) => {
                         },
                         {
                             label: 'Sản phẩm',
-                            icon: <UnorderedListOutlined style={{ fontSize: '20px' }} />,
+                            icon: <CoffeeIcons style={{ fontSize: '20px' }} />,
                             key: config.routers.ProductAdmin,
                         },
                         {

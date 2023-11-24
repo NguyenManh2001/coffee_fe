@@ -2,11 +2,12 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import store from '~/Redux/store';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from '~/Components/GlobalStyles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { tokenSelector } from './Redux/selector';
 
 const queryClient = new QueryClient();
 
@@ -55,7 +56,6 @@ const FacebookChat = () => {
 
     return null; // Return null since this component doesn't render anything
 };
-
 const rootElement = document.getElementById('root');
 ReactDOM.createRoot(rootElement).render(
     <QueryClientProvider client={queryClient}>

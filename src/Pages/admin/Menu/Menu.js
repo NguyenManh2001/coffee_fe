@@ -137,7 +137,7 @@ function MenuAdmin() {
     //         });
     // }, []);
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ['dataAbouts', type, page, search],
+        queryKey: ['dataMenu', type, page, search],
         queryFn: () =>
             axios
                 .post('https://coffee-bills.onrender.com/menu/listMenu', { page, type, search })
@@ -164,7 +164,7 @@ function MenuAdmin() {
             render: (text, record) => (
                 <span>
                     {' '}
-                    <img style={{ width: '100%', height: '100%' }} src={record?.image} />
+                    <img style={{ width: '45%', height: '100%' }} src={record?.image} />
                 </span>
             ),
         },

@@ -182,7 +182,7 @@ function SibarAdmin() {
             render: (text, record) => (
                 <span>
                     {' '}
-                    <img style={{ width: '100%', height: '100%' }} src={record?.iconImage} />
+                    <img style={{ width: '100%', height: '100%', backgroundColor: '#ccc' }} src={record?.iconImage} />
                 </span>
             ),
         },
