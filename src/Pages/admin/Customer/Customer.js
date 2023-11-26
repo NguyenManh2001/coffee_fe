@@ -161,6 +161,22 @@ function Customer() {
             title: 'Tên khách hàng',
             dataIndex: 'name',
             key: 'name',
+            sorter: {
+                compare: (a, b) => {
+                    const nameA = a.name.toUpperCase(); // Chuyển tên về chữ in hoa để so sánh
+                    const nameB = b.name.toUpperCase();
+
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0; // Trường hợp tên bằng nhau
+                },
+                multiple: 1, // Số lượng sắp xếp ưu tiên, có thể thay đổi theo yêu cầu
+                tooltip: 'Sắp xếp theo tên khách hàng',
+            },
         },
         {
             title: 'Giới tính',

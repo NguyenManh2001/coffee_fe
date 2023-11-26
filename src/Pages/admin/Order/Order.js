@@ -19,8 +19,10 @@ import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-quer
 import { EyeInvisibleOutlined, EyeOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import OrderDetails from './OrderDetails/OrderDetails';
 import { exportToExcel } from '~/Components/exel/exel';
+import { DatePicker } from 'antd';
 import moment from 'moment';
 
+const { RangePicker } = DatePicker;
 const { Search } = Input;
 const { confirm } = Modal;
 const cx = classNames.bind(styles);
@@ -37,6 +39,20 @@ function Order() {
     // const location = useLocation();
     // const successMessage = location.state?.successMessage;
 
+    const [dateRange, setDateRange] = useState([]);
+
+    const handleDateChange = (dates) => {
+        if (!dates || (Array.isArray(dates) && dates.length === 0)) {
+            setDateRange({});
+        } else {
+            setDateRange(dates);
+        }
+    };
+
+    const formattedDates = {
+        startDate: dateRange[0]?.format('YYYY-MM-DD'),
+        endDate: dateRange[1]?.format('YYYY-MM-DD'),
+    };
     const [messageApi, contextHolder] = message.useMessage();
 
     const success = (message) => {
@@ -101,13 +117,12 @@ function Order() {
         // dispatch(filterSlice.actions.searchListMenu(result));
     };
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ['dataOrder', select, page, search],
+        queryKey: ['dataOrder', select, page, search, formattedDates],
         queryFn: () =>
             axios
-                .post('https://coffee-bills.onrender.com/orders/listOrder', { page, select, search })
+                .post('https://coffee-bills.onrender.com/orders/listOrder', { page, select, search, formattedDates })
                 .then((res) => res.data),
     });
-    console.log(data);
     // const onSearch = (value, _e, info) => console.log(info?.source, value);
     const datas = useSelector(searchitemSelector);
     const handleUpdate = (data) => {
@@ -218,8 +233,6 @@ function Order() {
 
     const Menudata = data?.docs;
 
-    console.log(Menudata);
-
     return (
         <div className={cx('Wrapper')}>
             {contextHolder}
@@ -250,13 +263,14 @@ function Order() {
                         <div className={cx('name')}>bản ghi trên trang</div>
                     </div>
                     <div className={cx('rightContent')}>
-                        <Search
+                        {/* <Search
                             placeholder="input search text"
                             onSearch={handleSearch}
                             style={{
                                 width: 200,
                             }}
-                        />
+                        /> */}
+                        <RangePicker onChange={handleDateChange} />
                     </div>
                 </div>
                 <div className={cx('content')}>
@@ -274,13 +288,13 @@ function Order() {
                             </thead>
                             <tbody> */}
                         {isLoading ? (
-                            <div className={cx('loading')} style={{ position: 'absolute', left: '48%', top: '50%' }}>
+                            <div className={cx('loading')} style={{ position: 'absolute', left: '48%', top: '45%' }}>
                                 <Spin style={{ color: 'red' }} />
                             </div>
                         ) : (
                             <>
                                 {isdata ? (
-                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '65%' }}>
+                                    <div style={{ position: 'absolute', right: '34%', left: '34%', top: '45%' }}>
                                         <Empty />
                                     </div>
                                 ) : (

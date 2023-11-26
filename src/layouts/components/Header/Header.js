@@ -211,6 +211,7 @@ function Header({ name, src, price, quatity, size }) {
                     isPaid: false,
                 });
                 if (res) {
+                    setBuy(false);
                     setContent(false);
                     navigate(config.routers.Home, { state: { successMessage: 'Bạn đã mua hàng thành công!!!' } });
                 } else {
