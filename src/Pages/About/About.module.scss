@@ -36,6 +36,14 @@
     margin-top: 45px;
     display: flex;
 }
+.main-content1{
+    width: 80%;
+    min-height: 300px;
+    margin-left: 10%;
+    margin-top: 45px;
+    display: flex;
+    flex-direction: row-reverse;
+}
 .content-left{
     margin: 90px 0 43px;
     width: 47%;

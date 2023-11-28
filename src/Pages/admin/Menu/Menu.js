@@ -164,7 +164,7 @@ function MenuAdmin() {
             render: (text, record) => (
                 <span>
                     {' '}
-                    <img style={{ width: '45%', height: '100%' }} src={record?.image} />
+                    <img style={{ width: '100%', height: '100%' }} src={record?.image} />
                 </span>
             ),
         },

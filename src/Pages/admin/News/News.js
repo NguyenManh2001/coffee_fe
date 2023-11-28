@@ -154,6 +154,7 @@ function NewsAdmin() {
             title: 'Tiêu đề',
             dataIndex: 'title',
             key: 'title',
+            className: cx('describe'),
         },
         {
             title: 'Ảnh',
@@ -171,6 +172,7 @@ function NewsAdmin() {
             title: 'Mô tả',
             dataIndex: 'describe',
             key: 'describe',
+            className: cx('describe'),
         },
         {
             title: 'Thời gian tạo',

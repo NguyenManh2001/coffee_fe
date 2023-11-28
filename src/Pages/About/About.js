@@ -33,14 +33,19 @@ function About() {
                         </div>
                     ) : (
                         <>
-                            {data?.docs.map((data) => (
-                                <div key={data._id} className={cx('main-content', 'tent')}>
-                                    <div className={cx('content-left')}>
+                            {data?.docs.map((data, index) => (
+                                <div
+                                    key={data._id}
+                                    className={
+                                        index % 2 !== 0 ? cx('main-content1', 'tent') : cx('main-content', 'tent')
+                                    }
+                                >
+                                    <div className={index % 2 !== 0 ? cx('content-right') : cx('content-left')}>
                                         <div className={cx('img-content')}>
                                             <Images src={data.image} className={cx('Image')} alt="lineborder" />
                                         </div>
                                     </div>
-                                    <div className={cx('content-right')}>
+                                    <div className={index % 2 !== 0 ? cx('content-left') : cx('content-right')}>
                                         <div className={cx('main-right')}>
                                             <Content>
                                                 <div className={cx('content-item')}>

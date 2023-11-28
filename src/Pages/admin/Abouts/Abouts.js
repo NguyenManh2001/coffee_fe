@@ -178,6 +178,7 @@ function AboutsAdmin() {
             title: 'Mô tả',
             dataIndex: 'describe',
             key: 'describe',
+            className: cx('describe'),
         },
         {
             title: 'Thời gian tạo',
