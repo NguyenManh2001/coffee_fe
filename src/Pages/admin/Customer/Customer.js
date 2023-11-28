@@ -19,6 +19,8 @@ import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-quer
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import EditCustomer from './EditCustomer';
 import { exportToExcel } from '~/Components/exel/exel';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment';
 
 const { Search } = Input;
@@ -39,10 +41,11 @@ function Customer() {
     const [messageApi, contextHolder] = message.useMessage();
 
     const success = (message) => {
-        messageApi.open({
-            type: 'success',
-            content: message,
-        });
+        // messageApi.open({
+        //     type: 'success',
+        //     content: message,
+        // });
+        toast.success(message);
     };
 
     // useEffect(() => {
@@ -59,10 +62,11 @@ function Customer() {
     // }, [location.state]);
 
     const error = () => {
-        messageApi.open({
-            type: 'error',
-            content: 'Bạn xóa không thành công',
-        });
+        // messageApi.open({
+        //     type: 'error',
+        //     content: 'Bạn xóa không thành công',
+        // });
+        toast.error('Bạn xóa không thành công');
     };
     const handleDelete = (id) => {
         confirm({
@@ -227,6 +231,20 @@ function Customer() {
     return (
         <div className={cx('Wrapper')}>
             {contextHolder}
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            {/* Same as */}
+            <ToastContainer />
             <div className={cx('Container')}>
                 <div className={cx('header')}>
                     <div className={cx('NameHeader')}>danh sách khách hàng</div>

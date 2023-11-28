@@ -23,7 +23,7 @@ function News() {
                     <Spin style={{ color: 'red' }} />
                 </div>
             ) : (
-                <div className={cx('container')}>
+                <div id="top" className={cx('container')}>
                     {data?.docs?.map((data) => (
                         <div key={data._id} className={cx('main-right')}>
                             <div className={cx('img-content')}>

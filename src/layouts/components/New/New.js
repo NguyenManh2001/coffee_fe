@@ -26,10 +26,8 @@ function New() {
         queryFn: () => axios.post('https://coffee-bills.onrender.com/news/listNews').then((res) => res.data),
     });
 
-    console.log(data);
-
     return (
-        <div className={cx('wrapper')}>
+        <div id="top" className={cx('wrapper')}>
             <div className={cx('container')}>
                 <h2 className={cx('header')}>Tin tức</h2>
                 <div className={cx('lineborder')}>

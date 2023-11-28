@@ -15,6 +15,8 @@ import Autocomplete from 'react-autocomplete';
 import { yupResolver } from '@hookform/resolvers/yup';
 import jwt_decode from 'jwt-decode';
 import * as yup from 'yup';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Input, InputNumber, message, Select } from 'antd';
 
@@ -64,7 +66,6 @@ function Login() {
     });
     const onSubmit = async (data) => {
         try {
-            console.log(data);
             const res = await axios.post('https://coffee-bills.onrender.com/account/login', data);
             const token = res.data.token;
             const expires = new Date(Date.now() + 3600 * 1000);
@@ -86,7 +87,8 @@ function Login() {
                 }
             }
         } catch (err) {
-            error();
+            // error();
+            toast.error('Sai email hoặc mật khẩu');
         }
     };
 
@@ -174,6 +176,7 @@ function Login() {
     return (
         <div className={cx('wrapper')}>
             {contextHolder}
+            <ToastContainer />
             <div className={cx('container')}>
                 <div className={cx('content')}>
                     <div className={cx('Iconheader')}>

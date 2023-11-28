@@ -11,13 +11,13 @@ const cx = classNames.bind(styles);
 
 function About() {
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ['listNews'],
+        queryKey: ['listAbouts'],
         queryFn: () => axios.post('https://coffee-bills.onrender.com/abouts/ListAbouts').then((res) => res.data),
     });
     console.log(data);
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('container')}>
+            <div id="top" className={cx('container')}>
                 <div className={cx('header')}></div>
                 <div className={cx('content')}>
                     <h2 className={cx('header-content')}>Về chúng tôi</h2>

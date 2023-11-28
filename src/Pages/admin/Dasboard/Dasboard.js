@@ -2,10 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './Dasboard.module.scss';
 import classNames from 'classnames/bind';
 import { Progress, Space } from 'antd';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Chart from '~/layouts/components/chart';
 import axios from 'axios';
 import CountUp from 'react-countup';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Col, Row, Statistic } from 'antd';
 const formatter = (value) => <CountUp end={value} separator="," />;
 const cx = classNames.bind(styles);
@@ -22,12 +25,40 @@ const fetchData = async () => {
 };
 
 function Dasboard() {
-    // const [total, setTotal] = useState();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const successMessage = location.state?.successMessage;
 
-    // const { isLoading, data, refetch } = useQuery({
-    //     queryKey: ['dataCustomer'],
-    //     queryFn: () => axios.post('https://coffee-bills.onrender.com/customer/listCustomer').then((res) => res.data),
-    // });
+    // const [messageApi, contextHolder] = message.useMessage(successMessage);
+
+    const success = (message) => {
+        // messageApi.open({
+        //     type: 'success',
+        //     content: message,
+        // });
+        toast.success(message);
+    };
+
+    useEffect(() => {
+        if (location.state && location.state.successMessage) {
+            success(location.state.successMessage);
+            // setOpen(false);
+            refetch();
+
+            // Đặt giá trị successMessage trong location.state thành null
+            const newLocation = { ...location };
+            newLocation.state.successMessage = null;
+            navigate({ pathname: location.pathname, state: newLocation.state });
+        }
+    }, [location.state]);
+    const error = () => {
+        // messageApi.open({
+        //     type: 'error',
+        //     content: 'Bạn xóa không thành công',
+        // });
+        toast.error('Bạn xóa không thành công');
+    };
+
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['dataCustomer'],
         queryFn: () => fetchData(),
@@ -133,6 +164,20 @@ function Dasboard() {
     console.log(orders);
     return (
         <div className={cx('wrapper')}>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            {/* Same as */}
+            <ToastContainer />
             <div className={cx('container')}>
                 <div className={cx('content')}>
                     <div className={cx('header')}>

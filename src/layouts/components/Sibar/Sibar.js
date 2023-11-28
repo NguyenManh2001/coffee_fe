@@ -39,7 +39,6 @@ function Sibar() {
         queryFn: () => axios.post('https://coffee-bills.onrender.com/sibar/listSibar').then((res) => res.data),
     });
 
-    console.log(data);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('carousel')}>

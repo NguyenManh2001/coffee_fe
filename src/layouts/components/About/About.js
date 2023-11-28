@@ -13,7 +13,7 @@ function About() {
         queryKey: ['listAbouts'],
         queryFn: () => axios.post('https://coffee-bills.onrender.com/abouts/ListAbouts').then((res) => res.data),
     });
-    console.log(data);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>

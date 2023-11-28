@@ -19,6 +19,8 @@ import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-quer
 import { EyeInvisibleOutlined, EyeOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import OrderDetails from './OrderDetails/OrderDetails';
 import { exportToExcel } from '~/Components/exel/exel';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { DatePicker } from 'antd';
 import moment from 'moment';
 
@@ -56,10 +58,11 @@ function Order() {
     const [messageApi, contextHolder] = message.useMessage();
 
     const success = (message) => {
-        messageApi.open({
-            type: 'success',
-            content: message,
-        });
+        // messageApi.open({
+        //     type: 'success',
+        //     content: message,
+        // });
+        toast.success(message);
     };
 
     // useEffect(() => {
@@ -76,10 +79,11 @@ function Order() {
     // }, [location.state]);
 
     const error = () => {
-        messageApi.open({
-            type: 'error',
-            content: 'Bạn xóa không thành công',
-        });
+        // messageApi.open({
+        //     type: 'error',
+        //     content: 'Bạn xóa không thành công',
+        // });
+        toast.error('Bạn xóa không thành công');
     };
     const handleDelete = (id) => {
         confirm({
@@ -235,7 +239,21 @@ function Order() {
 
     return (
         <div className={cx('Wrapper')}>
-            {contextHolder}
+            {/* {contextHolder} */}
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            {/* Same as */}
+            <ToastContainer />
             <div className={cx('Container')}>
                 <div className={cx('header')}>
                     <div className={cx('NameHeader')}>danh sách đơn hàng</div>

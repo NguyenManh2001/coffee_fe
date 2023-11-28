@@ -18,6 +18,8 @@ import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import EditAccount from './EditAccount';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment';
 // import EditCustomer from './EditCustomer';
 
@@ -39,10 +41,11 @@ function Account() {
     const [messageApi, contextHolder] = message.useMessage(successMessage);
 
     const success = (message) => {
-        messageApi.open({
-            type: 'success',
-            content: message,
-        });
+        // messageApi.open({
+        //     type: 'success',
+        //     content: message,
+        // });
+        toast.success(message);
     };
 
     useEffect(() => {
@@ -59,10 +62,11 @@ function Account() {
     }, [location.state]);
 
     const error = () => {
-        messageApi.open({
-            type: 'error',
-            content: 'Bạn xóa không thành công',
-        });
+        // messageApi.open({
+        //     type: 'error',
+        //     content: 'Bạn xóa không thành công',
+        // });
+        toast.error('Bạn xóa không thành công');
     };
     const handleDelete = (id) => {
         confirm({
@@ -189,6 +193,20 @@ function Account() {
     return (
         <div className={cx('Wrapper')}>
             {contextHolder}
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            {/* Same as */}
+            <ToastContainer />
             <div className={cx('Container')}>
                 <div className={cx('header')}>
                     <div className={cx('NameHeader')}>danh sách tài khoản</div>

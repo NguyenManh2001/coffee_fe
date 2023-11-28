@@ -95,7 +95,6 @@ const cx = classNames.bind(styles);
 // ];
 
 function FeatureMenu({ select }) {
-    console.log(select);
     const [product, setProduct] = useState(false);
     const [header, setHeader] = useState(1);
     const [page, setPage] = useState('');
@@ -113,7 +112,6 @@ function FeatureMenu({ select }) {
                 .post('https://coffee-bills.onrender.com/product/listProduct', { page, type, search, limit })
                 .then((res) => res.data),
     });
-    console.log(data);
     const renderItems = () => {
         return data?.docs?.map((MENU, index) => {
             if (MENU._id === header) {

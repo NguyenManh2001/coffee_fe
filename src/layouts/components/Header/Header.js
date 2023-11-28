@@ -19,6 +19,8 @@ import AddCustomer from '~/Pages/admin/Customer/AddCustomer';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import listsMenuSlice from '~/Redux/list/list';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useMediaQuery } from 'react-responsive';
 import { FaUserCircle } from 'react-icons/fa';
 
@@ -46,10 +48,11 @@ function Header({ name, src, price, quatity, size }) {
     const token = Cookies.get('token');
     const dispatch = useDispatch();
     const success = (message) => {
-        messageApi.open({
-            type: 'success',
-            content: message,
-        });
+        // messageApi.open({
+        //     type: 'success',
+        //     content: message,
+        // });
+        toast.success(message);
     };
 
     useEffect(() => {
@@ -76,9 +79,9 @@ function Header({ name, src, price, quatity, size }) {
     // const userRole = useSelector(tokenSelector);
     const menus = useSelector(addProductSelector);
     const usersData = useSelector(addUserProductSelector);
-    console.log(usersData);
     const handleLogout = () => {
         Cookies.remove('token');
+        toast.success('Bạn đăng xuất thành công');
         window.location.reload();
     };
     const handleInfomation = () => {
@@ -266,7 +269,6 @@ function Header({ name, src, price, quatity, size }) {
             setPriceList(0);
         }
     };
-    console.log(list);
     const handleDelete = (id) => {
         dispatch(listsMenuSlice.actions.deleteProductForUser({ user, id }));
     };
@@ -274,6 +276,20 @@ function Header({ name, src, price, quatity, size }) {
         <div className={cx('wraper')}>
             <>
                 {contextHolder}
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
+                {/* Same as */}
+                <ToastContainer />
                 {/* {!showHeader && ( */}
                 <div className={showHeader ? cx('container') : cx('container1')}>
                     <Tippy
