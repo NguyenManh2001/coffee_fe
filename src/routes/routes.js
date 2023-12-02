@@ -39,6 +39,8 @@ import AddMenu from '~/Pages/admin/Menu/AddMenu';
 import Dasboard from '~/Pages/admin/Dasboard';
 import Product from '~/Pages/admin/Product';
 import AddProduct from '~/Pages/admin/Product/AddProduct';
+import Discounted from '~/Pages/admin/Discounted';
+import AddDiscounted from '~/Pages/admin/Discounted/AddDiscounted';
 
 const publicRoutes = [
     { path: config.routers.Home, component: Home, layout: DefaultLayout },
@@ -85,5 +87,7 @@ const privateRoutes = [
     { path: config.routers.AddSibar, component: AddSibar, layout: AdminLayout },
     { path: config.routers.MenuAdmin, component: Menu, layout: AdminLayout },
     { path: config.routers.AddMenu, component: AddMenu, layout: AdminLayout },
+    { path: config.routers.DiscountedAdmin, component: Discounted, layout: AdminLayout },
+    { path: config.routers.AddDiscounted, component: AddDiscounted, layout: AdminLayout },
 ];
 export { publicRoutes, privateRoutes };

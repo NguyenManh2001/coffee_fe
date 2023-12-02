@@ -28,12 +28,27 @@
   }
   .card{
     border-radius: 25px;
+    position: relative;
+  }
+  .discounted{
+    position: absolute;
+    background: rgb(239 182 12);
+    width: 21%;
+    color: red;
+    right: 0;
+    text-align: center;
   }
   .card-img{
     width: 100%;
     height: 330px;
     border-top-left-radius: 17px;
     border-top-right-radius: 17px;
+  }
+  .card-img1{
+    width: 100%;
+    height: 330px;
+    border-top-left-radius: 17px;
+    // border-top-right-radius: 17px;
   }
   .card-content{
     background: conic-gradient(from 145.81deg at 41.39% 0%,#ffffff 0deg,#fdbd87 240deg,#fc8621 360deg);
@@ -69,6 +84,13 @@
   .price{
     font-size: 16px;
     font-weight: 600;
+  }
+  .price1{
+    padding-right: 5px;
+    font-weight: 100;
+    font-size: 15px;
+    margin-top: 2px;
+    text-decoration: line-through;
   }
   .iconcart{
     width: 35px;

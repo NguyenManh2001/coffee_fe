@@ -32,6 +32,8 @@ const routers = {
     AddSibar: '/Admin/Sibar/AddSibar',
     MenuAdmin: '/Admin/Menu',
     AddMenu: '/Admin/Menu/AddMenu',
+    DiscountedAdmin: '/Admin/Discounted',
+    AddDiscounted: '/Admin/Discounted/AddDiscounted',
 };
 
 export default routers;

@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './Product.module.scss';
+import styles from './Discounted.module.scss';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 // import Table from 'react-bootstrap/Table';
 import { AddIcons } from '~/Components/icons/icons';
@@ -13,27 +13,24 @@ import listsMenuSlice from '~/Redux/list/list';
 import filterSlice from '~/Redux/filters/filters';
 import { searchitemSelector } from '~/Redux/selector';
 import { Pagination, Select, Space, Spin, Table } from 'antd';
-import EditMenu from './EditProduct';
 import { Empty, Button, Modal, message, Alert, Input } from 'antd';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { MapContainer } from '~/Components/Map/Map';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import EditDiscounted from './EditDiscounted';
 import moment from 'moment';
-import ExcelDropzone from '~/Components/exelUpload/exelUpload';
 
 const { Search } = Input;
 const { confirm } = Modal;
 const cx = classNames.bind(styles);
 
-function Product() {
+function DiscountedAdmin() {
     const [page, setPage] = useState(1);
     const [type, setType] = useState('');
     const [search, setSearch] = useState('');
     const [open, setOpen] = useState(false);
-    const [uploadExel, setUploadExel] = useState(false);
     const [editData, setEditData] = useState();
     const [searchValue, setSearchValue] = useState(' ');
     const dispatch = useDispatch();
@@ -80,7 +77,7 @@ function Product() {
             cancelText: 'No',
             onOk() {
                 axios
-                    .delete(`https://coffee-bills.onrender.com/product/deleteProduct/${id}`)
+                    .delete(`https://coffee-bills.onrender.com/discounted/deleteDiscounted/${id}`)
                     .then((res) => {
                         success('Bạn đã xóa thành công');
                         refetch();
@@ -95,7 +92,7 @@ function Product() {
         });
     };
 
-    const onSearch = (value, _e, info) => console.log(info?.source, value);
+    // const onSearch = (value, _e, info) => console.log(info?.source, value);
     const datas = useSelector(searchitemSelector);
     const handleSelected = (value) => {
         if (value === 'Tất cả') {
@@ -105,7 +102,7 @@ function Product() {
         }
         dispatch(filterSlice.actions.list(value));
     };
-    console.log(type);
+
     const handleSearch = (e) => {
         setSearch(e);
         // dispatch(filterSlice.actions.searchListMenu(result));
@@ -116,9 +113,6 @@ function Product() {
     };
     const handlePageChange = (page) => {
         setPage(page);
-    };
-    const handleUploadExel = () => {
-        setUploadExel(!uploadExel);
     };
     // const handleChange = (value) => {
     //     console.log(`selected ${value}`);
@@ -132,24 +126,12 @@ function Product() {
             width={1000}
             footer={null}
         >
-            <EditMenu data={editData} />
-        </Modal>
-    );
-    const ModalUploadExel = (data) => (
-        <Modal
-            centered
-            open={uploadExel}
-            onOk={() => setUploadExel(false)}
-            onCancel={() => setUploadExel(false)}
-            width={1000}
-            footer={null}
-        >
-            <ExcelDropzone />
+            <EditDiscounted data={editData} />
         </Modal>
     );
     // useEffect(() => {
     //     axios
-    //         .post('/Product/ListMenu')
+    //         .post('/menuList/ListMenu')
     //         .then((res) => {
     //             dispatch(listsMenuSlice.actions.addListMenu(res.data));
     //             dispatch(filterSlice.actions.list(selected));
@@ -159,75 +141,64 @@ function Product() {
     //         });
     // }, []);
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ['data', type, page, search],
+        queryKey: ['dataDiscounted', type, page, search],
         queryFn: () =>
             axios
-                .post('https://coffee-bills.onrender.com/product/listProduct', { page, type, search })
+                .post('https://coffee-bills.onrender.com/discounted/listDiscounted', { page, type, search })
                 .then((res) => res.data),
     });
-
     const isdata = !data?.docs?.length;
-    const compareDate = (a, b) => {
-        const dateA = moment(a.createdAt);
-        const dateB = moment(b.createdAt);
+    const startDate = (a, b) => {
+        const dateA = moment(a.startDate);
+        const dateB = moment(b.startDate);
+        return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
+    };
+    const endDate = (a, b) => {
+        const dateA = moment(a.endDate);
+        const dateB = moment(b.endDate);
         return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
     };
     const columns = [
         {
-            title: 'Tên sản phẩm',
+            title: 'Mã khuyến mãi',
             dataIndex: 'name',
             key: 'name',
+            // className: cx('custom-column'),
         },
         {
-            title: 'Ảnh',
-            dataIndex: 'link',
-            key: 'link',
-
-            className: cx('custom-column'),
-            render: (text, record) => (
-                <span>
-                    {' '}
-                    <img style={{ width: '100%', height: '100%' }} src={record?.link} />
-                </span>
-            ),
-        },
-        {
-            title: 'Giá',
-            dataIndex: 'price',
-            key: 'price',
-            sorter: {
-                compare: (a, b) => a.price - b.price,
-                multiple: 2,
-                tooltip: 'Sắp xếp theo ngày tạo',
-            },
-            render: (text, record) => <span>{record.price.toLocaleString('vi-VN')} VND</span>,
-        },
-        {
-            title: 'Giảm giá',
+            title: 'Giảm giá (%)',
             dataIndex: 'discounted',
             key: 'discounted',
-
-            render: (text, record) => <span>{record.discounted ? record.discounted : 0} %</span>,
+            // className: cx('custom-column'),
         },
         {
-            title: 'Thời gian nhập',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-            className: cx('custom-create'),
+            title: 'Thời gian bắt dầu',
+            dataIndex: 'startDate',
+            key: 'startDate',
+            // className: cx('custom-create'),
             sorter: {
-                compare: (a, b) => compareDate(a, b),
+                compare: (a, b) => startDate(a, b),
                 multiple: 2,
-                tooltip: 'Sắp xếp theo ngày tạo',
+                tooltip: false,
             },
-            style: {
-                with: '155px',
-            },
-            render: (text, record) => <span>{formatTime(record?.createdAt)}</span>,
+            render: (text, record) => <span>{formatTime(record?.startDate)}</span>,
         },
+        {
+            title: 'Thời gian kết thúc',
+            dataIndex: 'endDate',
+            key: 'endDate',
+            // className: cx('custom-create'),
+            sorter: {
+                compare: (a, b) => endDate(a, b),
+                multiple: 2,
+                tooltip: false,
+            },
+            render: (text, record) => <span>{formatTime(record?.endDate)}</span>,
+        },
+
         {
             title: 'Chức năng',
             key: 'action',
-
             render: (_, record) => (
                 <Space size="middle">
                     <Link className={cx('icon1')} to="#" onClick={() => handleUpdate(record)}>
@@ -261,39 +232,33 @@ function Product() {
             <ToastContainer />
             <div className={cx('Container')}>
                 <div className={cx('header')}>
-                    <div className={cx('NameHeader')}>danh sách sản phẩm</div>
+                    <div className={cx('NameHeader')}>danh sách thông tin</div>
                     <div className={cx('btnHeader')}>
-                        <Link to={config.routers.AddProduct} className={cx('btnIconAdd')}>
+                        <Link to={config.routers.AddDiscounted} className={cx('btnIconAdd')}>
                             <AddIcons className={cx('IconAdd')} />
                             Thêm mới
                         </Link>
-                        {/* <Link onClick={() => handleUploadExel()} to="#" className={cx('btnIconAdd')}>
-                            <AddIcons className={cx('IconAdd')} />
-                            Upload excel
-                        </Link> */}
                     </div>
                 </div>
                 <ModalEdit />
-                <ModalUploadExel />
                 <div className={cx('headerContent')}>
                     <div className={cx('leftContent')}>
-                        <div className={cx('name')}>Loại sản phẩm:</div>
+                        <div className={cx('name')}>Hiển thị</div>
                         <Select
-                            defaultValue="Tất cả"
-                            style={{ width: 120 }}
+                            defaultValue="10"
+                            style={{ width: 120, margin: '10px' }}
                             onChange={handleSelected}
                             options={[
-                                { value: 'Tất cả', label: 'Tất cả' },
-                                { value: 'Coffee', label: 'Coffee' },
-                                { value: 'Freeze', label: 'Freeze' },
-                                { value: 'Tea', label: 'Tea' },
+                                { value: 10, label: 10 },
+                                { value: 25, label: 25 },
+                                { value: 40, label: 40 },
                             ]}
                         />
-                        {/* <div className={cx('name')}>bản ghi trên trang</div> */}
+                        <div className={cx('name')}>bản ghi trên trang</div>
                     </div>
                     <div className={cx('rightContent')}>
                         <Search
-                            placeholder="Tìm kiếm theo tên sản phẩm"
+                            placeholder="Tìm kiếm theo tiêu đề"
                             onSearch={handleSearch}
                             style={{
                                 width: 200,
@@ -305,12 +270,13 @@ function Product() {
                     <div className={cx('contentItem')}>
                         {/* <Table striped bordered size="sm">
                             <thead>
-                                <tr style={{ textAlign: 'center' }}>
+                                <tr>
                                     <th>STT</th>
-                                    <th>Tên sản phẩm</th>
+                                    <th>Tên</th>
+                                    <th>Tiêu đề</th>
                                     <th>Ảnh</th>
-                                    <th>Giá</th>
-                                    <th>Thời gian nhập</th>
+                                    <th>Mô tả</th>
+                                    <th>Thời gian tạo</th>
                                     <th colSpan={2}>Chức năng</th>
                                 </tr>
                             </thead>
@@ -327,33 +293,37 @@ function Product() {
                                     </div>
                                 ) : (
                                     <>
-                                        {/* {data?.docs?.map((menu, index) => (
-                                                    <tr
-                                                        key={menu._id}
-                                                        style={{ lineHeight: '65px', textAlign: 'center' }}
-                                                    >
+                                        {/* {data?.docs?.map((data, index) => (
+                                                    <tr key={data._id} style={{ lineHeight: '65px' }}>
                                                         <td>{index + 1}</td>
-                                                        <td>{menu.name}</td>
+                                                        <td style={{ lineHeight: '24px', width: '300px' }}>
+                                                            {data.name}
+                                                        </td>
+                                                        <td style={{ lineHeight: '24px', width: '300px' }}>
+                                                            {data.title}
+                                                        </td>
                                                         <td style={{ width: '100px' }}>
                                                             <img
-                                                                style={{ width: '100%', height: ' 70px' }}
-                                                                src={menu?.link}
+                                                                style={{ width: '100%', height: '100%' }}
+                                                                src={data?.image}
                                                             />
                                                         </td>
-                                                        <td>{menu.price.toLocaleString('vi-VN')} VND</td>
-                                                        <td>{formatTime(menu.createdAt)}</td>
+                                                        <td style={{ lineHeight: '24px', width: '400px' }}>
+                                                            {data.describe}
+                                                        </td>
+                                                        <td>{formatTime(data.createdAt)}</td>
                                                         <td>
                                                             <Link
                                                                 className={cx('icon')}
                                                                 to="#"
-                                                                onClick={() => handleUpdate(menu)}
+                                                                onClick={() => handleUpdate(data)}
                                                             >
                                                                 <BiEditAlt />
                                                             </Link>
                                                             <Link
                                                                 className={cx('icon')}
                                                                 to="#"
-                                                                onClick={() => handldeDelete(menu._id)}
+                                                                onClick={() => handldeDelete(data._id)}
                                                             >
                                                                 <RiDeleteBin6Line />
                                                             </Link>
@@ -374,9 +344,9 @@ function Product() {
                             </>
                         )}
                         {/* </tbody>
-                          
-                        </Table>
-                        {isLoading ||
+                           
+                        </Table> */}
+                        {/* {isLoading ||
                             (!isdata && (
                                 <div className={cx('footer')}>
                                     <Pagination
@@ -395,4 +365,4 @@ function Product() {
     );
 }
 
-export default Product;
+export default DiscountedAdmin;

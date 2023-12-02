@@ -108,6 +108,7 @@ function EditMenu(props) {
         uploadData.append('type', data.type);
         uploadData.append('name', data.name);
         uploadData.append('price', data.price);
+        uploadData.append('discounted', data.discounted);
         console.log(data.type);
         const res = await axios
             .put(`https://coffee-bills.onrender.com/product/updateProduct/${data._id}`, uploadData)
@@ -198,6 +199,37 @@ function EditMenu(props) {
                                     alt=""
                                 />
                             )}
+                        </div>
+                        <div className={cx('contentItem')} style={{ marginTop: '30px' }}>
+                            <div className={cx('name')}>
+                                Giảm giá:<span className={cx('star')}>*</span>
+                            </div>
+                            <Controller
+                                name="discounted"
+                                control={control}
+                                render={({ field }) => (
+                                    <div style={{ width: '100%' }}>
+                                        <InputNumber
+                                            style={{ width: '100%' }}
+                                            // size="small"
+                                            min={0}
+                                            max={100}
+                                            {...field}
+                                            status={errors.discounted?.message ? 'error' : null}
+                                            // defaultValue={0}
+                                            placeholder="Nhập số từ 1-100"
+                                            // onChange={onChange}
+                                            // formatter={(value) => `${value}`}
+                                        />
+                                        {/* <Input
+                                            {...field}
+                                            status={errors.discounted?.message ? 'error' : null}
+                                            placeholder="Nhập thông tin sản phẩm"
+                                        /> */}
+                                        <p style={{ margin: '0px', color: 'red' }}>{errors.discounted?.message}</p>
+                                    </div>
+                                )}
+                            />
                         </div>
                         <div className={cx('contentItem')} style={{ marginBottom: '15px' }}>
                             <div className={cx('name')}>

@@ -22,6 +22,7 @@ import { Empty, Input, Menu, Spin } from 'antd';
 import { Rate } from 'antd';
 import { Pagination } from 'antd';
 import Search from 'antd/es/input/Search';
+import moment from 'moment';
 function getItem(label, key, children, type) {
     return {
         key,
@@ -86,6 +87,12 @@ function MenuLayout({ children }) {
     const items = [getItem('Cà phê', '1'), getItem('Freeze', '2'), getItem('Trà', '3'), getItem('Cà phê gói', '4')];
     const renderItems = () => {
         return data?.docs?.map((MENU, index) => {
+            const currentTime = moment(); // Thời gian hiện tại
+            const filteredDiscounts = MENU.discounts.filter((element) => {
+                const startDate = moment(element.startDate); // Thời gian bắt đầu
+                const endDate = moment(element.endDate); // Thời gian kết thúc
+                return currentTime.isBetween(startDate, endDate);
+            });
             if (MENU._id === header) {
                 return (
                     <div key={header}>
@@ -95,7 +102,15 @@ function MenuLayout({ children }) {
                                 _id={MENU._id}
                                 src={MENU.link}
                                 name={MENU.name}
-                                cart={MENU.price}
+                                cart={
+                                    filteredDiscounts.length > 0
+                                        ? filteredDiscounts.map(
+                                              (data) => MENU.price - MENU.price * (data.discounted / 100),
+                                          )
+                                        : MENU.discounted
+                                        ? MENU.price - (MENU.price * MENU.discounted) / 100
+                                        : MENU.price
+                                }
                                 onClick={() => {
                                     setProduct(false);
                                 }}
@@ -252,6 +267,8 @@ function MenuLayout({ children }) {
                                                                     src={MENU.link}
                                                                     price={MENU.price}
                                                                     title={MENU.name}
+                                                                    discounted={MENU.discounted}
+                                                                    discounts={MENU.discounts}
                                                                     icon={<StarIcons />}
                                                                     onClick={() => {
                                                                         setProduct(!product);

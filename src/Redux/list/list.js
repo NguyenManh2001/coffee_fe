@@ -64,6 +64,19 @@ const listsMenuSlice = createSlice({
                 Cookies.set('store', JSON.stringify(state));
             }
         },
+        deleteProductsForUser: (state, action) => {
+            const { user, ids } = action.payload;
+            console.log(user);
+            if (state.users[user]) {
+                // Tìm sản phẩm cần xóa dựa trên productId
+                state.users[user].listProduct = state.users[user].listProduct.filter(
+                    (product) => !ids.includes(product._id),
+                );
+
+                // Sau khi xóa sản phẩm, lưu trạng thái vào Local Storage
+                Cookies.set('store', JSON.stringify(state));
+            }
+        },
         addProduct: (state, action) => {
             state.listProduct1 = [...state.listProduct1, action.payload];
         },

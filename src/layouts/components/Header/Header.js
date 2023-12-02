@@ -23,9 +23,21 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMediaQuery } from 'react-responsive';
 import { FaUserCircle } from 'react-icons/fa';
+import formatDate, { formatTime } from '~/Components/FormatDate/FormatDate';
 
 const cx = classNames.bind(styles);
 
+const fetchData = async () => {
+    const promises = [
+        axios.post('https://coffee-bills.onrender.com/customer/listCustomer').then((res) => res.data),
+        axios.post('https://coffee-bills.onrender.com/orders/listOrder').then((res) => res.data),
+        axios.post('https://coffee-bills.onrender.com/orders/listAllOrders').then((res) => res.data),
+    ];
+
+    const [customerData, ordersData, ordersAllData] = await Promise.all(promises);
+
+    return { customerData, ordersData, ordersAllData };
+};
 function Header({ name, src, price, quatity, size }) {
     const [content, setContent] = useState(false);
     const [showHeader, setShowHeader] = useState(true);
@@ -42,6 +54,8 @@ function Header({ name, src, price, quatity, size }) {
     const [checkedList, setCheckedList] = useState([]);
     const [priceList, setPriceList] = useState(0);
     const [productId, setProductId] = useState([]);
+    const [history, setHistory] = useState(false);
+    const [ids, setIds] = useState([]);
     const successMessage = location.state?.successMessage;
 
     const [messageApi, contextHolder] = message.useMessage(successMessage);
@@ -87,17 +101,39 @@ function Header({ name, src, price, quatity, size }) {
     const handleInfomation = () => {
         setOpen(true);
     };
+    const handleHistory = () => {
+        setHistory(true);
+    };
     const [value, setValue] = useState(1);
 
     const onChange = (e) => {
         setValue(e.target.value);
     };
-    const { isLoading, data, refetch } = useQuery({
+    // const { isLoading, data, refetch } = useQuery({
+    //     queryKey: ['listCustomer', email],
+    //     queryFn: () =>
+    //         axios.post('https://coffee-bills.onrender.com/customer/listCustomer', { email }).then((res) => res.data),
+    // });
+
+    const {
+        isLoading: isLoadingCustomer,
+        data: data,
+        refetch: refetch,
+    } = useQuery({
         queryKey: ['listCustomer', email],
         queryFn: () =>
             axios.post('https://coffee-bills.onrender.com/customer/listCustomer', { email }).then((res) => res.data),
     });
-
+    const users = data?.docs[0]?._id;
+    const {
+        isLoading: isLoadingOrders,
+        data: ordersData,
+        refetch: refetchOrders,
+    } = useQuery({
+        queryKey: ['dataOrder', users],
+        queryFn: () =>
+            axios.post('https://coffee-bills.onrender.com/orders/listAllOrders', { users }).then((res) => res.data),
+    });
     const ModalEdit = () => (
         <Modal
             centered
@@ -108,6 +144,58 @@ function Header({ name, src, price, quatity, size }) {
             footer={null}
         >
             {data?.docs?.length > 0 ? <EditCustomer data={data} /> : <AddCustomer />}
+        </Modal>
+    );
+
+    const ModalHistory = () => (
+        <Modal
+            centered
+            open={history}
+            onOk={() => setHistory(false)}
+            onCancel={() => setHistory(false)}
+            width={600}
+            height={500}
+            footer={null}
+        >
+            <div className={cx('cart')}>
+                <div className={cx('header-cart')}>
+                    <h2 className={cx('text-header')}>Lịch sử mua hàng</h2>
+                    {/* <div style={{ width: '75px', height: '26px' }}>
+                        <NavLink to={config.routers.Menu} className={cx('add')}>
+                            Thêm món
+                        </NavLink>
+                    </div> */}
+                </div>
+                <div style={{ height: '500px', overflow: 'auto' }}>
+                    {ordersData?.map((data, index) => (
+                        <div key={data._id}>
+                            <div className={cx('header-cart')}>
+                                <h2 className={cx('text-header')}>Thời gian: {formatTime(data.createdAt)}</h2>
+                            </div>
+                            <div style={{ margin: '15px 0px' }}>
+                                {data?.products?.map((data, index) => (
+                                    <div style={{ marginBottom: '10px' }} className={cx('cart-item')} key={index}>
+                                        <Images className={cx('logo-cart')} src={data?.product?.link} />
+                                        <div className={cx('cart-title')}>
+                                            <div className={cx('cart-name')}>{data?.product?.name}</div>
+                                            <div className={cx('cart-size')}>
+                                                <div classNames={cx('sizeCart')}>
+                                                    <div className={cx('size')}>
+                                                        Size {data?.size} <span>x {data?.quantity}</span>
+                                                    </div>
+                                                </div>
+                                                <div style={{ display: 'flex' }}>
+                                                    <div className={cx('cart-price')}>{data?.product?.price} VND</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </Modal>
     );
     const items = email
@@ -122,6 +210,14 @@ function Header({ name, src, price, quatity, size }) {
               },
               {
                   key: '2',
+                  label: (
+                      <NavLink to="#" onClick={handleHistory}>
+                          Lịch sử mua hàng
+                      </NavLink>
+                  ),
+              },
+              {
+                  key: '3',
                   label: (
                       <NavLink to="#" onClick={handleLogout}>
                           Đăng xuất
@@ -171,16 +267,19 @@ function Header({ name, src, price, quatity, size }) {
             if (list.includes(menu)) {
                 setList(list.filter((item) => item !== menu));
                 setProductId(productId.filter((item) => item !== menu._id));
+                setIds(ids.filter((item) => item !== menu._id));
             } else {
                 setList([...list, menu]);
                 setProductId([
                     ...productId,
                     { product: menu._id, quantity: menu.quatity, size: menu.size, notes: menu.input },
                 ]);
+                setIds([...ids, menu._id]);
             }
             updatedCheckedList.splice(updatedCheckedList.indexOf(index), 1);
         } else {
             setList([...list, menu]);
+            setIds([...ids, menu._id]);
             setProductId([
                 ...productId,
                 { product: menu._id, quantity: menu.quatity, size: menu.size, notes: menu.input },
@@ -216,6 +315,7 @@ function Header({ name, src, price, quatity, size }) {
                 if (res) {
                     setBuy(false);
                     setContent(false);
+                    dispatch(listsMenuSlice.actions.deleteProductsForUser({ user, ids }));
                     navigate(config.routers.Home, { state: { successMessage: 'Bạn đã mua hàng thành công!!!' } });
                 } else {
                     console.log('lỗi');
@@ -232,6 +332,7 @@ function Header({ name, src, price, quatity, size }) {
                 });
                 if (res) {
                     const vnp_Url = res.data.vnpUrl;
+                    dispatch(listsMenuSlice.actions.deleteProductsForUser({ user, ids }));
                     // console.log(vnp_Url);
                     window.location.href = vnp_Url;
                 } else {
@@ -257,6 +358,7 @@ function Header({ name, src, price, quatity, size }) {
                     size: menu.size,
                 })),
             );
+            setIds(usersData[user]?.listProduct?.map((menu) => menu._id));
             const totalPrice = usersData[user]?.listProduct?.reduce((acc, menu) => {
                 const price = parseInt(menu.price); // Chuyển price thành số
                 return acc + price;
@@ -266,6 +368,7 @@ function Header({ name, src, price, quatity, size }) {
             // Nếu checkbox tổng cộng bị bỏ chọn, bỏ chọn tất cả các checkbox cá nhân
             setCheckedList([]);
             setList([]);
+            setIds([]);
             setPriceList(0);
         }
     };
@@ -275,7 +378,7 @@ function Header({ name, src, price, quatity, size }) {
     return (
         <div className={cx('wraper')}>
             <>
-                {contextHolder}
+                {/* {contextHolder} */}
                 <ToastContainer
                     position="top-right"
                     autoClose={5000}
@@ -394,6 +497,7 @@ function Header({ name, src, price, quatity, size }) {
                         )}
                     </div>
                     <ModalEdit />
+                    <ModalHistory />
                 </div>
                 {/* )} */}
             </>

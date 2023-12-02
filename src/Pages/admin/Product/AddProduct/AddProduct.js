@@ -57,6 +57,7 @@ function AddProduct() {
         uploadData.append('type', data.type);
         uploadData.append('name', data.name);
         uploadData.append('price', data.price);
+        uploadData.append('discounted', data.discounted);
         const res = await axios
             .post('https://coffee-bills.onrender.com/product/addProduct', uploadData)
             .then((res) => {
@@ -65,6 +66,9 @@ function AddProduct() {
             .catch((err) => {
                 console.log('loi');
             });
+    };
+    const onChange = (value) => {
+        console.log('changed', value);
     };
     return (
         <div className={cx('wrapper')}>
@@ -119,8 +123,9 @@ function AddProduct() {
                                 )}
                             />
                         </div>
+
                         <div className={cx('contentItem')}>
-                            <div className={cx('name')}>Link ảnh:</div>
+                            <div className={cx('name')}>Ảnh:</div>
                             <div
                                 {...getRootProps()}
                                 style={{
@@ -147,6 +152,33 @@ function AddProduct() {
                                     alt=""
                                 />
                             )}
+                        </div>
+                        <div className={cx('contentItem')} style={{ marginTop: '30px' }}>
+                            <div className={cx('name')}>
+                                Giảm giá:<span className={cx('star')}>*</span>
+                            </div>
+                            <Controller
+                                name="discounted"
+                                control={control}
+                                render={({ field }) => (
+                                    <div style={{ width: '100%' }}>
+                                        <InputNumber
+                                            style={{ width: '100%' }}
+                                            min={1}
+                                            max={100}
+                                            {...field}
+                                            status={errors.discounted?.message ? 'error' : null}
+                                            placeholder="Nhập số từ 1-100"
+                                        />
+                                        {/* <Input
+                                            {...field}
+                                            status={errors.discounted?.message ? 'error' : null}
+                                            placeholder="Nhập thông tin sản phẩm"
+                                        /> */}
+                                        <p style={{ margin: '0px', color: 'red' }}>{errors.discounted?.message}</p>
+                                    </div>
+                                )}
+                            />
                         </div>
                         <div className={cx('contentItem')} style={{ marginBottom: '15px' }}>
                             <div className={cx('name')}>

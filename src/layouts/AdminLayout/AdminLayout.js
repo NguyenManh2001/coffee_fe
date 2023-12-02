@@ -125,11 +125,6 @@ const AdminLayout = ({ children }) => {
                             icon: <TeamOutlined style={{ fontSize: '20px' }} />,
                         },
                         {
-                            label: 'Thực đơn',
-                            icon: <UnorderedListOutlined style={{ fontSize: '20px' }} />,
-                            key: config.routers.MenuAdmin,
-                        },
-                        {
                             label: 'Đơn Hàng',
                             icon: <FileProtectOutlined style={{ fontSize: '20px' }} />,
                             key: config.routers.Order,
@@ -138,6 +133,16 @@ const AdminLayout = ({ children }) => {
                             label: 'Tin tức',
                             icon: <HiOutlineNewspaper style={{ fontSize: '20px' }} />,
                             key: config.routers.NewsAdmin,
+                        },
+                        {
+                            label: 'Khuyến mãi',
+                            icon: <HiOutlineNewspaper style={{ fontSize: '20px' }} />,
+                            key: config.routers.DiscountedAdmin,
+                        },
+                        {
+                            label: 'Thực đơn',
+                            icon: <UnorderedListOutlined style={{ fontSize: '20px' }} />,
+                            key: config.routers.MenuAdmin,
                         },
                         {
                             label: 'Giới thiệu về chúng tôi',

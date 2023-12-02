@@ -21,6 +21,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Alert, Rate, Space, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useMediaQuery } from 'react-responsive';
+import moment from 'moment';
 // import { Carousel } from '@trendyol-js/react-carousel/dist/types/components/carousel';
 
 const cx = classNames.bind(styles);
@@ -114,6 +115,12 @@ function FeatureMenu({ select }) {
     });
     const renderItems = () => {
         return data?.docs?.map((MENU, index) => {
+            const currentTime = moment(); // Thời gian hiện tại
+            const filteredDiscounts = MENU.discounts.filter((element) => {
+                const startDate = moment(element.startDate); // Thời gian bắt đầu
+                const endDate = moment(element.endDate); // Thời gian kết thúc
+                return currentTime.isBetween(startDate, endDate);
+            });
             if (MENU._id === header) {
                 return (
                     <div key={header}>
@@ -123,7 +130,15 @@ function FeatureMenu({ select }) {
                                 _id={MENU._id}
                                 src={MENU.link}
                                 name={MENU.name}
-                                cart={MENU.price}
+                                cart={
+                                    filteredDiscounts.length > 0
+                                        ? filteredDiscounts.map(
+                                              (data) => MENU.price - MENU.price * (data.discounted / 100),
+                                          )
+                                        : MENU.discounted
+                                        ? MENU.price - (MENU.price * MENU.discounted) / 100
+                                        : MENU.price
+                                }
                                 onClick={() => {
                                     setProduct(false);
                                 }}
@@ -157,6 +172,8 @@ function FeatureMenu({ select }) {
                                         src={MENU.link}
                                         price={MENU.price}
                                         title={MENU.name}
+                                        discounts={MENU.discounts}
+                                        discounted={MENU.discounted}
                                         icon={<StarIcons />}
                                         onClick={() => {
                                             setProduct(!product);
