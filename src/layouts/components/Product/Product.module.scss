@@ -67,6 +67,12 @@
 }
 .form-group{
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.check{
+    display: flex;
 }
 .form-check{
     display: flex;

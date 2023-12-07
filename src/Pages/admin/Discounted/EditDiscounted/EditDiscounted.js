@@ -13,6 +13,14 @@ import * as yup from 'yup';
 import { Input, InputNumber, Select, DatePicker } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 import moment from 'moment';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
+// const { RangePicker } = DatePicker;
+// const dateFormat = 'YYYY-MM-DD HH:MM:SS';
+// const weekFormat = 'MM/DD';
+// const monthFormat = 'YYYY/MM';
 const { TextArea } = Input;
 const schema = yup
     .object()
@@ -31,8 +39,8 @@ function EditDiscounted(props) {
     const initialValues = {
         ...data,
         // name: data.name,
-        startDate: moment(data.startDate),
-        endDate: moment(data.endDate),
+        startDate: dayjs(data.startDate),
+        endDate: dayjs(data.endDate),
         // discounted: data.discounted,
     };
     console.log(initialValues);

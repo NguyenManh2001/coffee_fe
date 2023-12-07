@@ -7,16 +7,18 @@ import moment from 'moment';
 
 // import { BaseChart } from '@app/components/common/charts/BaseChart';
 
-function ChartLogin({ orders, total }) {
+function ChartLogin({ orders, total, width, startDate, endDate, title }) {
     // const { register, login } = props;
-    console.log(orders);
-    console.log(total);
-    const startDate = moment().subtract(4, 'days');
-    const endDate = moment().endOf('day');
+    // const startDate = moment().subtract(4, 'days');
+    // const endDate = moment().endOf('day');
     const dateArray = [];
+    const startDateMoment = moment(startDate);
+    const endDateMoment = moment(endDate);
 
-    for (let date = startDate.clone(); date.isSameOrBefore(endDate, 'day'); date.add(1, 'day')) {
-        dateArray.push(date.format('DD/MM/YYYY'));
+    if (startDateMoment.isValid() && endDateMoment.isValid()) {
+        for (let date = startDateMoment.clone(); date.isSameOrBefore(endDateMoment, 'day'); date.add(1, 'day')) {
+            dateArray.push(date.format('DD/MM/YYYY'));
+        }
     }
     // const posList = [
     //   'left',
@@ -67,7 +69,7 @@ function ChartLogin({ orders, total }) {
         },
         legend: {
             // data: ['Đăng ký', 'Đăng nhập', 'Luyện tập', 'Đọc sách', 'Toán học', 'Đánh máy', 'Chơi', 'Tiêu vàng'],
-            data: ['Đơn hàng', 'Tổng tiền'],
+            data: orders ? ['Đơn hàng'] : total ? ['Doanh số'] : [],
             textStyle: {},
             // textStyle: {
             //     color: themeObject[theme].textMain,
@@ -99,87 +101,36 @@ function ChartLogin({ orders, total }) {
                 type: 'value',
             },
         ],
-        series: [
-            {
-                name: 'Đơn hàng',
-                type: 'bar',
-                barGap: 0,
-                label: labelOption,
-                emphasis: {
-                    focus: 'series',
-                },
-                itemStyle: {
-                    // borderRadius: 5,
-                    // borderColor: BASE_COLORS.white,
-                    // borderWidth: 2,
-                },
-                data: orders,
-            },
-            {
-                name: 'Tổng tiền',
-                type: 'bar',
-                label: labelOption,
-                emphasis: {
-                    focus: 'series',
-                },
-                data: total,
-            },
-            // {
-            //   name: 'Luyện tập',
-            //   type: 'bar',
-            //   label: labelOption,
-            //   emphasis: {
-            //     focus: 'series',
-            //   },
-            //   data: [150, 232, 201, 154, 190],
-            // },
-            // {
-            //   name: 'Đọc sách',
-            //   type: 'bar',
-            //   label: labelOption,
-            //   emphasis: {
-            //     focus: 'series',
-            //   },
-            //   data: [98, 77, 101, 99, 40],
-            // },
-            // {
-            //   name: 'Toán học',
-            //   type: 'bar',
-            //   barGap: 0,
-            //   label: labelOption,
-            //   emphasis: {
-            //     focus: 'series',
-            //   },
-            //   data: [320, 332, 301, 334, 390],
-            // },
-            // {
-            //   name: 'Đánh máy',
-            //   type: 'bar',
-            //   label: labelOption,
-            //   emphasis: {
-            //     focus: 'series',
-            //   },
-            //   data: [220, 182, 191, 234, 290],
-            // },
-            // {
-            //   name: 'Luyện tập',
-            //   type: 'bar',
-            //   label: labelOption,
-            //   emphasis: {
-            //     focus: 'series',
-            //   },
-            //   data: [150, 232, 201, 154, 190],
-            // },
-            // {
-            //   name: 'Chơi',
-            //   type: 'bar',
-            //   label: labelOption,
-            //   emphasis: {
-            //     focus: 'series',
-            //   },
-            //   data: [98, 77, 101, 99, 40],
-            // },
-        ],
+        series: orders
+            ? [
+                  {
+                      name: 'Đơn hàng',
+                      type: 'bar',
+                      barGap: 0,
+                      label: labelOption,
+                      emphasis: {
+                          focus: 'series',
+                      },
+                      itemStyle: {
+                          color: '#266b28eb',
+                      },
+                      data: orders,
+                  },
+              ]
+            : [
+                  {
+                      name: 'Doanh số',
+                      type: 'bar',
+                      label: labelOption,
+                      emphasis: {
+                          focus: 'series',
+                      },
+                      itemStyle: {
+                          color: '#1e4681',
+                      },
+                      data: total,
+                  },
+              ],
         // legend1: {
         //   data: ['Đăng ký', 'Đăng nhập', 'Luyện tập', 'Đọc sách', 'Toán học', 'Đánh máy', 'Chơi', 'Tiêu vàng'],
         // },
@@ -191,7 +142,7 @@ function ChartLogin({ orders, total }) {
 
     return (
         // <BaseCard padding="0 0 1.875rem" title="Các chỉ số meduverse ">
-        <BaseChart option={option} height="51rem" width="1371px" />
+        <BaseChart option={option} height="51rem" width={width} />
         // </BaseCard>
     );
 }

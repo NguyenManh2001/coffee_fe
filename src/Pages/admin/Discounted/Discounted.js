@@ -258,7 +258,7 @@ function DiscountedAdmin() {
                     </div>
                     <div className={cx('rightContent')}>
                         <Search
-                            placeholder="Tìm kiếm theo tiêu đề"
+                            placeholder="Tìm kiếm theo mã khuyến mãi"
                             onSearch={handleSearch}
                             style={{
                                 width: 200,

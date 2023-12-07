@@ -181,7 +181,9 @@ function Header({ name, src, price, quatity, size }) {
                                             <div className={cx('cart-size')}>
                                                 <div classNames={cx('sizeCart')}>
                                                     <div className={cx('size')}>
-                                                        Size {data?.size} <span>x {data?.quantity}</span>
+                                                        Size {data?.size} <span>x {data?.quantity}</span>,{' '}
+                                                        {data.ice ? data.ice : '0'}% đá, {data.sugar ? data.sugar : '0'}
+                                                        % đường, {data?.toppings}
                                                     </div>
                                                 </div>
                                                 <div style={{ display: 'flex' }}>
@@ -272,7 +274,14 @@ function Header({ name, src, price, quatity, size }) {
                 setList([...list, menu]);
                 setProductId([
                     ...productId,
-                    { product: menu._id, quantity: menu.quatity, size: menu.size, notes: menu.input },
+                    {
+                        product: menu._id,
+                        quantity: menu.quatity,
+                        size: menu.size,
+                        ice: menu.ice,
+                        sugar: menu.sugar,
+                        toppings: menu.selectedValues,
+                    },
                 ]);
                 setIds([...ids, menu._id]);
             }
@@ -282,7 +291,14 @@ function Header({ name, src, price, quatity, size }) {
             setIds([...ids, menu._id]);
             setProductId([
                 ...productId,
-                { product: menu._id, quantity: menu.quatity, size: menu.size, notes: menu.input },
+                {
+                    product: menu._id,
+                    quantity: menu.quatity,
+                    size: menu.size,
+                    ice: menu.ice,
+                    sugar: menu.sugar,
+                    toppings: menu.selectedValues,
+                },
             ]);
             updatedCheckedList.push(index);
         }
@@ -356,6 +372,9 @@ function Header({ name, src, price, quatity, size }) {
                     product: menu._id,
                     quantity: menu.quatity,
                     size: menu.size,
+                    ice: menu.ice,
+                    sugar: menu.sugar,
+                    toppings: menu.selectedValues,
                 })),
             );
             setIds(usersData[user]?.listProduct?.map((menu) => menu._id));
@@ -626,6 +645,9 @@ function Header({ name, src, price, quatity, size }) {
                                                                                     <div className={cx('size')}>
                                                                                         Size {product.size}{' '}
                                                                                         <span>x {product.quatity}</span>
+                                                                                        , {product?.ice}% đá,{' '}
+                                                                                        {product?.sugar}% đường,{' '}
+                                                                                        {product?.selectedValues}
                                                                                     </div>
                                                                                     {/* <div className={cx('edit')}>
                                                                                         <EditIcons />
@@ -635,16 +657,14 @@ function Header({ name, src, price, quatity, size }) {
                                                                                     <div className={cx('cart-price')}>
                                                                                         {product.price} VND
                                                                                     </div>
-                                                                                    <div
-                                                                                        className={cx('delete')}
-                                                                                        onClick={() =>
-                                                                                            handleDelete(product._id)
-                                                                                        }
-                                                                                    >
-                                                                                        <DeleteIcons />
-                                                                                    </div>
                                                                                 </div>
                                                                             </div>
+                                                                        </div>
+                                                                        <div
+                                                                            className={cx('delete')}
+                                                                            onClick={() => handleDelete(product._id)}
+                                                                        >
+                                                                            <DeleteIcons />
                                                                         </div>
                                                                     </div>
                                                                 ))}

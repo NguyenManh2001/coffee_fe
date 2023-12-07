@@ -16,6 +16,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import config from '~/config';
 import listsMenuSlice from '~/Redux/list/list';
+import { Checkbox } from 'antd';
+import { Radio } from 'antd';
 import { addProductSelector } from '~/Redux/selector';
 
 const cx = classNames.bind(styles);
@@ -68,15 +70,18 @@ function Product({ _id, src, name, cart, onClick }) {
     const [email, setEmail] = useState();
     const [close, setClose] = useState(true);
     const [input, setInput] = useState('');
-    const [check, setCheck] = useState(1);
+    const [check, setCheck] = useState('1');
     const [quatity, setQuatity] = useState(1);
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState(cart);
     const [size, setSize] = useState('s');
+    const [value1, setValue1] = useState('Apple');
     const [userId, setUserId] = useState();
+    const [selectedValues, setSelectedValues] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const cart1 = new Number(cart);
+
     const token = Cookies.get('token');
     useEffect(() => {
         if (token !== undefined) {
@@ -89,18 +94,156 @@ function Product({ _id, src, name, cart, onClick }) {
         queryKey: ['listCustomer', email],
         queryFn: () => axios.post('/customer/listCustomer', { email }).then((res) => res.data),
     });
-    // useEffect(() => {
-    //     if (location.state && location.state.successMessage) {
-    //         // success(location.state.successMessage);
-    //         setOpen(false);
-    //         // refetch();
+    const plainOptionsTopping = [
+        {
+            label: 'Trân châu trắng + 5.000đ',
+            value: 'Trân châu trắng, ',
+            price: 5000,
+        },
+        {
+            label: 'Trân châu sợi + 5.000đ',
+            value: 'Trân châu sợi, ',
+            price: 5000,
+        },
+        {
+            label: 'Thạch cà phê + 5.000đ',
+            value: 'Thạch cà phê, ',
+            price: 5000,
+        },
+        {
+            label: 'Pudding phô mai + 7.000đ',
+            value: 'Pudding phô mai, ',
+            price: 7000,
+        },
+        {
+            label: 'Trân châu sương mai + 7.000đ',
+            value: 'Trân châu sương mai, ',
+            price: 7000,
+        },
+        {
+            label: 'Thạch dứa + 5.000đ',
+            value: 'Thạch dứa, ',
+            price: 5000,
+        },
+    ];
+    const plainOptions = [
+        {
+            label: '0% Đá',
+            value: '0',
+        },
+        {
+            label: '50% Đá',
+            value: '50',
+        },
+        {
+            label: '100% Đá',
+            value: '100',
+        },
+    ];
+    const plainOptionsSuga = [
+        {
+            label: '0% Đường',
+            value: '0',
+        },
+        {
+            label: '50% Đường',
+            value: '50',
+        },
+        {
+            label: '100% Đường',
+            value: '100',
+        },
+    ];
+    const options = [
+        {
+            label: 'Size S',
+            value: '1',
+        },
+        {
+            label: 'Size M + 5.000đ',
+            value: '2',
+        },
+        {
+            label: 'Size L + 10.000đ',
+            value: '3',
+        },
+    ];
+    const [sugar, setSugar] = useState('0');
+    const [ice, setIce] = useState('0');
 
-    //         // Đặt giá trị successMessage trong location.state thành null
-    //         const newLocation = { ...location };
-    //         newLocation.state.successMessage = null;
-    //         navigate({ pathname: location.pathname, state: newLocation.state });
-    //     }
-    // }, [location.state]);
+    const onChange = (checkedValues) => {
+        console.log('checked = ', checkedValues);
+        let newPrice = new Number(price);
+        // Kiểm tra và cập nhật giá tiền dựa trên các giá trị đã được chọn
+        checkedValues.forEach((value) => {
+            if (!selectedValues.includes(value)) {
+                // Nếu giá trị chưa được chọn trước đó, cộng giá trị vào tổng giá tiền
+                const selectedItem = plainOptionsTopping.find((item) => item.value === value);
+                if (selectedItem) {
+                    newPrice += selectedItem.price;
+                }
+            }
+        });
+
+        // Kiểm tra và cập nhật giá tiền dựa trên các giá trị đã được bỏ chọn
+        selectedValues.forEach((value) => {
+            if (!checkedValues.includes(value)) {
+                // Nếu giá trị đã được chọn trước đó nhưng không được chọn nữa, trừ giá trị ra khỏi tổng giá tiền
+                const deselectedItem = plainOptionsTopping.find((item) => item.value === value);
+                if (deselectedItem) {
+                    newPrice -= deselectedItem.price;
+                }
+            }
+        });
+
+        setPrice(newPrice);
+        setSelectedValues(checkedValues);
+    };
+
+    const onChangeIce = ({ target: { value } }) => {
+        // console.log('radio1 checked', value);
+        // if (sugar === value) {
+        // }
+        setIce(value);
+    };
+    const onChangesugar = ({ target: { value } }) => {
+        console.log('radiosugar checked', value);
+        setSugar(value);
+    };
+    console.log(sugar);
+    console.log(ice);
+    console.log(size);
+    const onChangeSize = ({ target: { value } }) => {
+        console.log('radio2 checked', value);
+        let newPrice = new Number(price);
+
+        // Xử lý giảm giá tiền của lựa chọn trước đó
+        if (check === '1') {
+            newPrice -= cart1;
+        } else if (check === '2') {
+            newPrice -= cart1 + 5000;
+        } else if (check === '3') {
+            newPrice -= cart1 + 10000;
+        }
+
+        // Xử lý tăng giá tiền của lựa chọn mới
+        if (value === '1') {
+            newPrice += cart1;
+            setQuatity(1);
+            setSize('S');
+        } else if (value === '2') {
+            newPrice += cart1 + 5000;
+            setQuatity(1);
+            setSize('M');
+        } else if (value === '3') {
+            newPrice += cart1 + 10000;
+            setQuatity(1);
+            setSize('L');
+        }
+
+        setPrice(newPrice);
+        setCheck(value);
+    };
     const ModalEdit = () => (
         <Modal
             centered
@@ -113,7 +256,7 @@ function Product({ _id, src, name, cart, onClick }) {
             <AddCustomer />
         </Modal>
     );
-    console.log(input);
+
     const product = {};
     const handleAdd = () => {
         if (token) {
@@ -129,8 +272,10 @@ function Product({ _id, src, name, cart, onClick }) {
                             price,
                             quatity,
                             size,
+                            ice,
+                            sugar,
+                            selectedValues,
                             _id,
-                            input,
                         }),
                     );
                     setClose(!close);
@@ -144,66 +289,69 @@ function Product({ _id, src, name, cart, onClick }) {
         }
         // onClick();
     };
-    const cart2 = cart1 + 5000;
-    const cart3 = cart1 + 10000;
+    // const cart2 = cart1 + 5000;
+    // const cart3 = cart1 + 10000;
     const handleSubmit = () => {
         setClose(!close);
         onClick();
     };
-    useEffect(() => {
-        if (check === 1) {
-            setPrice(cart);
-            setQuatity(1);
-            setSize('S');
-        }
-        if (check === 2) {
-            setPrice(cart2);
-            setQuatity(1);
-            setSize('M');
-        }
-        if (check === 3) {
-            setPrice(cart3);
-            setQuatity(1);
-            setSize('L');
-        }
-    }, [check]);
+    // let newPrice = new Number(price);
+    const cart2 = cart1 + 5000;
+    const cart3 = cart1 + 10000;
+    // useEffect(() => {
+    //     if (check === '1') {
+    //         setPrice(cart);
+    //         setQuatity(1);
+    //         setSize('S');
+    //     }
+    //     if (check === '2') {
+    //         setPrice(cart2);
+    //         setQuatity(1);
+    //         setSize('M');
+    //     }
+    //     if (check === '3') {
+    //         setPrice(cart3);
+    //         setQuatity(1);
+    //         setSize('L');
+    //     }
+    // }, [check]);
     const handleMinus = () => {
-        if (check === 1) {
+        if (check === '1') {
             if (quatity > 1) {
                 setQuatity(quatity - 1);
-                setPrice((quatity - 1) * cart);
+                setPrice(new Number(price) - new Number(cart));
             }
         }
-        if (check === 2) {
+        if (check === '2') {
             if (quatity > 1) {
                 setQuatity(quatity - 1);
-                setPrice((quatity - 1) * cart2);
+                setPrice(new Number(price) - new Number(cart2));
             }
         }
-        if (check === 3) {
+        if (check === '3') {
             if (quatity > 1) {
                 setQuatity(quatity - 1);
-                setPrice((quatity - 1) * cart3);
+                setPrice(new Number(price) - new Number(cart3));
             }
         }
     };
     const handlePlus = () => {
-        if (check === 1) {
+        if (check === '1') {
             if (quatity >= 1) {
                 setQuatity(quatity + 1);
-                setPrice((quatity + 1) * cart);
+                setPrice(new Number(price) + new Number(cart));
             }
         }
-        if (check === 2) {
+        if (check === '2') {
             if (quatity >= 1) {
                 setQuatity(quatity + 1);
-                setPrice((quatity + 1) * cart2);
+                setPrice(new Number(price) + new Number(cart2));
             }
         }
-        if (check === 3) {
+        if (check === '3') {
             if (quatity >= 1) {
                 setQuatity(quatity + 1);
-                setPrice((quatity + 1) * cart3);
+                setPrice(new Number(price) + new Number(cart3));
             }
         }
     };
@@ -225,8 +373,8 @@ function Product({ _id, src, name, cart, onClick }) {
                             <div className={cx('content-check')}>
                                 <div className={cx('content-header')}>Chọn size *</div>
                                 <form className={cx('form-group')}>
-                                    {sizes.map((size) => (
-                                        <div key={size.id}>
+                                    {/* {sizes.map((size) => (
+                                        <div className={cx('check')} key={size.id}>
                                             <input
                                                 className={cx('form-check-input')}
                                                 type="radio"
@@ -235,10 +383,28 @@ function Product({ _id, src, name, cart, onClick }) {
                                             />
                                             {size.name}
                                         </div>
-                                    ))}
+                                    ))} */}
+                                    <Radio.Group options={options} onChange={onChangeSize} value={check} />
                                 </form>
+                                <div className={cx('content-header')}>Chọn đường *</div>
+                                <div>
+                                    <Radio.Group options={plainOptionsSuga} onChange={onChangesugar} value={sugar} />
+                                </div>
+                                <div className={cx('content-header')}>Chọn mức đá *</div>
+                                <div>
+                                    <Radio.Group options={plainOptions} onChange={onChangeIce} value={ice} />
+                                </div>
+                                <div className={cx('content-header')}>Chọn Topping*</div>
+                                <div style={{ padding: '1px 0 20px' }}>
+                                    <Checkbox.Group
+                                        options={plainOptionsTopping}
+                                        defaultValue={['Apple']}
+                                        style={{ width: '240px' }}
+                                        onChange={onChange}
+                                    />
+                                </div>
                             </div>
-                            <div className={cx('conntent-note')}>
+                            {/* <div className={cx('conntent-note')}>
                                 <div className={cx('content-header')}>
                                     Ghi chú <span className={cx('title')}>(nếu có)</span>
                                 </div>
@@ -249,7 +415,7 @@ function Product({ _id, src, name, cart, onClick }) {
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                 ></input>
-                            </div>
+                            </div> */}
                             <div className={cx('content-down')}>
                                 <div className={cx('down-item')}>
                                     <div onClick={handleMinus} className={cx('Minus')}>

@@ -43,13 +43,17 @@
 .cart-item{
     display: flex;
     min-height: 80px;
-    width: 75%;
+    width: 97%;
     margin-top: 15px;
     margin-left: 14%;
 }
+.size{
+    font-size: 11px;
+    text-align: justify;
+}
 .logo-cart{
     width: 15%;
-    height: 72px;
+    height: 90px;
 }
 .cart-title{
     flex: 1;
@@ -66,8 +70,8 @@
     font-size: 17px;
     color:  #682c0e;
     font-weight: 500;
-    display: flex;
-    justify-content: space-between;
+    // display: flex;
+    // justify-content: space-between;
 }
 .edit{
     padding: 0 0 0 5px;
@@ -96,7 +100,7 @@
     }
 }
 .cart-price{
-    padding: 0 0 0 50px;
+    // padding: 0 0 0 50px;
 }
 .price{
     display: flex;

@@ -21,9 +21,10 @@ const { TextArea } = Input;
 const schema = yup
     .object()
     .shape({
-        // name: yup.string().required('Cannot be empty'),
-        // title: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
-        // btnName: yup.string().required('Cannot be empty').max(255, 'Maximum length: 255 characters'),
+        name: yup.string().required('Không được để trống'),
+        startDate: yup.string().required('Không được để trống'),
+        endDate: yup.string().required('Không được để trống'),
+        discounted: yup.number().typeError('Giá trị phải là số').required('Vui lòng nhập giá trị khuyến mãi'),
     })
     .required();
 const cx = classNames.bind(styles);
@@ -46,7 +47,6 @@ function AddDiscounted() {
         queryFn: () =>
             axios.post('https://coffee-bills.onrender.com/discounted/listDiscounted').then((res) => res.data),
     });
-    console.log(data);
 
     const onSubmit = async (datas) => {
         // e.preventDefault();
@@ -63,7 +63,6 @@ function AddDiscounted() {
 
             return startDateOverlap || endDateOverlap;
         });
-        // console.log(isOverlap);
         if (isOverlap) {
             toast.error('Thời gian khuyến mãi mới trùng với khuyến mãi đã tồn tại.');
         } else {
@@ -87,26 +86,10 @@ function AddDiscounted() {
                         });
                     })
                     .catch((err) => {
-                        console.log('loi');
+                        toast.error('Bạn đã không thêm thành công');
                     });
             }
         }
-
-        // const uploadData = new FormData();
-        // uploadData.append('srcImage', file, file.name);
-        // uploadData.append('iconImage', logo, logo.name);
-        // uploadData.append('title', data.title);
-        // uploadData.append('btnName', data.btnName);
-        // uploadData.append('name', data.name);
-        // console.log(uploadData);
-        // const res = await axios
-        //     .post('https://coffee-bills.onrender.com/discounted/AddDiscounted', uploadData)
-        //     .then((res) => {
-        //         navigate(config.routers.DiscountedAdmin, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
-        //     })
-        //     .catch((err) => {
-        //         console.log('loi');
-        //     });
     };
     return (
         <div className={cx('wrapper')}>
@@ -197,10 +180,13 @@ function AddDiscounted() {
                                 control={control}
                                 render={({ field }) => (
                                     <div style={{ width: '100%' }}>
-                                        <Input
+                                        <InputNumber
+                                            style={{ width: '100%' }}
+                                            min={1}
+                                            max={100}
                                             {...field}
                                             status={errors.discounted?.message ? 'error' : null}
-                                            placeholder="Nhập tên"
+                                            placeholder="Nhập số từ 1-100"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.discounted?.message}</p>
                                     </div>

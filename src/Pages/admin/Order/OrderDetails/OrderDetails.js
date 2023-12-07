@@ -67,9 +67,12 @@ const OrderDetails = (props) => {
                                 <div className={cx('cart-title')}>
                                     <div className={cx('cart-name')}>{e?.product?.name}</div>
                                     <div className={cx('cart-size')}>
-                                        <div style={{ display: 'flex', width: '120px' }}>
+                                        <div style={{ display: 'flex' }}>
                                             <div className={cx('size')}>
                                                 Size {e?.size} <span>x {e?.quantity}</span>
+                                                {', '}
+                                                {e.ice ? e.ice : '0'}% đá, {e.sugar ? e.sugar : '0'}% đường,{' '}
+                                                {e?.toppings}
                                             </div>
                                             {/* <div className={cx('edit')}>
                                                 <EditIcons />

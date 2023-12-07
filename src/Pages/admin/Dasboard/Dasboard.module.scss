@@ -8,39 +8,63 @@
 }
 .content{
     width: 100%;
-    height:23%;
-    margin: 33px 0;
+    height:20%;
+    // margin: 33px 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+}
+.headerTitles{
+    width: 80%;
+}
+.headerIcon{
+    // width: 20%;
+    height: 60px;
+    width: 62px;
+    background-color: #fff;
+    border-radius: 50%;
 }
 .header{
-    width: 25%;
+    width: 30%;
     height: 120px;
     color: #fff;
+    display: flex;
+    align-items: center;
     box-shadow: 0 0 10px 0px rgb(136 131 131 / 16%);
     border-radius: 15px;
     background: linear-gradient(to right,#fe9365,#feb798);
 }
 .header1{
-    width: 25%;
+    width: 30%;
     height: 120px;
     color: #fff;
+    display: flex;
+    align-items: center;
     box-shadow: 0 0 10px 0px rgb(136 131 131 / 16%);
     border-radius: 15px;
     background: linear-gradient(to right,#0ac282,#0df3a3);
 }
 .header2{
-    width: 25%;
+    width: 30%;
     height: 120px;
     color: #fff;
+    display: flex;
+    align-items: center;
     box-shadow: 0 0 10px 0px rgb(136 131 131 / 16%);
     border-radius: 15px;
     background: linear-gradient(to right,#fe5d70,#fe909d);
 }
 .Name{
     font-size: 25px;
-    margin: 13px 14px;
-   
+    margin: 3px 14px 1px;
+}
+.iconCart{
+    color: red;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
 }
 .quantity{
     display: flex;
@@ -64,4 +88,84 @@
     width: 45px;
     height: 44px;
     font-size: 16px;
+}
+
+.search{
+    width: 100%;
+    margin: 20px auto 32px;
+    background-color: #ffff;
+    height: 23%;
+    // background-color: white;
+    box-shadow: 1px 1px 13px 1px #cccccc75;
+    border-radius: 10px;
+}
+.headerSearch{
+    height: 50px;
+    padding: 16px 22px;
+    border-bottom: 1px solid #cccccc82;
+}
+.contentSearch{
+    width: 100%;
+    height: 100px;
+    display: flex;
+
+}
+.contentItemSearch{
+    width: 33.333333%;
+    padding: 6px 5px 6px 20px;
+}
+.title{
+    height: 40px;
+    padding: 10px 1px;
+    font-size: 18px;
+    opacity: 0.8;
+}
+.input{
+    height: 54px;
+    display: flex;
+    margin: 10px 0px;
+    align-items: center;
+}
+.chart {
+    height: 500px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.chartValue{
+    width: 60%;
+    height: 590px;
+    background-color: #fff;
+    box-shadow: 1px 1px 13px 1px #cccccc75;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+.chartLabel{
+    height: 90px;
+    padding: 5px 20px;
+    border-bottom: 1px solid #cccccc87;
+    margin-bottom: 20px;
+}
+.chartName{
+    height: 30px;
+    display: flex;
+    align-items: center;
+    opacity: 0.4;
+    font-size: 16px;
+}
+.chartName1{
+    height: 30px;
+    display: flex;
+    align-items: center;
+    opacity: 0.9;
+    margin: 8px 0;
+    font-size: 30px;
+}
+.chartValue1{
+    width: 38%;
+    height: 590px;
+    background-color: #fff;
+    box-shadow: 1px 1px 13px 1px #cccccc75;
+    border-radius: 10px;
+    margin-bottom: 12px;
 }

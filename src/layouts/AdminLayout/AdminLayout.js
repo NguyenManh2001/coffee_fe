@@ -10,6 +10,8 @@ import { HiOutlineNewspaper } from 'react-icons/hi';
 import jwt_decode from 'jwt-decode';
 import { Pagination } from 'antd';
 import { Modal } from 'antd';
+import classNames from 'classnames/bind';
+import styles from './AdminLayout.module.scss';
 import {
     FileProtectOutlined,
     MenuFoldOutlined,
@@ -18,9 +20,11 @@ import {
     TeamOutlined,
     UnorderedListOutlined,
     UploadOutlined,
+    CoffeeOutlined,
     UserOutlined,
+    SoundOutlined,
     BarChartOutlined,
-    VideoCameraOutlined,
+    ReadOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
 import Cookies from 'js-cookie';
@@ -28,6 +32,7 @@ import Images from '~/Components/Images';
 import { CoffeeIcons } from '~/Components/icons/icons';
 const { Header, Sider, Content } = Layout;
 
+const cx = classNames.bind(styles);
 const AdminLayout = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false);
     const [email, setEmail] = useState();
@@ -75,26 +80,26 @@ const AdminLayout = ({ children }) => {
                             />
                             ) : (
                             <> */}
-                    <Link to={config.routers.Dasboard}>
-                        <div style={{ height: '63px', display: 'flex', alignItems: 'center' }}>
-                            <Images
-                                style={{ height: '50px', marginLeft: '17px' }}
-                                src={require('~/assets/images/logo_transparent.png')}
-                            />
-                            {collapsed == false && (
-                                <span
-                                    style={{
-                                        fontSize: '21px',
-                                        color: '#d2b780',
-                                        fontFamily: 'Caveat,cursive',
-                                        lineHeight: '52px',
-                                    }}
-                                >
-                                    Coffee Bliss
-                                </span>
-                            )}
-                        </div>
-                    </Link>
+                    {/* <Link to={config.routers.Dasboard}> */}
+                    <div className={collapsed == false ? cx('logo') : cx('logo1')}>
+                        <Images
+                            style={{ height: '50px', marginLeft: '17px' }}
+                            src={require('~/assets/images/logo_transparent.png')}
+                        />
+                        {collapsed == false && (
+                            <div
+                                style={{
+                                    fontSize: '21px',
+                                    color: '#d2b780',
+                                    fontFamily: 'Caveat,cursive',
+                                    lineHeight: '15px',
+                                }}
+                            >
+                                Coffee Bliss
+                            </div>
+                        )}
+                    </div>
+                    {/* </Link> */}
                     {/* </>
                         )} */}
                 </Space>
@@ -115,9 +120,9 @@ const AdminLayout = ({ children }) => {
                             key: config.routers.Dasboard,
                         },
                         {
-                            label: 'Sản phẩm',
-                            icon: <CoffeeIcons style={{ fontSize: '20px' }} />,
                             key: config.routers.ProductAdmin,
+                            label: 'Sản phẩm',
+                            icon: <CoffeeOutlined style={{ fontSize: '20px' }} />,
                         },
                         {
                             key: config.routers.Customer,
@@ -131,12 +136,12 @@ const AdminLayout = ({ children }) => {
                         },
                         {
                             label: 'Tin tức',
-                            icon: <HiOutlineNewspaper style={{ fontSize: '20px' }} />,
+                            icon: <ReadOutlined style={{ fontSize: '20px' }} />,
                             key: config.routers.NewsAdmin,
                         },
                         {
                             label: 'Khuyến mãi',
-                            icon: <HiOutlineNewspaper style={{ fontSize: '20px' }} />,
+                            icon: <SoundOutlined style={{ fontSize: '20px' }} />,
                             key: config.routers.DiscountedAdmin,
                         },
                         {
@@ -204,6 +209,7 @@ const AdminLayout = ({ children }) => {
                         margin: '24px 16px',
                         padding: 24,
                         minHeight: 280,
+                        overflow: 'scroll',
                         background: colorBgContainer,
                     }}
                 >

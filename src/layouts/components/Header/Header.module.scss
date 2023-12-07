@@ -163,10 +163,11 @@
 .cart-item{
     display: flex;
     min-height: 80px;
+    align-items: center;
 }
 .logo-cart{
     width: 22%;
-    height: 72px;
+    height: 105px;
 }
 .cart-title{
     flex: 1;
@@ -183,8 +184,12 @@
     font-size: 17px;
     color:  #682c0e;
     font-weight: 500;
-    display: flex;
-    justify-content: space-between;
+    // display: flex;
+    // justify-content: space-between;
+}
+.size{
+    font-size: 11px;
+    text-align: justify;
 }
 .edit{
     padding: 0 0 0 5px;
@@ -197,6 +202,7 @@
 .delete{
     padding: 0 12px;
     cursor: pointer;
+    color: #682c0e;
 
     &:hover{
         color: #c24914
@@ -213,7 +219,7 @@
     }
 }
 .cart-price{
-    padding: 0 0 0 50px;
+    // padding: 0 0 0 50px;
 }
 .price{
     display: flex;
