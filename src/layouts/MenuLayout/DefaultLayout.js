@@ -23,6 +23,7 @@ import { Rate } from 'antd';
 import { Pagination } from 'antd';
 import Search from 'antd/es/input/Search';
 import moment from 'moment';
+import { useParams } from 'react-router-dom';
 function getItem(label, key, children, type) {
     return {
         key,
@@ -55,11 +56,13 @@ function MenuLayout({ children }) {
         setChecked();
     };
     // console.log(type);
+    const { productName } = useParams();
     const [product, setProduct] = useState(false);
     const [header, setHeader] = useState(1);
     const [page, setPage] = useState('');
+    const [name, setName] = useState('');
     const [limit, setLimit] = useState(6);
-    const [type, setType] = useState('');
+    const [type, setType] = useState(productName);
     const [search, setSearch] = useState('');
     const onClick = (e) => {
         if (e.key === '1') {
@@ -76,15 +79,27 @@ function MenuLayout({ children }) {
         //   }
     };
     // const sliderRef = useRef(null);
-    const { isLoading, data, refetch } = useQuery({
+    const {
+        isLoading: isLoading,
+        data: data,
+        refetch: refetch,
+    } = useQuery({
         queryKey: ['data', type, page, search, limit],
         queryFn: () =>
             axios
                 .post('https://coffee-bills.onrender.com/product/listProduct', { page, type, search, limit })
                 .then((res) => res.data),
     });
+    const {
+        isLoading: isLoadingMenu,
+        data: dataMenu,
+        refetch: refetchData,
+    } = useQuery({
+        queryKey: ['menu'],
+        queryFn: () => axios.post('https://coffee-bills.onrender.com/menu/listMenu').then((res) => res.data),
+    });
     console.log(type);
-    const items = [getItem('Cà phê', '1'), getItem('Freeze', '2'), getItem('Trà', '3'), getItem('Cà phê gói', '4')];
+    const items = dataMenu?.docs;
     const renderItems = () => {
         return data?.docs?.map((MENU, index) => {
             const currentTime = moment(); // Thời gian hiện tại
@@ -124,9 +139,20 @@ function MenuLayout({ children }) {
     const handleClick = () => {
         setType('Freeze');
     };
-    const handleCoffee = () => {
-        setType('Coffee');
-        setSelect(!select);
+    const handleCoffee = (data) => {
+        console.log(data);
+        // if (data === 'Cà Phê') {
+        //     setType('Coffee');
+        //     setName('Coffee');
+        // } else if (data === 'Trà') {
+        //     setType('Tea');
+        //     setName('Tea');
+        // } else {
+        //     setType(data);
+        //     setName(data);
+        // }
+        // setSelect(!select);
+        setType(data);
     };
     const handleSearch = (e) => {
         setSearch(e);
@@ -186,7 +212,7 @@ function MenuLayout({ children }) {
                                 </div>
                             </div>
                             <aside className={cx('fifter')}>
-                                <div className={cx('title1')}>Sản phẩm</div>
+                                {/* <div className={cx('title1')}>Sản phẩm</div>
                                 <Menu
                                     onClick={onClick}
                                     style={{
@@ -198,44 +224,23 @@ function MenuLayout({ children }) {
                                     mode="inline"
                                     items={items}
                                     className={cx('custom-menu')}
-                                />
-                                {/* <div className={cx('title')}>sản phẩm</div> */}
-                                {/* <Items> */}
-                                {/* <Link to="#" onClick={handleCoffee}>
-                                        Cà phê
-                                    </Link> */}
-                                {/* <NavLink
-                                        className={
-                                            select
-                                                ? (nav) => cx('fifter-item', { active: nav.isActive })
-                                                : cx('fifter-item')
-                                        }
-                                        onClick={handleCoffee}
-                                        to="#"
-                                    >
-                                        <div className={cx('fifter-name')}>Cà phê</div>
-                                    </NavLink>
-                                    <NavLink
-                                        className={(nav) => cx('fifter-item', { active: nav.isActive })}
-                                        onClick={() => setType('Tea')}
-                                        to="#"
-                                    >
-                                        <div className={cx('fifter-name')}>Tea</div>
-                                    </NavLink> */}
-                                {/* <Item title="Trà" to={config.routers.Tea} /> */}
-                                {/* <Item title="Freeze" to={config.routers.Freeze} /> */}
-                                {/* <Link to="#" onClick={handleClick}>
-                                        Freeze
-                                    </Link> */}
-                                {/* <NavLink
-                                        className={(nav) => cx('fifter-item', { active: nav.isActive })}
-                                        onClick={handleClick}
-                                        to="#"
-                                    >
-                                        <div className={cx('fifter-name')}>Freeze</div>
-                                    </NavLink>
-                                    <Item title="Cà phê gói" to={config.routers.Coffee1} />
-                                </Items> */}
+                                /> */}
+                                <div className={cx('title1')}>sản phẩm</div>
+                                <div style={{ padding: '0 12px' }}>
+                                    {dataMenu?.docs.map((data) => (
+                                        <NavLink
+                                            className={
+                                                data.name === type
+                                                    ? (nav) => cx('fifter-item', { active: nav.isActive })
+                                                    : cx('fifter-item')
+                                            }
+                                            onClick={() => handleCoffee(data.name)}
+                                            to="#"
+                                        >
+                                            <div className={cx('fifter-name')}>{data.name}</div>
+                                        </NavLink>
+                                    ))}
+                                </div>
                             </aside>
                         </div>
                         <div className={cx('content-right')}>

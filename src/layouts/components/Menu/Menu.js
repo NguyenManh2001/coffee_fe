@@ -3,14 +3,19 @@ import styles from './Menu.module.scss';
 import Images from '~/Components/Images';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Alert, Rate, Space, Spin } from 'antd';
+import Button from '~/Components/Button';
+import { useState } from 'react';
 const cx = classNames.bind(styles);
 function Menu() {
+    const [limit, setLimit] = useState(3);
+    const navigate = useNavigate();
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ['menu'],
-        queryFn: () => axios.post('https://coffee-bills.onrender.com/menu/listMenu').then((res) => res.data),
+        queryKey: ['menu', limit],
+        queryFn: () => axios.post('https://coffee-bills.onrender.com/menu/listMenu', { limit }).then((res) => res.data),
     });
     return (
         <div className={cx('wrapper')}>
@@ -28,41 +33,43 @@ function Menu() {
                         {data?.docs.map((data) => (
                             <MenuItem
                                 key={data?._id}
+                                onClick={() => {
+                                    navigate(`/Menu/${data?.name}`);
+                                }}
                                 className={cx('menu-item', 'item-1')}
                                 style={{ backgroundImage: `url(${data?.image})` }}
                             >
                                 <div className={cx('menu-content')}>
                                     <h4 className={cx('title-coffee')}>{data?.name}</h4>
                                     <div className={cx('item-border')}></div>
-                                    <Link className={cx('item-add')} to="/Menu/Coffee">
+                                    <Link className={cx('item-add')} to={`/Menu/${data?.name}`}>
                                         Xem thêm
                                     </Link>
                                 </div>
                                 <div className={cx('itemImage')}></div>
                             </MenuItem>
                         ))}
-                        {/* <div className={cx('menu-item', 'menu-item-center')}>
-                        <div className={cx('menu-content')}>
-                            <h4 className={cx('title-coffee')}>Trà</h4>
-                            <div className={cx('item-border')}></div>
-                            <Link className={cx('item-add')} to="/Menu/tea">
-                                Xem thêm
-                            </Link>
-                        </div>
-                        <div className={cx('itemImage')}></div>
-                    </div>
-                    <div className={cx('menu-item', 'item-3')}>
-                        <div className={cx('menu-content')}>
-                            <h4 className={cx('title-coffee')}>Freeze</h4>
-                            <div className={cx('item-border')}></div>
-                            <Link className={cx('item-add')} to="/Menu/Freeze">
-                                Xem thêm
-                            </Link>
-                        </div>
-                        <div className={cx('itemImage')}></div>
-                    </div> */}
                     </div>
                 )}
+                <div className={cx('btn')}>
+                    {data?.docs.length === data?.totalDocs ? (
+                        <Button
+                            className={cx('btnMenu')}
+                            style={{ width: '200px' }}
+                            onClick={() => setLimit(limit - 3)}
+                        >
+                            Ẩn
+                        </Button>
+                    ) : (
+                        <Button
+                            className={cx('btnMenu')}
+                            style={{ width: '200px' }}
+                            onClick={() => setLimit(limit + 3)}
+                        >
+                            Xem thêm
+                        </Button>
+                    )}
+                </div>
             </div>
         </div>
     );
@@ -74,8 +81,8 @@ const MenuItem = styled.div`
     /* Các thuộc tính CSS */
     background-size: cover;
     border-radius: 16px;
-
-    /* Hiệu ứng hover */
+    width: 30.3333%;
+    margin: 16px 0;
     &:hover {
         box-shadow: 0 4px 14px 2px #00000080;
         transform: translateY(-8px);

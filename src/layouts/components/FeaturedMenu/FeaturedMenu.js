@@ -149,6 +149,7 @@ function FeatureMenu({ select }) {
             }
         });
     };
+    console.log(data);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -163,39 +164,54 @@ function FeatureMenu({ select }) {
                 ) : (
                     <>
                         <div className={cx('Menu')}>
-                            <SliderReactjs refs={sliderRef} show={slidesToShow} scroll={4} className={cx('Menu')}>
-                                {data?.docs?.map((MENU, index) => (
-                                    <MenuItems
-                                        key={MENU._id}
-                                        autoPlay={3}
-                                        star={<Rate allowHalf defaultValue={2.5} />}
-                                        src={MENU.link}
-                                        price={MENU.price}
-                                        title={MENU.name}
-                                        discounts={MENU.discounts}
-                                        discounted={MENU.discounted}
-                                        icon={<StarIcons />}
-                                        onClick={() => {
-                                            setProduct(!product);
-                                            setHeader(MENU._id);
-                                        }}
-                                    />
-                                ))}
-                            </SliderReactjs>
+                            {/* <SliderReactjs refs={sliderRef} show={slidesToShow} scroll={4} className={cx('Menu')}> */}
+                            {data?.docs?.map((MENU, index) => (
+                                <MenuItems
+                                    key={MENU._id}
+                                    autoPlay={3}
+                                    star={<Rate allowHalf defaultValue={2.5} />}
+                                    src={MENU.link}
+                                    price={MENU.price}
+                                    title={MENU.name}
+                                    type={MENU.type}
+                                    discounts={MENU.discounts}
+                                    discounted={MENU.discounted}
+                                    icon={<StarIcons />}
+                                    onClick={() => {
+                                        setProduct(!product);
+                                        setHeader(MENU._id);
+                                    }}
+                                />
+                            ))}
+                            {/* </SliderReactjs> */}
                         </div>
-                        <div>
+                        {/* <div>
                             <button onClick={() => sliderRef.current.slickPrev()} className={cx('btn-prev')}>
                                 <PrevIcons />
                             </button>
                             <button onClick={() => sliderRef.current.slickNext()} className={cx('btn-next')}>
                                 <NextIcons />
                             </button>
-                        </div>
+                        </div> */}
 
                         <div className={cx('btn')}>
-                            <Button className={cx('btnMenu')} to={config.routers.Menu}>
-                                Xem tất cả menu
-                            </Button>
+                            {data?.docs.length === data?.totalDocs ? (
+                                <Button
+                                    className={cx('btnMenu')}
+                                    style={{ width: '200px' }}
+                                    onClick={() => setLimit(limit - 8)}
+                                >
+                                    Ẩn
+                                </Button>
+                            ) : (
+                                <Button
+                                    className={cx('btnMenu')}
+                                    style={{ width: '200px' }}
+                                    onClick={() => setLimit(limit + 8)}
+                                >
+                                    Xem thêm
+                                </Button>
+                            )}
                         </div>
                     </>
                 )}

@@ -164,6 +164,34 @@ function EditDiscounted(props) {
                         </div>
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>
+                                Loại sản phẩm:<span className={cx('star')}>*</span>
+                            </div>
+                            <Controller
+                                name="product"
+                                control={control}
+                                render={({ field }) => (
+                                    <div style={{ width: '100%' }}>
+                                        <Select
+                                            className={cx('dropdown')}
+                                            value={watch('product')}
+                                            allowClear
+                                            placeholder="Chọn loại sản phẩm"
+                                            onChange={(val) => setValue('product', val)}
+                                            status={errors.product?.message ? 'error' : null}
+                                            options={[
+                                                { value: 'Tất cả', label: 'Tất cả' },
+                                                { value: 'Coffee', label: 'Coffee' },
+                                                { value: 'Freeze', label: 'Freeze' },
+                                                { value: 'Tea', label: 'Tea' },
+                                            ]}
+                                        />
+                                        <p style={{ margin: '0px', color: 'red' }}>{errors.product?.message}</p>
+                                    </div>
+                                )}
+                            />
+                        </div>
+                        <div className={cx('contentItem')}>
+                            <div className={cx('name')}>
                                 Thời gian bắt đầu:<span className={cx('star')}>*</span>
                             </div>
                             <Controller

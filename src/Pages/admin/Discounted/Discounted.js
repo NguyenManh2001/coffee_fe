@@ -166,6 +166,12 @@ function DiscountedAdmin() {
             // className: cx('custom-column'),
         },
         {
+            title: 'Loại sản phẩm',
+            dataIndex: 'product',
+            key: 'product',
+            // className: cx('custom-column'),
+        },
+        {
             title: 'Giảm giá (%)',
             dataIndex: 'discounted',
             key: 'discounted',

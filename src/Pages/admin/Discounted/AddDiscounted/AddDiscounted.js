@@ -22,6 +22,7 @@ const schema = yup
     .object()
     .shape({
         name: yup.string().required('Không được để trống'),
+        product: yup.string().required('Không được để trống'),
         startDate: yup.string().required('Không được để trống'),
         endDate: yup.string().required('Không được để trống'),
         discounted: yup.number().typeError('Giá trị phải là số').required('Vui lòng nhập giá trị khuyến mãi'),
@@ -49,9 +50,10 @@ function AddDiscounted() {
     });
 
     const onSubmit = async (datas) => {
+        console.log(datas);
         // e.preventDefault();
-        const startDate = datas.startDate.format('YYYY-MM-DD HH:mm');
-        const endDate = datas.endDate.format('YYYY-MM-DD HH:mm');
+        const startDate = moment(datas.startDate).format('YYYY-MM-DD HH:mm');
+        const endDate = moment(datas.endDate).format('YYYY-MM-DD HH:mm');
 
         const isOverlap = data?.docs.some((discount) => {
             const startDateOverlap =
@@ -124,6 +126,34 @@ function AddDiscounted() {
                                             placeholder="Nhập mã khuyến mãi (vd: KM10)"
                                         />
                                         <p style={{ margin: '0px', color: 'red' }}>{errors.name?.message}</p>
+                                    </div>
+                                )}
+                            />
+                        </div>
+                        <div className={cx('contentItem')}>
+                            <div className={cx('name')}>
+                                Loại sản phẩm:<span className={cx('star')}>*</span>
+                            </div>
+                            <Controller
+                                name="product"
+                                control={control}
+                                render={({ field }) => (
+                                    <div style={{ width: '100%' }}>
+                                        <Select
+                                            className={cx('dropdown')}
+                                            value={watch('product')}
+                                            allowClear
+                                            placeholder="Chọn loại sản phẩm"
+                                            onChange={(val) => setValue('product', val)}
+                                            status={errors.product?.message ? 'error' : null}
+                                            options={[
+                                                { value: 'Tất cả', label: 'Tất cả' },
+                                                { value: 'Coffee', label: 'Coffee' },
+                                                { value: 'Freeze', label: 'Freeze' },
+                                                { value: 'Tea', label: 'Tea' },
+                                            ]}
+                                        />
+                                        <p style={{ margin: '0px', color: 'red' }}>{errors.product?.message}</p>
                                     </div>
                                 )}
                             />
