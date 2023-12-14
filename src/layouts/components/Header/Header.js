@@ -7,23 +7,25 @@ import config from '~/config';
 import styles from './Header.module.scss';
 import Menu, { MenuItem } from './menu';
 import Tippy from '@tippyjs/react/headless';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, EditOutlined, VerticalLeftOutlined } from '@ant-design/icons';
 import { Empty, Avatar, Badge, Button, Modal, Dropdown, message, Alert, Input } from 'antd';
 import { addProductSelector, addUserProductSelector, tokenSelector } from '~/Redux/selector';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
-import { Checkbox, Radio } from 'antd';
+import { Checkbox, Radio, Select } from 'antd';
 import EditCustomer from '~/Pages/admin/Customer/EditCustomer';
 import AddCustomer from '~/Pages/admin/Customer/AddCustomer';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { Controller, useForm } from 'react-hook-form';
 import listsMenuSlice from '~/Redux/list/list';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMediaQuery } from 'react-responsive';
 import { FaUserCircle } from 'react-icons/fa';
 import formatDate, { formatTime } from '~/Components/FormatDate/FormatDate';
+import EditAddress from '../EditAddress';
 
 const cx = classNames.bind(styles);
 
@@ -46,6 +48,7 @@ function Header({ name, src, price, quatity, size }) {
     const [email, setEmail] = useState();
     const [user, setUser] = useState();
     const [Name, setName] = useState(name);
+    const [date, setDate1] = useState();
     const navigate = useNavigate();
     const location = useLocation();
     const [checked, setChecked] = useState(false);
@@ -55,6 +58,8 @@ function Header({ name, src, price, quatity, size }) {
     const [priceList, setPriceList] = useState(0);
     const [productId, setProductId] = useState([]);
     const [history, setHistory] = useState(false);
+    const [timeShip, setTimeShip] = useState(false);
+    const [shipAddress, setShipAddress] = useState(false);
     const [ids, setIds] = useState([]);
     const successMessage = location.state?.successMessage;
 
@@ -68,6 +73,28 @@ function Header({ name, src, price, quatity, size }) {
         // });
         toast.success(message);
     };
+
+    useEffect(() => {
+        if (location.state && location.state.successMessage) {
+            success(location.state.successMessage);
+            setShipAddress(false);
+            refetch();
+
+            // Đặt giá trị successMessage trong location.state thành null
+            const newLocation = { ...location };
+            newLocation.state.successMessage = null;
+            navigate({ pathname: location.pathname, state: newLocation.state });
+        }
+    }, [location.state]);
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        setValue,
+        control,
+        formState: { errors },
+    } = useForm({});
 
     useEffect(() => {
         if (location.state && location.state.successMessage) {
@@ -104,16 +131,98 @@ function Header({ name, src, price, quatity, size }) {
     const handleHistory = () => {
         setHistory(true);
     };
-    const [value, setValue] = useState(1);
+    const handleEdit = () => {
+        setShipAddress(true);
+    };
+    const handleDate = (value) => {
+        setDate1(value);
+        // setTimeShip(true);
+    };
+    console.log(date);
+    const [value1, setValue1] = useState(1);
 
     const onChange = (e) => {
-        setValue(e.target.value);
+        setValue1(e.target.value);
     };
     // const { isLoading, data, refetch } = useQuery({
     //     queryKey: ['listCustomer', email],
     //     queryFn: () =>
     //         axios.post('https://coffee-bills.onrender.com/customer/listCustomer', { email }).then((res) => res.data),
     // });
+    let currentTime = new Date();
+
+    let currentHour = currentTime.getHours();
+    let currentMinute = currentTime.getMinutes();
+
+    // Làm tròn phút hiện tại thành khoảng phút gần nhất chia hết cho 15
+    currentMinute = Math.round(currentMinute / 30) * 30;
+    if (currentMinute === 60) {
+        currentHour++;
+        currentMinute = 0;
+    }
+
+    // Tạo mảng chứa 10 giá trị thời gian, bắt đầu từ thời gian hiện tại đã làm tròn
+    let timeArray = [];
+    if (formatDate(currentTime) === date) {
+        for (let i = 0; i < 10; i++) {
+            if (currentHour >= 8 && currentHour <= 21) {
+                let nextTime = `${currentHour < 10 ? '0' : ''}${currentHour}:${
+                    currentMinute < 10 ? '0' : ''
+                }${currentMinute}`;
+                timeArray.push(nextTime);
+                i++; // Tăng biến đếm i chỉ khi thời gian nằm trong khoảng từ 8:00 đến 21:00
+            }
+            currentMinute += 30;
+            if (currentMinute >= 60) {
+                currentHour++;
+                currentMinute -= 60;
+            }
+
+            currentHour %= 25;
+        }
+    } else {
+        for (let i = 0; i < 10; i++) {
+            if (currentHour >= 8 && currentHour <= 21) {
+                let nextTime = `${currentHour < 10 ? '0' : ''}${currentHour}:${
+                    currentMinute < 10 ? '0' : ''
+                }${currentMinute}`;
+                timeArray.push(nextTime);
+                // i++; // Tăng biến đếm i chỉ khi thời gian nằm trong khoảng từ 8:00 đến 21:00
+            }
+            currentMinute += 30;
+            if (currentMinute >= 60) {
+                currentHour++;
+                currentMinute -= 60;
+            }
+
+            currentHour %= 25;
+        }
+    }
+    timeArray = timeArray.filter((time) => {
+        let [hour, minute] = time.split(':').map(Number);
+        if (hour < currentTime.getHours()) {
+            return false;
+        } else if (hour === currentTime.getHours() && minute < currentTime.getMinutes()) {
+            return false;
+        }
+        return true;
+    });
+
+    let currentDate = new Date();
+    let numberOfDays = 10;
+
+    // Mảng chứa ngày tháng
+    let dateArray = [];
+
+    // Tạo mảng với số ngày cần tạo
+    for (let i = 0; i < numberOfDays; i++) {
+        // Thêm ngày hiện tại vào mảng và sau đó tăng ngày lên 1 để lấy ngày tiếp theo
+        dateArray.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    const arrayTime = timeArray.map((time) => ({ value: time, lable: time }));
+    const arrayDate = dateArray.map((date) => ({ value: formatDate(date), lable: formatDate(date) }));
 
     const {
         isLoading: isLoadingCustomer,
@@ -125,6 +234,8 @@ function Header({ name, src, price, quatity, size }) {
             axios.post('https://coffee-bills.onrender.com/customer/listCustomer', { email }).then((res) => res.data),
     });
     const users = data?.docs[0]?._id;
+    const addrees = data?.docs[0]?.temporaryAddress;
+    console.log(addrees);
     const {
         isLoading: isLoadingOrders,
         data: ordersData,
@@ -200,6 +311,72 @@ function Header({ name, src, price, quatity, size }) {
             </div>
         </Modal>
     );
+
+    const ModalShipAddress = () => (
+        <Modal
+            centered
+            open={shipAddress}
+            onOk={() => setShipAddress(false)}
+            onCancel={() => setShipAddress(false)}
+            width={600}
+            height={500}
+            footer={null}
+        >
+            <EditAddress dataId={users} />
+        </Modal>
+    );
+    // const [time, setTime] = useState('');
+    // const onChangeDate = (value) => {
+    //     setTime(value);
+    // };
+    // console.log(time);
+    // const ModalTimeShipAddress = () => (
+    //     <Modal
+    //         centered
+    //         open={timeShip}
+    //         onOk={() => setTimeShip(false)}
+    //         onCancel={() => setTimeShip(false)}
+    //         width={600}
+    //         height={500}
+    //         footer={null}
+    //     >
+    //         <div className={cx('cart')}>
+    //             <div className={cx('header-cart')}>
+    //                 <h2 className={cx('text-header')}>Thời gian nhận hàng</h2>
+    //                 {/* <div style={{ width: '75px', height: '26px' }}>
+    //                     <NavLink to={config.routers.Menu} className={cx('add')}>
+    //                         Thêm món
+    //                     </NavLink>
+    //                 </div> */}
+    //             </div>
+
+    //             <div style={{ width: '100%', padding: '20px 0' }}>
+    //                 <div>
+    //                     <Select
+    //                         defaultValue={formatDate(new Date())}
+    //                         // value={date}
+    //                         style={{ width: '100%', margin: '10px' }}
+    //                         // onChange={onChangeDate}
+    //                         options={arrayDate}
+    //                     />
+    //                 </div>
+    //                 <div>
+    //                     <Select
+    //                         defaultValue="Càng sớm càng tốt"
+    //                         style={{ width: '100%', margin: '10px' }}
+    //                         // onChange={onChangeDate}
+    //                         options={arrayTime}
+    //                     />
+    //                 </div>
+    //             </div>
+    //             <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+    //                 <div className={cx('btnMenu')} to="#">
+    //                     Xác nhận
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     </Modal>
+    // );
     const items = email
         ? [
               {
@@ -250,7 +427,7 @@ function Header({ name, src, price, quatity, size }) {
         };
         window.addEventListener('scroll', handleScroll);
     });
-    const handleSubmit = () => {
+    const handleSubmit1 = () => {
         setContent(!content);
         if (usersData[user]?.listProduct?.length !== undefined) {
             const maxLength = usersData[user]?.listProduct?.reduce((max, arr) => Math.max(max, arr.length));
@@ -260,6 +437,9 @@ function Header({ name, src, price, quatity, size }) {
                 setChecked(false);
             }
         }
+    };
+    const handleShopDate = () => {
+        setTimeShip(true);
     };
     const onChangeCheckBox = (index, menu) => {
         const updatedCheckedList = [...checkedList];
@@ -320,12 +500,16 @@ function Header({ name, src, price, quatity, size }) {
         }
     }, [list]);
     const handleBuy = async () => {
-        if (value === 1) {
+        if (value1 === 1) {
             try {
                 const res = await axios.post('https://coffee-bills.onrender.com/orders/addOrder', {
                     customerId: data?.docs[0]?._id,
                     productId: productId,
                     total: priceList,
+                    address:
+                        data?.docs[0]?.temporaryAddress !== undefined
+                            ? data?.docs[0]?.temporaryAddress
+                            : data?.docs[0]?.address,
                     isPaid: false,
                 });
                 if (res) {
@@ -338,12 +522,16 @@ function Header({ name, src, price, quatity, size }) {
                 }
             } catch (error) {}
         }
-        if (value === 2) {
+        if (value1 === 2) {
             try {
                 const res = await axios.post('https://coffee-bills.onrender.com/payment/create_payment', {
                     amount: priceList,
                     customerId: data?.docs[0]?._id,
                     productId: productId,
+                    address:
+                        data?.docs[0]?.temporaryAddress !== undefined
+                            ? data?.docs[0]?.temporaryAddress
+                            : data?.docs[0]?.address,
                     language: '',
                 });
                 if (res) {
@@ -394,6 +582,7 @@ function Header({ name, src, price, quatity, size }) {
     const handleDelete = (id) => {
         dispatch(listsMenuSlice.actions.deleteProductForUser({ user, id }));
     };
+
     return (
         <div className={cx('wraper')}>
             <>
@@ -445,7 +634,7 @@ function Header({ name, src, price, quatity, size }) {
                         <MenuItem title="Chúng tôi" to={config.routers.About} />
                     </Menu>
                     <div style={{ display: 'flex' }}>
-                        <button className={cx('ColorCartIcon')} onClick={handleSubmit} to="#">
+                        <button className={cx('ColorCartIcon')} onClick={handleSubmit1} to="#">
                             <Badge count={usersData[user]?.listProduct?.length}>
                                 <ShoppingCartOutlined style={{ fontSize: '34px', color: '#ffffff' }} />
                             </Badge>
@@ -517,6 +706,7 @@ function Header({ name, src, price, quatity, size }) {
                     </div>
                     <ModalEdit />
                     <ModalHistory />
+                    <ModalShipAddress />
                 </div>
                 {/* )} */}
             </>
@@ -575,7 +765,7 @@ function Header({ name, src, price, quatity, size }) {
                                                                 lineHeight: '50px',
                                                             }}
                                                             onChange={onChange}
-                                                            value={value}
+                                                            value={value1}
                                                         >
                                                             <Radio
                                                                 style={
@@ -609,6 +799,54 @@ function Header({ name, src, price, quatity, size }) {
                                                                 Thanh toán tiền bằng VNPay
                                                             </Radio>
                                                         </div> */}
+                                                    </div>
+                                                    <div
+                                                        className={cx('pprice1')}
+                                                        style={{ fontSize: '22px', marginBottom: '16px' }}
+                                                    >
+                                                        <div>Giao hàng</div>
+                                                        <NavLink to="#" onClick={handleEdit}>
+                                                            <EditOutlined className={cx('editAddress')} />
+                                                        </NavLink>
+                                                    </div>
+                                                    <div className={cx('ship')}>
+                                                        <div className={cx('imageShip')}>
+                                                            <Images
+                                                                className={cx('logoShip')}
+                                                                src={require('~/assets/images/Delivery2.png')}
+                                                            />
+                                                        </div>
+                                                        <div style={{ width: '100%' }}>
+                                                            <div className={cx('contentShip1')}>
+                                                                <div className={cx('titleShip')}>
+                                                                    {data?.docs[0]?.temporaryAddress === undefined
+                                                                        ? data?.docs[0]?.address.split(' - ')[0]
+                                                                        : data?.docs[0]?.temporaryAddress.split(
+                                                                              ' - ',
+                                                                          )[0]}
+                                                                </div>
+                                                                <div className={cx('addressShip')}>
+                                                                    {data?.docs[0]?.temporaryAddress === undefined
+                                                                        ? data?.docs[0]?.address
+                                                                        : data?.docs[0]?.temporaryAddress}
+                                                                </div>
+                                                            </div>
+                                                            <div className={cx('contentShip')}>
+                                                                <div>
+                                                                    <div className={cx('titleShip')}>
+                                                                        Nhận hàng trong ngày hôm nay
+                                                                    </div>
+                                                                    <div className={cx('addressShip')}>
+                                                                        Vào lúc: sau 30 phút khi đặt hàng
+                                                                    </div>
+                                                                </div>
+                                                                {/* <NavLink to="#" onClick={handleShopDate}>
+                                                                    <VerticalLeftOutlined
+                                                                        style={{ fontSize: '31px', opacity: '0.8' }}
+                                                                    />
+                                                                </NavLink> */}
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             ) : (
@@ -677,21 +915,28 @@ function Header({ name, src, price, quatity, size }) {
                                     <div className={buy ? cx('content-cart-item2') : cx('content-cart-item1')}>
                                         {!buy && (
                                             <div>
-                                                <Checkbox checked={checked} onChange={onChangeAll}>
+                                                <Checkbox
+                                                    style={{ fontSize: '16px' }}
+                                                    checked={checked}
+                                                    onChange={onChangeAll}
+                                                >
                                                     Tất cả
                                                 </Checkbox>
                                             </div>
                                         )}
-                                        <div className={cx('price')}>
-                                            <div className={cx('size')}>Tổng cộng : {priceList} VND</div>
-                                            {/* <div className={cx('cart-price')}>{price}đ</div> */}
-                                            {buy ? (
+                                        {/* <div className={cx('cart-price')}>{price}đ</div> */}
+                                        {buy ? (
+                                            <>
+                                                <div className={cx('size')}>Tổng cộng : {priceList} VND</div>
                                                 <div className={cx('content-title')}>
                                                     <NavLink className={cx('btnMenu')} to="#" onClick={handleBuy}>
                                                         Đặt hàng
                                                     </NavLink>
                                                 </div>
-                                            ) : (
+                                            </>
+                                        ) : (
+                                            <div className={cx('price')}>
+                                                <div className={cx('size')}>Tổng cộng : {priceList} VND</div>
                                                 <div className={cx('content-title')}>
                                                     <NavLink
                                                         className={cx('btnMenu')}
@@ -705,8 +950,8 @@ function Header({ name, src, price, quatity, size }) {
                                                         Mua hàng
                                                     </NavLink>
                                                 </div>
-                                            )}
-                                        </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </>
                             ) : (
@@ -729,6 +974,7 @@ function Header({ name, src, price, quatity, size }) {
                     </div>
                 </Modal>
             </>
+            {/* <ModalTimeShipAddress /> */}
         </div>
     );
 }

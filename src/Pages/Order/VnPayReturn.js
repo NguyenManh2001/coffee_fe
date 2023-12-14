@@ -25,15 +25,17 @@ export default function VnPayReturn() {
     const [requestSent, setRequestSent] = useState(false);
     const decodedOrderInfo = decodeURIComponent(vnp_OrderInfo); // Giải mã URL-encoded
     const orderInfoData = JSON.parse(decodedOrderInfo);
-    console.log(orderInfoData);
+
     useEffect(() => {
         async function postData() {
             if (!requestSent && vnp_ResponseCode === '00') {
                 try {
+                    // console.log(orderInfoData.address);
                     const res = await axios.post('https://coffee-bills.onrender.com/orders/addOrder', {
                         customerId: orderInfoData.customerId,
                         productId: orderInfoData.productId,
                         total: vnp_Amount / 100,
+                        address: orderInfoData.address,
                         isPaid: true,
                     });
                     setRequestSent(true);
@@ -46,6 +48,7 @@ export default function VnPayReturn() {
                         customerId: orderInfoData.customerId,
                         productId: orderInfoData.productId,
                         total: vnp_Amount / 100,
+                        address: orderInfoData.address,
                         isPaid: false,
                     });
                     // Xử lý kết quả nếu cần

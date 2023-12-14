@@ -213,18 +213,18 @@ function Customer() {
             },
             render: (text, record) => <span>{formatTime(record?.createdAt)}</span>,
         },
-        {
-            title: 'Chức năng',
-            key: 'action',
+        // {
+        //     title: 'Chức năng',
+        //     key: 'action',
 
-            render: (_, record) => (
-                <Space size="middle">
-                    <Link className={cx('icon')} onClick={() => handleDelete(record._id)} to="#">
-                        <RiDeleteBin6Line />
-                    </Link>
-                </Space>
-            ),
-        },
+        //     render: (_, record) => (
+        //         <Space size="middle">
+        //             <Link className={cx('icon')} onClick={() => handleDelete(record._id)} to="#">
+        //                 <RiDeleteBin6Line />
+        //             </Link>
+        //         </Space>
+        //     ),
+        // },
     ];
 
     const Menudata = data?.docs;

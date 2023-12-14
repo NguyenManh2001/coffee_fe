@@ -181,9 +181,9 @@ function Account() {
                     <Link className={cx('icon1')} to="#" onClick={() => handleUpdate(record)}>
                         <BiEditAlt />
                     </Link>
-                    <Link className={cx('icon2')} to="#" onClick={() => handleDelete(record._id)}>
+                    {/* <Link className={cx('icon2')} to="#" onClick={() => handleDelete(record._id)}>
                         <RiDeleteBin6Line />
-                    </Link>
+                    </Link> */}
                 </Space>
             ),
         },
