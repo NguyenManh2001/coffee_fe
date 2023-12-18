@@ -80,7 +80,10 @@ const OrderDetails = (props) => {
                                         </div>
                                         <div style={{ display: 'flex' }}>
                                             <div className={cx('cart-price')}>
-                                                {e?.product?.price.toLocaleString('vi-VN')} VND
+                                                {e?.price
+                                                    ? e?.price.toLocaleString('vi-VN')
+                                                    : e?.product.price.toLocaleString('vi-VN')}{' '}
+                                                VND
                                             </div>
                                             {/* <div className={cx('delete')}>
                                                 <DeleteIcons />
