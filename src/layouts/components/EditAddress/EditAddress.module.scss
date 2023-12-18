@@ -36,3 +36,14 @@
     transform: translateY(-8px);
     }
 }
+.Map{
+    display: flex;
+    margin: 4px 10px 30px;
+    justify-content: center;
+    color: #c24914;
+    cursor: pointer;
+
+    &:hover{
+        color: #963409;
+    }
+}

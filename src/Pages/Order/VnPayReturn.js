@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './VnPayReturn.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { formatTime } from '~/Components/FormatDate/FormatDate';
 import config from '~/config';
 import axios from 'axios';
+import { productSelector } from '~/Redux/selector';
 const cx = classNames.bind(styles);
 export default function VnPayReturn() {
     const [open, setOpen] = useState(true);
@@ -25,7 +27,8 @@ export default function VnPayReturn() {
     const [requestSent, setRequestSent] = useState(false);
     const decodedOrderInfo = decodeURIComponent(vnp_OrderInfo); // Giải mã URL-encoded
     const orderInfoData = JSON.parse(decodedOrderInfo);
-
+    const productId = useSelector(productSelector);
+    console.log(productId);
     useEffect(() => {
         async function postData() {
             if (!requestSent && vnp_ResponseCode === '00') {
@@ -33,7 +36,7 @@ export default function VnPayReturn() {
                     // console.log(orderInfoData.address);
                     const res = await axios.post('https://coffee-bills.onrender.com/orders/addOrder', {
                         customerId: orderInfoData.customerId,
-                        productId: orderInfoData.productId,
+                        productId: productId,
                         total: vnp_Amount / 100,
                         address: orderInfoData.address,
                         isPaid: true,
@@ -46,7 +49,7 @@ export default function VnPayReturn() {
                 try {
                     const res = await axios.post('https://coffee-bills.onrender.com/orders/addOrder', {
                         customerId: orderInfoData.customerId,
-                        productId: orderInfoData.productId,
+                        productId: productId,
                         total: vnp_Amount / 100,
                         address: orderInfoData.address,
                         isPaid: false,

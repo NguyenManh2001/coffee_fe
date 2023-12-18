@@ -1,5 +1,6 @@
 .wraper{
     width: 100%;
+    left: 0;
     position: fixed;
     top: 0;
     z-index: 20;
@@ -103,9 +104,8 @@
 
 }
 .content-cart{
-    height: 338px;
+    height: 545px;
     padding: 20px 0;
-    // text-align: center;
     overflow: auto;
 }
 .content-header{
@@ -285,6 +285,14 @@
 }
 .addressShip{
 
+}
+.pricea{
+    display: flex;
+    padding: 10px 0;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    height: 50px;
+    align-items: center;
 }
 @media (max-width:740px){
     .container{

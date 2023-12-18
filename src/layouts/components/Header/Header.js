@@ -9,7 +9,7 @@ import Menu, { MenuItem } from './menu';
 import Tippy from '@tippyjs/react/headless';
 import { ShoppingCartOutlined, EditOutlined, VerticalLeftOutlined } from '@ant-design/icons';
 import { Empty, Avatar, Badge, Button, Modal, Dropdown, message, Alert, Input } from 'antd';
-import { addProductSelector, addUserProductSelector, tokenSelector } from '~/Redux/selector';
+import { addProductSelector, addUserProductSelector, productSelector, tokenSelector } from '~/Redux/selector';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
@@ -24,6 +24,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMediaQuery } from 'react-responsive';
 import { FaUserCircle } from 'react-icons/fa';
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 import formatDate, { formatTime } from '~/Components/FormatDate/FormatDate';
 import EditAddress from '../EditAddress';
 
@@ -40,7 +41,8 @@ const fetchData = async () => {
 
     return { customerData, ordersData, ordersAllData };
 };
-function Header({ name, src, price, quatity, size }) {
+function Header(props) {
+    const { name, src, price, quatity, size, google } = props;
     const [content, setContent] = useState(false);
     const [showHeader, setShowHeader] = useState(true);
     const [open, setOpen] = useState(false);
@@ -51,6 +53,7 @@ function Header({ name, src, price, quatity, size }) {
     const [date, setDate1] = useState();
     const navigate = useNavigate();
     const location = useLocation();
+    const [distances, setDistances] = useState('');
     const [checked, setChecked] = useState(false);
     const [list, setList] = useState([]);
     const [check, setCheck] = useState(false);
@@ -61,6 +64,7 @@ function Header({ name, src, price, quatity, size }) {
     const [timeShip, setTimeShip] = useState(false);
     const [shipAddress, setShipAddress] = useState(false);
     const [ids, setIds] = useState([]);
+    const [timeInMinutes, setTimeInMinutes] = useState(0);
     const successMessage = location.state?.successMessage;
 
     const [messageApi, contextHolder] = message.useMessage(successMessage);
@@ -138,7 +142,6 @@ function Header({ name, src, price, quatity, size }) {
         setDate1(value);
         // setTimeShip(true);
     };
-    console.log(date);
     const [value1, setValue1] = useState(1);
 
     const onChange = (e) => {
@@ -234,8 +237,7 @@ function Header({ name, src, price, quatity, size }) {
             axios.post('https://coffee-bills.onrender.com/customer/listCustomer', { email }).then((res) => res.data),
     });
     const users = data?.docs[0]?._id;
-    const addrees = data?.docs[0]?.temporaryAddress;
-    console.log(addrees);
+    const temporaryAddress = data?.docs[0]?.temporaryAddress;
     const {
         isLoading: isLoadingOrders,
         data: ordersData,
@@ -322,7 +324,7 @@ function Header({ name, src, price, quatity, size }) {
             height={500}
             footer={null}
         >
-            <EditAddress dataId={users} />
+            <EditAddress dataId={users} temporaryAddress={temporaryAddress} />
         </Modal>
     );
     // const [time, setTime] = useState('');
@@ -427,6 +429,64 @@ function Header({ name, src, price, quatity, size }) {
         };
         window.addEventListener('scroll', handleScroll);
     });
+    useEffect(() => {
+        const geocoder = new google.maps.Geocoder();
+        const originAddress = '44 Lê Đại Hành, Hai Bà Trưng, Hà Nội';
+        const destinationAddress = temporaryAddress;
+
+        // Chuyển đổi địa chỉ thành tọa độ (latitude và longitude)
+        geocoder.geocode({ address: originAddress }, (results, status) => {
+            if (status === 'OK' && results && results[0]) {
+                const origin = results[0].geometry.location;
+
+                // Tiếp tục chuyển đổi địa chỉ đích thành tọa độ
+                geocoder.geocode({ address: destinationAddress }, (results, status) => {
+                    if (status === 'OK' && results && results[0]) {
+                        const destination = results[0].geometry.location;
+
+                        // Sử dụng DistanceMatrixService để tính toán khoảng cách
+                        const service = new google.maps.DistanceMatrixService();
+                        service.getDistanceMatrix(
+                            {
+                                origins: [origin],
+                                destinations: [destination],
+                                travelMode: 'DRIVING', // Có thể là DRIVING, WALKING, BICYCLING, hoặc TRANSIT
+                                unitSystem: google.maps.UnitSystem.METRIC,
+                                avoidHighways: false,
+                                avoidTolls: false,
+                            },
+                            (response, status) => {
+                                if (status === 'OK') {
+                                    const distance = response.rows[0].elements[0].distance.text.split(' ')[0];
+                                    setDistances(distance);
+                                    // console.log('Khoảng cách: ', response.rows[0].elements[0].distance.text);
+                                } else {
+                                    console.log('Không thể tính toán khoảng cách:', status);
+                                }
+                            },
+                        );
+                    } else {
+                        console.log('Không thể tìm thấy địa chỉ điểm đến');
+                    }
+                });
+            } else {
+                console.log('Không thể tìm thấy địa chỉ điểm xuất phát');
+            }
+        });
+    }, [temporaryAddress]);
+
+    const distance = new Number(distances);
+    const number = new Number(3000);
+    const deliveryCharges = distance * number;
+    useEffect(() => {
+        const distanceInKm = parseFloat(distance);
+        if (!isNaN(distanceInKm)) {
+            const time = (distanceInKm / 30) * 60; // Tính thời gian dựa trên khoảng cách và hệ số chia
+            setTimeInMinutes(Math.ceil(time)); // Lưu thời gian vào state với định dạng làm tròn 2 chữ số sau dấu thập phân
+        } else {
+            setTimeInMinutes(null);
+        }
+    }, [distance]);
     const handleSubmit1 = () => {
         setContent(!content);
         if (usersData[user]?.listProduct?.length !== undefined) {
@@ -442,14 +502,16 @@ function Header({ name, src, price, quatity, size }) {
         setTimeShip(true);
     };
     const onChangeCheckBox = (index, menu) => {
+        console.log(menu);
         const updatedCheckedList = [...checkedList];
 
         // Kiểm tra trạng thái của checkbox cá nhân và cập nhật danh sách
         if (updatedCheckedList.includes(index)) {
             if (list.includes(menu)) {
                 setList(list.filter((item) => item !== menu));
-                setProductId(productId.filter((item) => item !== menu._id));
+                setProductId(productId.filter((item) => item.product !== menu._id));
                 setIds(ids.filter((item) => item !== menu._id));
+                dispatch(listsMenuSlice.actions.deleteProductSize(menu._id));
             } else {
                 setList([...list, menu]);
                 setProductId([
@@ -464,6 +526,7 @@ function Header({ name, src, price, quatity, size }) {
                     },
                 ]);
                 setIds([...ids, menu._id]);
+                // dispatch(listsMenuSlice.actions.addProductSize(productId));
             }
             updatedCheckedList.splice(updatedCheckedList.indexOf(index), 1);
         } else {
@@ -481,6 +544,7 @@ function Header({ name, src, price, quatity, size }) {
                 },
             ]);
             updatedCheckedList.push(index);
+            // dispatch(listsMenuSlice.actions.addProductSize(productId));
         }
 
         // Kiểm tra xem tất cả các checkbox cá nhân có được chọn hay không
@@ -499,13 +563,21 @@ function Header({ name, src, price, quatity, size }) {
             setPriceList(totalPrice);
         }
     }, [list]);
+
+    useEffect(() => {
+        if (productId.length > 0) {
+            dispatch(listsMenuSlice.actions.addProductSize(productId));
+        }
+    }, [productId]);
+    const produ = useSelector(productSelector);
+    console.log('Product', produ);
     const handleBuy = async () => {
         if (value1 === 1) {
             try {
                 const res = await axios.post('https://coffee-bills.onrender.com/orders/addOrder', {
                     customerId: data?.docs[0]?._id,
                     productId: productId,
-                    total: priceList,
+                    total: priceList + deliveryCharges,
                     address:
                         data?.docs[0]?.temporaryAddress !== undefined
                             ? data?.docs[0]?.temporaryAddress
@@ -525,9 +597,9 @@ function Header({ name, src, price, quatity, size }) {
         if (value1 === 2) {
             try {
                 const res = await axios.post('https://coffee-bills.onrender.com/payment/create_payment', {
-                    amount: priceList,
+                    amount: priceList + deliveryCharges,
                     customerId: data?.docs[0]?._id,
-                    productId: productId,
+                    // productId: '',
                     address:
                         data?.docs[0]?.temporaryAddress !== undefined
                             ? data?.docs[0]?.temporaryAddress
@@ -576,6 +648,7 @@ function Header({ name, src, price, quatity, size }) {
             setCheckedList([]);
             setList([]);
             setIds([]);
+            setProductId([]);
             setPriceList(0);
         }
     };
@@ -721,7 +794,7 @@ function Header({ name, src, price, quatity, size }) {
                         setBuy(false);
                     }}
                     width={600}
-                    height={500}
+                    height={700}
                     className={cx('ant')}
                     footer={null}
                 >
@@ -820,9 +893,9 @@ function Header({ name, src, price, quatity, size }) {
                                                             <div className={cx('contentShip1')}>
                                                                 <div className={cx('titleShip')}>
                                                                     {data?.docs[0]?.temporaryAddress === undefined
-                                                                        ? data?.docs[0]?.address.split(' - ')[0]
+                                                                        ? data?.docs[0]?.address.split(', ')[0]
                                                                         : data?.docs[0]?.temporaryAddress.split(
-                                                                              ' - ',
+                                                                              ', ',
                                                                           )[0]}
                                                                 </div>
                                                                 <div className={cx('addressShip')}>
@@ -837,7 +910,8 @@ function Header({ name, src, price, quatity, size }) {
                                                                         Nhận hàng trong ngày hôm nay
                                                                     </div>
                                                                     <div className={cx('addressShip')}>
-                                                                        Vào lúc: sau 30 phút khi đặt hàng
+                                                                        Vào lúc: sau {timeInMinutes + 20} phút từ khi
+                                                                        đặt hàng
                                                                     </div>
                                                                 </div>
                                                                 {/* <NavLink to="#" onClick={handleShopDate}>
@@ -846,6 +920,24 @@ function Header({ name, src, price, quatity, size }) {
                                                                     />
                                                                 </NavLink> */}
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        className={cx('pprice1')}
+                                                        style={{ fontSize: '22px', marginBottom: '16px' }}
+                                                    >
+                                                        <div>Tổng cộng</div>
+                                                    </div>
+                                                    <div className={cx('pricea')}>
+                                                        <div>Thành tiền</div>
+                                                        <div style={{ marginRight: '10px' }}>
+                                                            {priceList.toLocaleString('vi-VN')}đ
+                                                        </div>
+                                                    </div>
+                                                    <div className={cx('pricea')} style={{ border: 'none' }}>
+                                                        <div>Phí giao hàng</div>
+                                                        <div style={{ marginRight: '10px' }}>
+                                                            {deliveryCharges.toLocaleString('vi-VN')}đ
                                                         </div>
                                                     </div>
                                                 </div>
@@ -893,7 +985,10 @@ function Header({ name, src, price, quatity, size }) {
                                                                                 </div>
                                                                                 <div style={{ display: 'flex' }}>
                                                                                     <div className={cx('cart-price')}>
-                                                                                        {product.price} VND
+                                                                                        {product.price.toLocaleString(
+                                                                                            'vi-VN',
+                                                                                        )}
+                                                                                        đ
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -927,7 +1022,9 @@ function Header({ name, src, price, quatity, size }) {
                                         {/* <div className={cx('cart-price')}>{price}đ</div> */}
                                         {buy ? (
                                             <>
-                                                <div className={cx('size')}>Tổng cộng : {priceList} VND</div>
+                                                <div className={cx('size')}>
+                                                    Thành tiền: {(priceList + deliveryCharges).toLocaleString('vi-VN')}đ
+                                                </div>
                                                 <div className={cx('content-title')}>
                                                     <NavLink className={cx('btnMenu')} to="#" onClick={handleBuy}>
                                                         Đặt hàng
@@ -936,7 +1033,9 @@ function Header({ name, src, price, quatity, size }) {
                                             </>
                                         ) : (
                                             <div className={cx('price')}>
-                                                <div className={cx('size')}>Tổng cộng : {priceList} VND</div>
+                                                <div className={cx('size')}>
+                                                    Thành tiền: {priceList.toLocaleString('vi-VN')}đ
+                                                </div>
                                                 <div className={cx('content-title')}>
                                                     <NavLink
                                                         className={cx('btnMenu')}
@@ -979,4 +1078,6 @@ function Header({ name, src, price, quatity, size }) {
     );
 }
 
-export default Header;
+export default GoogleApiWrapper({
+    apiKey: 'AIzaSyCzNP5qQql2a5y8lOoO-1yj1lj_tzjVImA', // Điền khóa API của bạn ở đây
+})(Header);

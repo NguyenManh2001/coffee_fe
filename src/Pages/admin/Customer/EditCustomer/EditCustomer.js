@@ -63,6 +63,7 @@ function EditCustomer(props) {
                 console.log('loi');
             });
     };
+    console.log(watch('name'));
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>

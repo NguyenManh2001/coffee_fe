@@ -195,8 +195,9 @@ function Order() {
         },
         {
             title: 'Địa chỉ nhận hàng',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'address',
+            key: 'address',
+            className: cx('custom-column'),
             render: (text, record) => <span>{record?.address ? record?.address : record?.customer?.address}</span>,
         },
         {
@@ -233,9 +234,9 @@ function Order() {
                         {eye[record._id] ? <EyeOutlined /> : <EyeInvisibleOutlined />}
                     </Link>
 
-                    {/* <Link className={cx('icon2')} onClick={() => handleDelete(record._id)} to="#">
+                    <Link className={cx('icon2')} onClick={() => handleDelete(record._id)} to="#">
                         <RiDeleteBin6Line />
-                    </Link> */}
+                    </Link>
                 </Space>
             ),
         },
