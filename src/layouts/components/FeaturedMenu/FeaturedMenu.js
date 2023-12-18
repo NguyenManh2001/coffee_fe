@@ -116,6 +116,7 @@ function FeatureMenu({ select }) {
     const renderItems = () => {
         return data?.docs?.map((MENU, index) => {
             const currentTime = moment(); // Thời gian hiện tại
+
             const filteredDiscounts = MENU.discounts.filter((element) => {
                 const startDate = moment(element.startDate); // Thời gian bắt đầu
                 const endDate = moment(element.endDate); // Thời gian kết thúc

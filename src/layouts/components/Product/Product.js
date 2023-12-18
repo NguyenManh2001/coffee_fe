@@ -81,7 +81,7 @@ function Product({ _id, src, name, cart, onClick }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const cart1 = new Number(cart);
-
+    // console.log(price);
     const token = Cookies.get('token');
     useEffect(() => {
         if (token !== undefined) {
