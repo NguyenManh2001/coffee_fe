@@ -9,6 +9,7 @@ import { formatTime } from '~/Components/FormatDate/FormatDate';
 import config from '~/config';
 import axios from 'axios';
 import { productSelector } from '~/Redux/selector';
+import listsMenuSlice from '~/Redux/list/list';
 const cx = classNames.bind(styles);
 export default function VnPayReturn() {
     const [open, setOpen] = useState(true);
@@ -28,6 +29,7 @@ export default function VnPayReturn() {
     const decodedOrderInfo = decodeURIComponent(vnp_OrderInfo); // Giải mã URL-encoded
     const orderInfoData = JSON.parse(decodedOrderInfo);
     const productId = useSelector(productSelector);
+    const dispatch = useDispatch();
     console.log(productId);
     useEffect(() => {
         async function postData() {
@@ -42,6 +44,7 @@ export default function VnPayReturn() {
                         isPaid: true,
                     });
                     setRequestSent(true);
+                    dispatch(listsMenuSlice.actions.addProductSize([]));
                 } catch (error) {
                     console.error('Lỗi khi gửi yêu cầu:', error);
                 }
@@ -55,6 +58,7 @@ export default function VnPayReturn() {
                         isPaid: false,
                     });
                     // Xử lý kết quả nếu cần
+                    dispatch(listsMenuSlice.actions.addProductSize([]));
                 } catch (error) {
                     console.error('Lỗi khi gửi yêu cầu:', error);
                 }
