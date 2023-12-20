@@ -43,9 +43,14 @@
 .cart-item{
     display: flex;
     min-height: 80px;
-    width: 97%;
+    width: 91%;
     margin-top: 15px;
-    margin-left: 14%;
+    margin-left: 7%;
+}
+.cart {
+    height: 345px;
+    overflow: scroll;
+    width: 100%;
 }
 .size{
     font-size: 11px;

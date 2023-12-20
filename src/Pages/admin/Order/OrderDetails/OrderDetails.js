@@ -54,7 +54,7 @@ const OrderDetails = (props) => {
                             Danh sách sản phẩm:
                         </div>
                     </div>
-                    <>
+                    <div className={cx('cart')}>
                         {data?.products?.map((e) => (
                             <div className={cx('cart-item')}>
                                 {/* <Checkbox
@@ -93,7 +93,7 @@ const OrderDetails = (props) => {
                                 </div>
                             </div>
                         ))}
-                    </>
+                    </div>
                 </div>
             </div>
         </div>

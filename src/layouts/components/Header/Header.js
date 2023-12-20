@@ -1025,7 +1025,7 @@ function Header(props) {
                                         {/* <div className={cx('cart-price')}>{price}đ</div> */}
                                         {buy ? (
                                             <>
-                                                <div className={cx('size')}>
+                                                <div className={cx('size')} style={{ fontSize: '16px' }}>
                                                     Thành tiền: {(priceList + deliveryCharges).toLocaleString('vi-VN')}đ
                                                 </div>
                                                 <div className={cx('content-title')}>
@@ -1036,12 +1036,14 @@ function Header(props) {
                                             </>
                                         ) : (
                                             <div className={cx('price')}>
-                                                <div className={cx('size')}>
+                                                <div className={cx('size')} style={{ fontSize: '16px' }}>
                                                     Thành tiền: {priceList.toLocaleString('vi-VN')}đ
                                                 </div>
                                                 <div className={cx('content-title')}>
-                                                    <NavLink
-                                                        className={cx('btnMenu')}
+                                                    <Button
+                                                        className={cx('btnMenu1')}
+                                                        disabled={priceList === 0}
+                                                        style={{ height: '40px' }}
                                                         to="#"
                                                         onClick={() => {
                                                             if (priceList !== 0) {
@@ -1050,7 +1052,7 @@ function Header(props) {
                                                         }}
                                                     >
                                                         Mua hàng
-                                                    </NavLink>
+                                                    </Button>
                                                 </div>
                                             </div>
                                         )}
