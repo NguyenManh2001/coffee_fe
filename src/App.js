@@ -78,7 +78,7 @@ function App() {
     return (
         <Router>
             <div className="App">
-                {userRole === 0 && <FacebookChat />}
+                {userRole !== 1 && <FacebookChat />}
                 <Routes>
                     {privateRoutes.map((router, index) => {
                         const Page = router.component;
