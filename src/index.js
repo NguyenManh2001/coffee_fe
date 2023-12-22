@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import GlobalStyles from '~/Components/GlobalStyles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { tokenSelector } from './Redux/selector';
+import Cookies from 'js-cookie';
 
 const queryClient = new QueryClient();
 
@@ -57,11 +58,14 @@ const FacebookChat = () => {
     return null; // Return null since this component doesn't render anything
 };
 const rootElement = document.getElementById('root');
+// const token = Cookies.get('token');
+// const userRole = useSelector(tokenSelector);
+// console.log(userRole);
 ReactDOM.createRoot(rootElement).render(
     <QueryClientProvider client={queryClient}>
-        <FacebookChat />
         <GlobalStyles>
             <Provider store={store}>
+                {/* <FacebookChat /> */}
                 <App />
             </Provider>
         </GlobalStyles>
