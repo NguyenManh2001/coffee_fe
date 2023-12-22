@@ -78,6 +78,7 @@ function App() {
     return (
         <Router>
             <div className="App">
+                {userRole === 0 && <FacebookChat />}
                 <Routes>
                     {privateRoutes.map((router, index) => {
                         const Page = router.component;
@@ -91,7 +92,6 @@ function App() {
                                         element={
                                             <Layout>
                                                 <Page />
-                                                <FacebookChat />
                                             </Layout>
                                         }
                                         isAuthenticated={!!token}
