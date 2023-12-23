@@ -502,7 +502,6 @@ function Header(props) {
         setTimeShip(true);
     };
     const onChangeCheckBox = (index, menu) => {
-        console.log(menu);
         const updatedCheckedList = [...checkedList];
 
         // Kiểm tra trạng thái của checkbox cá nhân và cập nhật danh sách
@@ -572,7 +571,6 @@ function Header(props) {
         }
     }, [productId]);
     const produ = useSelector(productSelector);
-    console.log('Product', produ);
     const handleBuy = async () => {
         if (value1 === 1) {
             try {

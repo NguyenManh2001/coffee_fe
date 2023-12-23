@@ -28,8 +28,8 @@ function About() {
                 </div>
             ) : (
                 <>
-                    {data?.docs?.map((data) => (
-                        <Content>
+                    {data?.docs?.map((data, index) => (
+                        <Content key={index}>
                             <div key={data._id} className={cx('content')}>
                                 <div className={cx('img-content')}>
                                     <Images src={data.image} className={cx('Image')} alt="lineborder" />

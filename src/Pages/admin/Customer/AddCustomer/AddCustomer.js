@@ -9,11 +9,16 @@ import { Controller, useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import Autocomplete from 'react-autocomplete';
+import { EnvironmentOutlined } from '@ant-design/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Cookies from 'js-cookie';
+import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
+import MapContainer from '~/Components/Map/Map';
 import { Button, Input, InputNumber, message, Select } from 'antd';
+import { addAddressSelector } from '~/Redux/selector';
+import listsMenuSlice from '~/Redux/list/list';
 
 const schema = yup
     .object()
@@ -32,6 +37,9 @@ const cx = classNames.bind(styles);
 function AddCustomer() {
     const navigate = useNavigate();
     const [email, setEmail] = useState();
+    const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
+    const address = useSelector(addAddressSelector);
     const token = Cookies.get('token');
     useEffect(() => {
         if (token !== undefined) {
@@ -49,7 +57,13 @@ function AddCustomer() {
     } = useForm({
         resolver: yupResolver(schema),
     });
-
+    useEffect(() => {
+        if (Object.keys(address).length === 0) {
+            setValue('address', '');
+        } else {
+            setValue('address', address);
+        }
+    }, [address, setValue]);
     const onSubmit = async (data) => {
         // e.preventDefault();
         console.log(data);
@@ -59,6 +73,7 @@ function AddCustomer() {
                 email: email,
             })
             .then((res) => {
+                dispatch(listsMenuSlice.actions.addAddress(''));
                 navigate(config.routers.Home, { state: { successMessage: 'Bạn đã thêm thành công!!!' } });
             })
             .catch((err) => {
@@ -135,26 +150,28 @@ function AddCustomer() {
                                 )}
                             />
                         </div>
-                        {/* <div className={cx('contentItem')}>
-                            <div className={cx('name')}>
-                                Email:<span className={cx('star')}>*</span>
-                            </div>
-                            <Controller
-                                name="email"
-                                control={control}
-                                render={({ field }) => (
-                                    <div style={{ width: '100%' }}>
-                                        <Input
-                                            {...field}
-                                            status={errors.email?.message ? 'error' : null}
-                                            placeholder="Basic usage"
-                                        />
-                                        <p style={{ margin: '0px', color: 'red' }}>{errors.email?.message}</p>
+                        {open && <MapContainer temporaryAddress={watch('temporaryAddress')} />}
+                        <div className={cx('contentItem1')}>
+                            {open ? (
+                                <div
+                                    className={cx('Map')}
+                                    style={{ margin: '14px 10px 15px' }}
+                                    onClick={() => setOpen(!open)}
+                                >
+                                    <EnvironmentOutlined />
+                                    <span style={{ padding: '0 5px' }}>Ẩn bản đồ</span>
+                                </div>
+                            ) : (
+                                <>
+                                    {/* <div style={{ textAlign: 'center' }}>OR</div> */}
+                                    <div className={cx('Map')} onClick={() => setOpen(!open)}>
+                                        <EnvironmentOutlined />
+                                        <span style={{ padding: '0 5px' }}>Dùng định vị bản đồ</span>
                                     </div>
-                                )}
-                            />
-                        </div> */}
-                        <div className={cx('contentItem')}>
+                                </>
+                            )}
+                        </div>
+                        <div className={cx('contentItem')} style={{ margin: '0' }}>
                             <div className={cx('name')}>
                                 Số điện thoại:<span className={cx('star')}>*</span>
                             </div>

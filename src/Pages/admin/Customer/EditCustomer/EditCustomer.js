@@ -11,8 +11,12 @@ import { useDropzone } from 'react-dropzone';
 import Autocomplete from 'react-autocomplete';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Input, InputNumber, message, Select } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { addAddressSelector } from '~/Redux/selector';
+import MapContainer from '~/Components/Map/Map';
+import listsMenuSlice from '~/Redux/list/list';
 
 const schema = yup
     .object()
@@ -31,11 +35,13 @@ const cx = classNames.bind(styles);
 function EditCustomer(props) {
     const navigate = useNavigate();
     const [edit, setEdit] = useState(false);
+    const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
+    const address = useSelector(addAddressSelector);
     const { data } = props;
     const initialValues = {
         ...data.docs[0],
     };
-    console.log(initialValues);
     const methodForm = useForm({
         mode: 'onChange',
         defaultValues: initialValues,
@@ -50,20 +56,27 @@ function EditCustomer(props) {
         control,
         formState: { errors },
     } = methodForm;
-
+    useEffect(() => {
+        if (Object.keys(address).length === 0) {
+            setValue('address', data.docs[0].address);
+        } else {
+            setValue('address', address);
+        }
+    }, [address]);
     const onSubmit = async (data) => {
         // e.preventDefault();
-        console.log(data);
+
         const res = await axios
             .put(`https://coffee-bills.onrender.com/customer/updateCustomer/${data._id}`, data)
             .then((res) => {
+                dispatch(listsMenuSlice.actions.addAddress(''));
                 navigate(config.routers.Home, { state: { successMessage: 'Bạn đã cập nhật thành công!!!' } });
             })
             .catch((err) => {
                 console.log('loi');
             });
     };
-    console.log(watch('name'));
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
@@ -144,6 +157,29 @@ function EditCustomer(props) {
                                 )}
                             />
                         </div>
+                        {open && <MapContainer temporaryAddress={watch('temporaryAddress')} />}
+                        {edit && (
+                            <div className={cx('contentItem1')}>
+                                {open ? (
+                                    <div
+                                        className={cx('Map')}
+                                        style={{ margin: '14px 10px 15px' }}
+                                        onClick={() => setOpen(!open)}
+                                    >
+                                        <EnvironmentOutlined />
+                                        <span style={{ padding: '0 5px' }}>Ẩn bản đồ</span>
+                                    </div>
+                                ) : (
+                                    <>
+                                        {/* <div style={{ textAlign: 'center' }}>OR</div> */}
+                                        <div className={cx('Map')} onClick={() => setOpen(!open)}>
+                                            <EnvironmentOutlined />
+                                            <span style={{ padding: '0 5px' }}>Dùng định vị bản đồ</span>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        )}
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>
                                 Email:<span className={cx('star')}>*</span>
@@ -186,15 +222,15 @@ function EditCustomer(props) {
                         </div>
                         {edit && (
                             <div className={cx('footer')}>
+                                {/* <div className={cx('btnPrev')}>
+                                    <Link to="#" onClick={() => setEdit(false)} className={cx('bt')}>
+                                        Quay lại
+                                    </Link>
+                                </div> */}
                                 <div className={cx('btnPrev')}>
                                     <button to="#" type="submit" className={cx('bt')}>
                                         Lưu lại
                                     </button>
-                                </div>
-                                <div className={cx('btnPrev')}>
-                                    <Link to="#" onClick={() => setEdit(false)} className={cx('bt')}>
-                                        Quay lại
-                                    </Link>
                                 </div>
                             </div>
                         )}

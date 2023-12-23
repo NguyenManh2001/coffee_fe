@@ -50,13 +50,13 @@ const MapContainer = (props) => {
     }, []);
 
     const handleLocationSelection = (placeInfo) => {
-        console.log('Place Information:', placeInfo);
+        // console.log('Place Information:', placeInfo);
         setAddress(placeInfo.formatted_address);
         dispatch(listsMenuSlice.actions.addAddress(placeInfo.formatted_address));
     };
 
     return (
-        <div style={{ position: 'relative', width: '100%', height: '400px' }}>
+        <div style={{ position: 'relative', width: '94%', height: '325px', margin: 'auto' }}>
             {currentLocation && (
                 <Map
                     google={props.google}

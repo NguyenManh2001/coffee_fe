@@ -6,7 +6,6 @@ import moment from 'moment';
 
 const cx = classNames.bind(styles);
 function MenuItems({ star, price, title, icon, src, discounted, discounts, type, onClick }) {
-    console.log(discounted);
     const currentTime = moment(); // Thời gian hiện tại
     const filteredDiscounts = discounts.filter((element) => {
         const startDate = moment(element.startDate); // Thời gian bắt đầu
@@ -19,7 +18,7 @@ function MenuItems({ star, price, title, icon, src, discounted, discounts, type,
             <div className={cx('card')} onClick={onClick}>
                 {filteredDiscounts.length > 0 ? (
                     <div>
-                        {filteredDiscounts.map((data) =>
+                        {filteredDiscounts.map((data, index) =>
                             data.product === 'Tất cả' ? (
                                 <>
                                     <div className={cx('discounted')}>- {data.discounted} %</div>
@@ -58,8 +57,8 @@ function MenuItems({ star, price, title, icon, src, discounted, discounts, type,
                             <div className={cx('icon')}>{star} </div>
                             {filteredDiscounts?.length > 0 ? (
                                 <div>
-                                    {filteredDiscounts?.map((data) => (
-                                        <>
+                                    {filteredDiscounts?.map((data, index) => (
+                                        <div key={index}>
                                             {data.discounted > 0 ? (
                                                 data.product === 'Tất cả' ? (
                                                     <div style={{ display: 'flex', marginTop: '10px' }}>
@@ -97,7 +96,7 @@ function MenuItems({ star, price, title, icon, src, discounted, discounts, type,
                                             ) : (
                                                 <div className={cx('price')}>đ{price.toLocaleString('vi-VN')}</div>
                                             )}
-                                        </>
+                                        </div>
                                     ))}
                                 </div>
                             ) : (

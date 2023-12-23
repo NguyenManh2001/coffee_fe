@@ -96,7 +96,7 @@ const listsMenuSlice = createSlice({
             state.listProduct1 = [...state.listProduct1, action.payload];
         },
         addProductSize: (state, action) => {
-            console.log(action.payload);
+            // console.log(action.payload);
             state.product = action.payload;
             // Cookies.set('store', JSON.stringify(state));
         },

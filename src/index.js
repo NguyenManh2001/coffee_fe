@@ -1,6 +1,8 @@
 /* global FB */
 import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom';
+// import { createRoot } from 'react-dom/client';
 import App from './App';
 import { Provider, useSelector } from 'react-redux';
 import store from '~/Redux/store';
@@ -65,7 +67,7 @@ ReactDOM.createRoot(rootElement).render(
     <QueryClientProvider client={queryClient}>
         <GlobalStyles>
             <Provider store={store}>
-                {/* <FacebookChat /> */}
+                <FacebookChat />
                 <App />
             </Provider>
         </GlobalStyles>

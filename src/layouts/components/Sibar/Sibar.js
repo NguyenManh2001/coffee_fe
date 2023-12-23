@@ -45,8 +45,8 @@ function Sibar() {
                 <div className={cx('carousel-inner')}>
                     <div className={cx('carousel-item active')}>
                         <Carousel className={cx('carousel1')}>
-                            {data?.docs?.map((Sibar) => (
-                                <Carousel.Item key={Sibar.id}>
+                            {data?.docs?.map((Sibar, index) => (
+                                <Carousel.Item key={index}>
                                     <Images className={cx('carousel-img')} src={Sibar.srcImage} alt="..." />
                                     <Carousel.Caption className={cx('carouselItem')}>
                                         <div className={cx('carousel-caption')}>
