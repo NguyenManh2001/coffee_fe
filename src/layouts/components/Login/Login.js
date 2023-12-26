@@ -235,7 +235,7 @@ function Login() {
                             </div>
                         </form>
                         <div className={cx('register')}>
-                            <span>Bạn chưa có tài khoản? </span>
+                            <span style={{ color: '#121010' }}>Bạn chưa có tài khoản? </span>
                             <a className={cx('linkRegister')} href={config.routers.Rigister}>
                                 Đăng ký ngay
                             </a>

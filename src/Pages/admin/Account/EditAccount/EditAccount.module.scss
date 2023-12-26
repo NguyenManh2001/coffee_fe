@@ -10,7 +10,7 @@
     background-color: #fff;
     margin-left: 4%;
     margin-top: 5%;
-    margin-bottom: 3%;
+    // margin-bottom: 3%;
 }
 .header{
     width: 100%;
@@ -27,7 +27,7 @@
 .content{
     width: 100%;
     min-height: 230px;
-    margin: 40px 0 20px;
+    margin: 40px 0 0;
 }
 .contentItem{
     width: 100%;
@@ -79,13 +79,14 @@
     width: 100%;
     height: 60px;
     padding: 0 25px;
-    background-color: #cccccc4a;
+    // background-color: #cccccc4a;
     display: flex;
     align-items: center;
-    margin-top: 30px;
+    justify-content: center;
+    margin: 25px 0;
 }
 .btnPrev{
-    width: 100px;
+    width: 150px;
     height: 43px;
     display: flex;
     justify-content: center;
@@ -94,6 +95,7 @@
     background: #20b9ae;
     margin: 6px 5px;
     cursor: pointer;
+    border-radius: 14px;
     &:hover{
         opacity:0.9;
     }

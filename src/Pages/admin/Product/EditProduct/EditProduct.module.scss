@@ -10,7 +10,7 @@
     background-color: #fff;
     margin-left: 4%;
     margin-top: 5%;
-    margin-bottom: 8%;
+    // margin-bottom: 8%;
 }
 .header{
     width: 100%;
@@ -95,12 +95,14 @@
     width: 100%;
     height: 60px;
     padding: 0 25px;
-    background-color: #cccccc4a;
+    // background-color: #cccccc4a;
     display: flex;
     align-items: center;
+    justify-content: center;
+    margin: 25px 0;
 }
 .btnPrev{
-    width: 100px;
+    width: 150px;
     height: 43px;
     display: flex;
     justify-content: center;
@@ -109,6 +111,7 @@
     background: #20b9ae;
     margin: 6px 5px;
     cursor: pointer;
+    border-radius: 14px;
     &:hover{
         opacity:0.9;
     }

@@ -258,11 +258,11 @@ function EditDiscounted(props) {
                                     Lưu lại
                                 </button>
                             </div>
-                            <div className={cx('btnPrev')}>
+                            {/* <div className={cx('btnPrev')}>
                                 <Link to={config.routers.DiscountedAdmin} className={cx('bt')}>
                                     Quay lại
                                 </Link>
-                            </div>
+                            </div> */}
                         </div>
                     </form>
                 </div>

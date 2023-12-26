@@ -33,7 +33,9 @@ const OrderDetails = (props) => {
                     </div>
                     <div className={cx('content')}>
                         <div className={cx('title')}>Tổng tiền:</div>
-                        <div className={cx('name')}>{data?.total.toLocaleString('vi-VN')} VND</div>
+                        <div className={cx('name')}>
+                            {data?.total.toLocaleString('vi-VN')} VND (Bao gồm cả phí giao hàng)
+                        </div>
                     </div>
                     {/* <div className={cx('content')}>
                         <div className={cx('title')}>Ghi chú:</div>
