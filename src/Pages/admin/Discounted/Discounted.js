@@ -175,7 +175,7 @@ function DiscountedAdmin() {
             title: 'Giảm giá (%)',
             dataIndex: 'discounted',
             key: 'discounted',
-            // className: cx('custom-column'),
+            render: (text, record) => <span>{record?.discounted} %</span>,
         },
         {
             title: 'Thời gian bắt dầu',

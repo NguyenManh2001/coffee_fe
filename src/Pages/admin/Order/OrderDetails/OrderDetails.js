@@ -85,7 +85,7 @@ const OrderDetails = (props) => {
                                                 {e?.price
                                                     ? e?.price.toLocaleString('vi-VN')
                                                     : e?.product.price.toLocaleString('vi-VN')}{' '}
-                                                VND
+                                                đ
                                             </div>
                                             {/* <div className={cx('delete')}>
                                                 <DeleteIcons />

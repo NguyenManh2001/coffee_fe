@@ -300,7 +300,12 @@ function Header(props) {
                                                     </div>
                                                 </div>
                                                 <div style={{ display: 'flex' }}>
-                                                    <div className={cx('cart-price')}>{data?.product?.price} VND</div>
+                                                    <div className={cx('cart-price')}>
+                                                        {data?.price
+                                                            ? data?.price.toLocaleString('vi-VN')
+                                                            : data?.product?.price.toLocaleString('vi-VN')}
+                                                        đ
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

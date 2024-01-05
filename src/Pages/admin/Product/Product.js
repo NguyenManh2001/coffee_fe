@@ -192,7 +192,7 @@ function Product() {
             ),
         },
         {
-            title: 'Giá',
+            title: 'Giá tiền',
             dataIndex: 'price',
             key: 'price',
             sorter: {
@@ -203,7 +203,7 @@ function Product() {
             render: (text, record) => <span>{record.price.toLocaleString('vi-VN')} VND</span>,
         },
         {
-            title: 'Giảm giá',
+            title: 'Giảm giá(%)',
             dataIndex: 'discounted',
             key: 'discounted',
 
