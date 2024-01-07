@@ -52,7 +52,7 @@ function Menu() {
                     </div>
                 )}
                 <div className={cx('btn')}>
-                    {data?.docs.length === data?.totalDocs ? (
+                    {data?.docs.length > 3 ? (
                         <Button
                             className={cx('btnMenu')}
                             style={{ width: '200px' }}

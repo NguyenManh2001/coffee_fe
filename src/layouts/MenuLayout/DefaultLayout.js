@@ -98,7 +98,6 @@ function MenuLayout({ children }) {
         queryKey: ['menu'],
         queryFn: () => axios.post('https://coffee-bills.onrender.com/menu/listMenu').then((res) => res.data),
     });
-    console.log(type);
     const items = dataMenu?.docs;
     const renderItems = () => {
         return data?.docs?.map((MENU, index) => {
@@ -140,7 +139,6 @@ function MenuLayout({ children }) {
         setType('Freeze');
     };
     const handleCoffee = (data) => {
-        console.log(data);
         // if (data === 'Cà Phê') {
         //     setType('Coffee');
         //     setName('Coffee');
@@ -162,7 +160,6 @@ function MenuLayout({ children }) {
         setPage(page);
     };
     const isdata = !data?.docs?.length;
-    console.log(isdata);
     return (
         <div id="top" className={cx('wrapper')}>
             <Header />

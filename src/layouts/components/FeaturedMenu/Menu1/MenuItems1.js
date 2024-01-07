@@ -12,9 +12,6 @@ function MenuItems1({ refs, star, price, title, icon, src, discounted, discounts
         const endDate = moment(element.endDate); // Thời gian kết thúc
         return currentTime.isBetween(startDate, endDate);
     });
-
-    console.log(filteredDiscounts);
-    // console.log(discounts);
     return (
         <div className={cx('menu-content')}>
             <div className={cx('card')} onClick={onClick}>
