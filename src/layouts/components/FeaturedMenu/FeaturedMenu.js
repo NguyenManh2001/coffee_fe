@@ -131,6 +131,7 @@ function FeatureMenu({ select }) {
                                 _id={MENU._id}
                                 src={MENU.link}
                                 name={MENU.name}
+                                type={MENU.type}
                                 cart={
                                     filteredDiscounts.length > 0
                                         ? filteredDiscounts.map(

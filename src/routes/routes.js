@@ -41,6 +41,11 @@ import Product from '~/Pages/admin/Product';
 import AddProduct from '~/Pages/admin/Product/AddProduct';
 import Discounted from '~/Pages/admin/Discounted';
 import AddDiscounted from '~/Pages/admin/Discounted/AddDiscounted';
+import ToppingAdmin from '~/Pages/admin/Topping/Topping';
+import AddTopping from '~/Pages/admin/Topping/AddTopping';
+import Ingredient from '~/Pages/admin/Ingredient';
+import AddIngredient from '~/Pages/admin/Ingredient/AddIngredient';
+import IngredientAdmin from '~/Pages/admin/Ingredient/Ingredient';
 
 const publicRoutes = [
     { path: config.routers.Home, component: Home, layout: DefaultLayout },
@@ -83,6 +88,10 @@ const privateRoutes = [
     { path: config.routers.AddNews, component: AddNews, layout: AdminLayout },
     { path: config.routers.AboutsAdmin, component: AboutsAdmin, layout: AdminLayout },
     { path: config.routers.AddAbouts, component: AddAbouts, layout: AdminLayout },
+    { path: config.routers.ToppingAdmin, component: ToppingAdmin, layout: AdminLayout },
+    { path: config.routers.AddTopping, component: AddTopping, layout: AdminLayout },
+    { path: config.routers.IngredientAdmin, component: IngredientAdmin, layout: AdminLayout },
+    { path: config.routers.AddIngredient, component: AddIngredient, layout: AdminLayout },
     { path: config.routers.SibarAdmin, component: SibarAdmin, layout: AdminLayout },
     { path: config.routers.AddSibar, component: AddSibar, layout: AdminLayout },
     { path: config.routers.MenuAdmin, component: Menu, layout: AdminLayout },

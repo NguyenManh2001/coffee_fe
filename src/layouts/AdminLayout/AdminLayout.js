@@ -120,9 +120,26 @@ const AdminLayout = ({ children }) => {
                             key: config.routers.Dasboard,
                         },
                         {
-                            key: config.routers.ProductAdmin,
+                            // key: config.routers.ProductAdmin,
                             label: 'Sản phẩm',
                             icon: <CoffeeOutlined style={{ fontSize: '20px' }} />,
+                            children: [
+                                {
+                                    key: config.routers.ProductAdmin,
+                                    label: 'Thông tin sản phẩm',
+                                    // icon: <CoffeeOutlined style={{ fontSize: '20px' }} />,
+                                },
+                                {
+                                    key: config.routers.ToppingAdmin,
+                                    label: 'Topping',
+                                    // icon: <CoffeeOutlined style={{ fontSize: '20px' }} />,
+                                },
+                                {
+                                    key: config.routers.IngredientAdmin,
+                                    label: 'Nguyên liệu',
+                                    // icon: <CoffeeOutlined style={{ fontSize: '20px' }} />,
+                                },
+                            ],
                         },
                         {
                             key: config.routers.Customer,

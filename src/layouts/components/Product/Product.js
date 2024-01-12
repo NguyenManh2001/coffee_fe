@@ -63,7 +63,7 @@ const sizes = [
 //     return newState;
 // };
 
-function Product({ _id, src, name, cart, onClick }) {
+function Product({ _id, src, name, type, cart, onClick }) {
     // const [state, dispatch] = useReducer(reducer, initState);
     // const { menus } = state;
     const [open, setOpen] = useState(false);
@@ -81,7 +81,7 @@ function Product({ _id, src, name, cart, onClick }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const cart1 = new Number(cart);
-    // console.log(price);
+
     const token = Cookies.get('token');
     useEffect(() => {
         if (token !== undefined) {
@@ -94,38 +94,53 @@ function Product({ _id, src, name, cart, onClick }) {
         queryKey: ['listCustomer', email],
         queryFn: () => axios.post('/customer/listCustomer', { email }).then((res) => res.data),
     });
-    const plainOptionsTopping = [
-        {
-            label: 'Trân châu trắng + 5.000đ',
-            value: 'Trân châu trắng, ',
-            price: 5000,
-        },
-        {
-            label: 'Trân châu sợi + 5.000đ',
-            value: 'Trân châu sợi, ',
-            price: 5000,
-        },
-        {
-            label: 'Thạch cà phê + 5.000đ',
-            value: 'Thạch cà phê, ',
-            price: 5000,
-        },
-        {
-            label: 'Pudding phô mai + 7.000đ',
-            value: 'Pudding phô mai, ',
-            price: 7000,
-        },
-        {
-            label: 'Trân châu sương mai + 7.000đ',
-            value: 'Trân châu sương mai, ',
-            price: 7000,
-        },
-        {
-            label: 'Thạch dứa + 5.000đ',
-            value: 'Thạch dứa, ',
-            price: 5000,
-        },
-    ];
+    const {
+        isLoading: isLoadingTopping,
+        data: dataTopping,
+        refetch: refetchTopping,
+    } = useQuery({
+        queryKey: ['dataTopping'],
+        queryFn: () => axios.post('https://coffee-bills.onrender.com/topping/listTopping').then((res) => res.data),
+    });
+    const dataType = dataTopping?.docs?.filter((doc) => doc.type === type);
+    const plainOptionsTopping =
+        dataType?.map((data) => ({
+            label: `${data?.name} + ${data?.price.toLocaleString('vi-VN')}đ`,
+            value: `${data?.name},`,
+            price: data?.price,
+        })) || [];
+    // const plainOptionsTopping = [
+    //     {
+    //         label: 'Trân châu trắng + 5.000đ',
+    //         value: 'Trân châu trắng, ',
+    //         price: 5000,
+    //     },
+    //     {
+    //         label: 'Trân châu sợi + 5.000đ',
+    //         value: 'Trân châu sợi, ',
+    //         price: 5000,
+    //     },
+    //     {
+    //         label: 'Thạch cà phê + 5.000đ',
+    //         value: 'Thạch cà phê, ',
+    //         price: 5000,
+    //     },
+    //     {
+    //         label: 'Pudding phô mai + 7.000đ',
+    //         value: 'Pudding phô mai, ',
+    //         price: 7000,
+    //     },
+    //     {
+    //         label: 'Trân châu sương mai + 7.000đ',
+    //         value: 'Trân châu sương mai, ',
+    //         price: 7000,
+    //     },
+    //     {
+    //         label: 'Thạch dứa + 5.000đ',
+    //         value: 'Thạch dứa, ',
+    //         price: 5000,
+    //     },
+    // ];
     const plainOptions = [
         {
             label: '0% Đá',
@@ -172,12 +187,13 @@ function Product({ _id, src, name, cart, onClick }) {
     const [ice, setIce] = useState('0');
 
     const onChange = (checkedValues) => {
-        console.log('checked = ', checkedValues);
         let newPrice = new Number(price);
         // Kiểm tra và cập nhật giá tiền dựa trên các giá trị đã được chọn
         checkedValues.forEach((value) => {
             if (!selectedValues.includes(value)) {
                 // Nếu giá trị chưa được chọn trước đó, cộng giá trị vào tổng giá tiền
+                // console.log(plainOptionsTopping);
+                // console.log(value);
                 const selectedItem = plainOptionsTopping.find((item) => item.value === value);
                 if (selectedItem) {
                     newPrice += selectedItem.price;
@@ -201,20 +217,13 @@ function Product({ _id, src, name, cart, onClick }) {
     };
 
     const onChangeIce = ({ target: { value } }) => {
-        // console.log('radio1 checked', value);
-        // if (sugar === value) {
-        // }
         setIce(value);
     };
     const onChangesugar = ({ target: { value } }) => {
-        console.log('radiosugar checked', value);
         setSugar(value);
     };
-    console.log(sugar);
-    console.log(ice);
-    console.log(size);
+
     const onChangeSize = ({ target: { value } }) => {
-        console.log('radio2 checked', value);
         let newPrice = new Number(price);
 
         // Xử lý giảm giá tiền của lựa chọn trước đó
