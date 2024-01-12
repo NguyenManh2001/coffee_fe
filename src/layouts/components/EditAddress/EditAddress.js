@@ -27,7 +27,7 @@ function EditAddress({ dataId, temporaryAddress }) {
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const address = useSelector(addAddressSelector);
-    console.log(address);
+
     const initialValues = {
         temporaryAddress: address || '',
     };

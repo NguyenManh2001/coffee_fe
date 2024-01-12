@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import Images from '~/Components/Images';
 import styles from './Sibar.module.scss';
 import React from 'react';
+import ReactPlayer from 'react-player';
 // import Carousel from 'better-react-carousel';
 import Carousel from 'react-bootstrap/Carousel';
 import { useQuery } from '@tanstack/react-query';
@@ -44,7 +45,7 @@ function Sibar() {
             <div className={cx('carousel')}>
                 <div className={cx('carousel-inner')}>
                     <div className={cx('carousel-item active')}>
-                        <Carousel className={cx('carousel1')}>
+                        <Carousel className={cx('carousel1')} interval={2000}>
                             {data?.docs?.map((Sibar, index) => (
                                 <Carousel.Item key={index}>
                                     <Images className={cx('carousel-img')} src={Sibar.srcImage} alt="..." />

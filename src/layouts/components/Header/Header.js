@@ -731,7 +731,13 @@ function Header(props) {
                                     }}
                                 >
                                     <NavLink className={cx('ColorLoginIcon')} to="#">
-                                        <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                        <Avatar
+                                            style={{
+                                                backgroundColor: '#f56a00',
+                                            }}
+                                        >
+                                            {email.split('@')[0].charAt(0).toUpperCase()}
+                                        </Avatar>
                                     </NavLink>
                                 </Dropdown>
                                 <span className={cx('email')} style={{ lineHeight: '41px', color: '#fff' }}>
