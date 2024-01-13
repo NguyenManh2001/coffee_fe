@@ -100,6 +100,25 @@ function AddIngredient() {
                         </div>
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>
+                                Số lượng:<span className={cx('star')}>*</span>
+                            </div>
+                            <Controller
+                                name="quantity"
+                                control={control}
+                                render={({ field }) => (
+                                    <div style={{ width: '100%' }}>
+                                        <Input
+                                            {...field}
+                                            status={errors.quantity?.message ? 'error' : null}
+                                            placeholder="Nhập tên"
+                                        />
+                                        <p style={{ margin: '0px', color: 'red' }}>{errors.quantity?.message}</p>
+                                    </div>
+                                )}
+                            />
+                        </div>
+                        <div className={cx('contentItem')}>
+                            <div className={cx('name')}>
                                 Giá tiền:<span className={cx('star')}>*</span>
                             </div>
                             <Controller
@@ -157,7 +176,7 @@ function AddIngredient() {
                         </div>
                         <div className={cx('contentItem')}>
                             <div className={cx('name')}>
-                                Address:<span className={cx('star')}>*</span>
+                                Địa chỉ:<span className={cx('star')}>*</span>
                             </div>
                             <Controller
                                 name="address"
@@ -200,7 +219,7 @@ function AddIngredient() {
                                 </button>
                             </div>
                             <div className={cx('btnPrev')}>
-                                <Link to={config.routers.ToppingAdmin} className={cx('bt')}>
+                                <Link to={config.routers.IngredientAdmin} className={cx('bt')}>
                                     Quay lại
                                 </Link>
                             </div>

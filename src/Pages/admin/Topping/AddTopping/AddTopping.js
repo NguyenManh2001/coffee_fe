@@ -91,7 +91,6 @@ function AddTopping() {
                                             onChange={(val) => setValue('type', val)}
                                             status={errors.type?.message ? 'error' : null}
                                             options={[
-                                                { value: 'Tất cả', label: 'Tất cả' },
                                                 { value: 'Coffee', label: 'Coffee' },
                                                 { value: 'Freeze', label: 'Freeze' },
                                                 { value: 'Tea', label: 'Tea' },

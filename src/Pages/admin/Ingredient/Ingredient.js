@@ -161,10 +161,20 @@ function IngredientAdmin() {
             // className: cx('custom-column'),
         },
         {
+            title: 'Số lượng',
+            dataIndex: 'quantity',
+            key: 'quantity',
+            // className: cx('custom-column'),
+        },
+        {
             title: 'Giá tiền',
             dataIndex: 'price',
             key: 'price',
-            // className: cx('describe'),
+            sorter: {
+                compare: (a, b) => a.price - b.price,
+                multiple: 2,
+            },
+            render: (text, record) => <span>{record.price.toLocaleString('vi-VN')} VND</span>,
         },
         {
             title: 'Nhà cung cấp',

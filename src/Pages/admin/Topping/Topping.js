@@ -170,7 +170,11 @@ function ToppingAdmin() {
             title: 'Giá tiền',
             dataIndex: 'price',
             key: 'price',
-            // className: cx('describe'),
+            sorter: {
+                compare: (a, b) => a.price - b.price,
+                multiple: 2,
+            },
+            render: (text, record) => <span>{record.price.toLocaleString('vi-VN')} VND</span>,
         },
         {
             title: 'Thời gian tạo',
