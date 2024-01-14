@@ -485,6 +485,7 @@ function Header(props) {
     const deliveryCharges = distance * number;
     useEffect(() => {
         const distanceInKm = parseFloat(distance);
+
         if (!isNaN(distanceInKm)) {
             const time = (distanceInKm / 30) * 60; // Tính thời gian dựa trên khoảng cách và hệ số chia
             setTimeInMinutes(Math.ceil(time)); // Lưu thời gian vào state với định dạng làm tròn 2 chữ số sau dấu thập phân
@@ -668,7 +669,7 @@ function Header(props) {
                 {/* {contextHolder} */}
                 <ToastContainer
                     position="top-right"
-                    autoClose={5000}
+                    autoClose={1000}
                     hideProgressBar={false}
                     newestOnTop={false}
                     closeOnClick
@@ -678,8 +679,7 @@ function Header(props) {
                     pauseOnHover
                     theme="light"
                 />
-                {/* Same as */}
-                <ToastContainer />
+
                 {/* {!showHeader && ( */}
                 <div className={showHeader ? cx('container') : cx('container1')}>
                     <Tippy

@@ -198,7 +198,7 @@ function Dasboard() {
         <div className={cx('wrapper')}>
             <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={1000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -208,8 +208,6 @@ function Dasboard() {
                 pauseOnHover
                 theme="light"
             />
-            {/* Same as */}
-            <ToastContainer />
             <div className={cx('container')}>
                 <div className={cx('content')}>
                     <div className={cx('header')}>

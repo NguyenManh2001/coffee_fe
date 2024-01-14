@@ -34,7 +34,6 @@ function EditIngredient(props) {
     const initialValues = {
         ...data,
     };
-    console.log(props);
     const methodForm = useForm({
         mode: 'onChange',
         defaultValues: initialValues,
@@ -50,59 +49,7 @@ function EditIngredient(props) {
         formState: { errors },
     } = methodForm;
 
-    // useEffect(() => {
-    //     axios
-    //         .post(`/menuList/editMenu/${id2}/${id1}`)
-    //         .then((res) => {
-    //             // console.log(res.data.menus.map((menu) => menu.name));
-    //             // console.log(res.data.name);
-    //             setName(res.data.menus.map((menu) => menu.name));
-    //             setLink(res.data.menus.map((menu) => menu.link));
-    //             setPrice(res.data.menus.map((menu) => menu.price));
-    //             setSelected(res.data.name);
-    //             // navigate(config.routers.MenuAdmin);
-    //         })
-    //         .catch((err) => {
-    //             console.log('loi dl');
-    //         });
-    // }, []);
-    // const handleImageChange = (e) => {
-    //     const files = e.target.files[0];
-    //     // const images = URL.createObjectURL(files);
-    //     setLink(files);
-    // };
-
-    // const handleSelect = (e) => {
-    //     setSelected(e.target.value);
-    // };
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const uploadData = new FormData();
-    //     uploadData.append('link', link);
-    //     uploadData.append('name', name);
-    //     uploadData.append('price', price);
-    //     try {
-    //         await axios.put(`/menuList/EditMenu/${id2}/${id1}`, uploadData);
-    //         // console.log('Cap nhat thanh cong');
-
-    //         navigate(config.routers.MenuAdmin);
-    //     } catch (err) {
-    //         console.log('loi', err);
-    //     }
-    // };
     const onSubmit = async (data) => {
-        // e.preventDefault();
-
-        // const uploadData = new FormData();
-        // if (file) {
-        //     uploadData.append('image', file, file.name);
-        // } else {
-        //     uploadData.append('image', data.image);
-        // }
-        // uploadData.append('title', data.title);
-        // uploadData.append('describe', data.describe);
-        // uploadData.append('name', data.name);
-        // console.log(data.type);
         const res = await axios
             .put(`https://coffee-bills.onrender.com/ingredient/editIngredient/${data._id}`, data)
             .then((res) => {

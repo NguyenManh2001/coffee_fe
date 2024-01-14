@@ -92,7 +92,6 @@ function IngredientAdmin() {
         });
     };
 
-    const onSearch = (value, _e, info) => console.log(info?.source, value);
     const datas = useSelector(searchitemSelector);
     const handleSelected = (value) => {
         if (value === 'Tất cả') {
@@ -102,7 +101,6 @@ function IngredientAdmin() {
         }
         dispatch(filterSlice.actions.list(value));
     };
-    console.log(type);
     const handleSearch = (e) => {
         setSearch(e);
         // dispatch(filterSlice.actions.searchListMenu(result));
@@ -114,9 +112,7 @@ function IngredientAdmin() {
     const handlePageChange = (page) => {
         setPage(page);
     };
-    // const handleChange = (value) => {
-    //     console.log(`selected ${value}`);
-    // };
+
     const ModalEdit = (data) => (
         <Modal
             centered
@@ -129,17 +125,7 @@ function IngredientAdmin() {
             <EditIngredient data={editData} />
         </Modal>
     );
-    // useEffect(() => {
-    //     axios
-    //         .post('/menuList/ListMenu')
-    //         .then((res) => {
-    //             dispatch(listsMenuSlice.actions.addListMenu(res.data));
-    //             dispatch(filterSlice.actions.list(selected));
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // }, []);
+
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['dataIngredient', type, page, search],
         queryFn: () =>
@@ -234,7 +220,7 @@ function IngredientAdmin() {
             {contextHolder}
             <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={1000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -244,8 +230,7 @@ function IngredientAdmin() {
                 pauseOnHover
                 theme="light"
             />
-            {/* Same as */}
-            <ToastContainer />
+
             <div className={cx('Container')}>
                 <div className={cx('header')}>
                     <div className={cx('NameHeader')}>danh sách thông tin</div>

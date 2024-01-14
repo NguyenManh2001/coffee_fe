@@ -95,9 +95,9 @@ function AddDiscounted() {
     };
     return (
         <div className={cx('wrapper')}>
-            <ToastContainer
+            {/* <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -106,7 +106,7 @@ function AddDiscounted() {
                 draggable
                 pauseOnHover
                 theme="light"
-            />
+            /> */}
             <div className={cx('container')}>
                 <div className={cx('header')}>Thêm thông tin</div>
                 <div className={cx('content')}>

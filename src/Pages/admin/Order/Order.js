@@ -249,7 +249,7 @@ function Order() {
             {/* {contextHolder} */}
             <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={1000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -259,8 +259,7 @@ function Order() {
                 pauseOnHover
                 theme="light"
             />
-            {/* Same as */}
-            <ToastContainer />
+
             <div className={cx('Container')}>
                 <div className={cx('header')}>
                     <div className={cx('NameHeader')}>danh sách đơn hàng</div>

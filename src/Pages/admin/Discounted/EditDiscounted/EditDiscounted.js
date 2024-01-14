@@ -127,9 +127,9 @@ function EditDiscounted(props) {
     };
     return (
         <div className={cx('wrapper')}>
-            <ToastContainer
+            {/* <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={1000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -138,7 +138,7 @@ function EditDiscounted(props) {
                 draggable
                 pauseOnHover
                 theme="light"
-            />
+            /> */}
             <div className={cx('container')}>
                 <div className={cx('header')}>Cập nhật thông tin</div>
                 <div className={cx('content')}>

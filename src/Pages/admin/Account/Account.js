@@ -195,7 +195,7 @@ function Account() {
             {contextHolder}
             <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={1000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -205,8 +205,7 @@ function Account() {
                 pauseOnHover
                 theme="light"
             />
-            {/* Same as */}
-            <ToastContainer />
+
             <div className={cx('Container')}>
                 <div className={cx('header')}>
                     <div className={cx('NameHeader')}>danh sách tài khoản</div>
