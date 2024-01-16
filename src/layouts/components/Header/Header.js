@@ -122,7 +122,7 @@ function Header(props) {
 
                 if (expirationTime) {
                     const currentTime = Math.floor(Date.now() / 1000);
-                    console.log(currentTime);
+
                     // So sánh thời gian hiện tại với thời gian hết hạn
                     if (currentTime > expirationTime) {
                         window.location.reload();
