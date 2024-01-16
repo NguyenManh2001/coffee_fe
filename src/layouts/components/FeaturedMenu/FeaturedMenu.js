@@ -113,6 +113,7 @@ function FeatureMenu({ select }) {
                 .post('https://coffee-bills.onrender.com/product/listProduct', { page, type, search, limit })
                 .then((res) => res.data),
     });
+
     const renderItems = () => {
         return data?.docs?.map((MENU, index) => {
             const currentTime = moment(); // Thời gian hiện tại
@@ -122,6 +123,22 @@ function FeatureMenu({ select }) {
                 const endDate = moment(element.endDate); // Thời gian kết thúc
                 return currentTime.isBetween(startDate, endDate);
             });
+            const calculateCartValue = (menu) => {
+                const { price, discounted, type } = menu;
+                const typeProduct = filteredDiscounts.some(
+                    (data) => data.product === type || data.product === 'Tất cả',
+                );
+                const hasDiscounts = filteredDiscounts.length > 0;
+
+                if (hasDiscounts && typeProduct) {
+                    return filteredDiscounts.map((data) => price - price * (data.discounted / 100));
+                } else if (discounted) {
+                    return price - (price * discounted) / 100;
+                } else {
+                    return price;
+                }
+            };
+            // console.log(filteredDiscounts);
             if (MENU._id === header) {
                 return (
                     <div key={header}>
@@ -132,15 +149,7 @@ function FeatureMenu({ select }) {
                                 src={MENU.link}
                                 name={MENU.name}
                                 type={MENU.type}
-                                cart={
-                                    filteredDiscounts.length > 0
-                                        ? filteredDiscounts.map(
-                                              (data) => MENU.price - MENU.price * (data.discounted / 100),
-                                          )
-                                        : MENU.discounted
-                                        ? MENU.price - (MENU.price * MENU.discounted) / 100
-                                        : MENU.price
-                                }
+                                cart={calculateCartValue(MENU)}
                                 onClick={() => {
                                     setProduct(false);
                                 }}
