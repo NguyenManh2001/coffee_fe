@@ -117,8 +117,29 @@ function Header(props) {
             const deToken = jwt_decode(token);
             setEmail(deToken?.email);
             setUser(deToken?.userId);
+            const checkTokenExpiration = () => {
+                const expirationTime = deToken.exp;
+
+                if (expirationTime) {
+                    const currentTime = Math.floor(Date.now() / 1000);
+                    console.log(currentTime);
+                    // So sánh thời gian hiện tại với thời gian hết hạn
+                    if (currentTime > expirationTime) {
+                        window.location.reload();
+                    }
+                } else {
+                    console.log('Không tìm thấy thời gian hết hạn trong token');
+                }
+            };
+
+            // Thực hiện kiểm tra thời gian hết hạn sau mỗi 1 phút (hoặc khoảng thời gian tùy chọn)
+            const intervalId = setInterval(checkTokenExpiration, 60000); // 1 phút
+
+            // // Đảm bảo dọn dẹp interval khi component unmount
+            return () => clearInterval(intervalId);
         }
     }, [token]);
+
     const isMobile = useMediaQuery({ maxWidth: 767 }); // Điều này kiểm tra nếu kích thước màn hình nhỏ hơn 768px
 
     // const userRole = useSelector(tokenSelector);
