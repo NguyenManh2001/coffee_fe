@@ -1044,7 +1044,7 @@ function Header(props) {
                                         {!buy && (
                                             <div>
                                                 <Checkbox
-                                                    style={{ fontSize: '14px' }}
+                                                    className={cx('checkbox')}
                                                     checked={checked}
                                                     onChange={onChangeAll}
                                                 >

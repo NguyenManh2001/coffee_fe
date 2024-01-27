@@ -220,7 +220,7 @@
     text-align: justify;
 }
 .size1{
-    font-size: 13px;
+    font-size: 16px;
     
 }
 .edit{
@@ -320,6 +320,9 @@
     height: 50px;
     align-items: center;
 }
+.checkbox{
+    font-size: 16px;
+}
 @media (max-width:740px){
     .container{
         width: 100%;
@@ -371,6 +374,9 @@
     .size{
         font-size: 9px;
     }
+    .size1{
+        font-size: 13px;
+    }
     .cart-price{
         // padding: 0 0 0 10px;
         width: 73px;
@@ -388,6 +394,9 @@
     }
     .content-cart{
         height: 350px;
+    }
+    .checkbox{
+        font-size: 13px;
     }
     // .ant{
     //     padding: 20px 10px;
