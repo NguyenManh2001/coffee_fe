@@ -161,6 +161,7 @@
         justify-content: flex-start;
     margin: 10px 0px;
     padding: 19px;
+    width: 98%;
     }
     .menu::-webkit-scrollbar{
         display: none;
@@ -170,13 +171,20 @@
         margin-right: 20px !important;
     }
     .item-1{
-        width: 100%;
         height: 166px;
-        margin-bottom: 15px;
+        margin: 15px 5px !important;
+        width: 100% !important;
         &:hover{
             box-shadow: 0 4px 14px 2px #00000080;
         transform: translateY(-8px);
         }
+    }
+    .btn{
+        margin-bottom: 30px;
+    }
+    .btnMenu{
+        font-size: 17px;
+        height: 40px;
     }
     .menu-item-center {
         margin: 0 ;

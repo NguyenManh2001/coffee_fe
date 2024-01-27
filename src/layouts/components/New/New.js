@@ -20,7 +20,7 @@ function New() {
     const sliderRef = useRef(null);
     const isMobile = useMediaQuery({ maxWidth: 767 }); // Điều này kiểm tra nếu kích thước màn hình nhỏ hơn 768px
 
-    const slidesToShow = isMobile ? 1 : 3;
+    const slidesToShow = isMobile ? 2 : 3;
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['listNews'],
         queryFn: () => axios.post('https://coffee-bills.onrender.com/news/listNews').then((res) => res.data),

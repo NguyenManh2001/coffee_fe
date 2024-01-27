@@ -116,6 +116,8 @@
      }
      .tent{
         margin-top: 20px;
+        display: block;
+        width: 90%;
      }
      .main{
         display: flex;
@@ -135,6 +137,7 @@
      }
      .content-item{
         padding: 25px;
+        height: 232px;
      }
      .right{
         height: 250px;
