@@ -219,6 +219,10 @@
     font-size: 12px;
     text-align: justify;
 }
+.size1{
+    font-size: 13px;
+    
+}
 .edit{
     padding: 0 0 0 5px;
     cursor: pointer;
@@ -350,7 +354,7 @@
         height: 52%;
         width: 100%;
         margin: 0;
-        padding: 20px 0;
+        padding: 20px 0 0;
     }
     .logo-cart{
         height: 80px;
@@ -376,11 +380,14 @@
     }
     .content-title{
         padding: 20px 5px;
-        width: 130px;
+        width: 123px;
     }
     .pprice{
         font-size: 19px;
       
+    }
+    .content-cart{
+        height: 350px;
     }
     // .ant{
     //     padding: 20px 10px;

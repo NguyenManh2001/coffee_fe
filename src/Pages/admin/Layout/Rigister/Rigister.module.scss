@@ -132,9 +132,13 @@
 }
 @media (max-width:740px){
    .content{
-    width: 90%;
-    left: 5%;
-   } ;
+      width: 90%;
+      left: 5%;
+      top: 20%;
+     } 
+     .container{
+      min-height: 843px;
+     }
    .formItem{
     margin-bottom: 40px;
     flex-direction: column;

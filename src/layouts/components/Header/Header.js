@@ -1044,7 +1044,7 @@ function Header(props) {
                                         {!buy && (
                                             <div>
                                                 <Checkbox
-                                                    style={{ fontSize: '16px' }}
+                                                    style={{ fontSize: '14px' }}
                                                     checked={checked}
                                                     onChange={onChangeAll}
                                                 >
@@ -1066,7 +1066,7 @@ function Header(props) {
                                             </>
                                         ) : (
                                             <div className={cx('price')}>
-                                                <div className={cx('size')} style={{ fontSize: '14px' }}>
+                                                <div className={cx('size1')}>
                                                     Thành tiền: {priceList.toLocaleString('vi-VN')}đ
                                                 </div>
                                                 <div className={cx('content-title')}>
