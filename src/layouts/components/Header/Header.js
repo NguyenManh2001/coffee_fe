@@ -1066,7 +1066,7 @@ function Header(props) {
                                             </>
                                         ) : (
                                             <div className={cx('price')}>
-                                                <div className={cx('size')} style={{ fontSize: '16px' }}>
+                                                <div className={cx('size')} style={{ fontSize: '14px' }}>
                                                     Thành tiền: {priceList.toLocaleString('vi-VN')}đ
                                                 </div>
                                                 <div className={cx('content-title')}>

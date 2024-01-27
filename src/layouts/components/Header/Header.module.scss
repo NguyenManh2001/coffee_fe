@@ -353,7 +353,7 @@
         padding: 20px 0;
     }
     .logo-cart{
-        height: 55px;
+        height: 80px;
     }
     .cart-item{
         min-height: 62px;
@@ -364,8 +364,11 @@
     .cart-size{
         font-size: 12px;
     }
+    .size{
+        font-size: 9px;
+    }
     .cart-price{
-        padding: 0 0 0 10px;
+        // padding: 0 0 0 10px;
         width: 73px;
     }
     .price{
@@ -373,7 +376,7 @@
     }
     .content-title{
         padding: 20px 5px;
-        width: 110px;
+        width: 130px;
     }
     .pprice{
         font-size: 19px;
