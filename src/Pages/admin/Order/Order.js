@@ -279,7 +279,7 @@ function Order() {
                             style={{ width: 120, margin: '10px' }}
                             onChange={handleSelected}
                             options={[
-                                { value: 7, label: 7 },
+                                { value: 10, label: 10 },
                                 { value: 25, label: 25 },
                                 { value: 40, label: 40 },
                             ]}
@@ -357,8 +357,9 @@ function Order() {
                                         <Pagination
                                             style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '17px' }}
                                             defaultCurrent={1}
-                                            total={data?.totalDocs}
+                                            total={data?.totalPages * 10}
                                             defaultPageSize={10}
+                                            // pageSize={data?.totalPages}
                                             current={page}
                                             onChange={handlePageChange}
                                         />
