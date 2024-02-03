@@ -943,7 +943,7 @@ function Header(props) {
                                                                         Nhận hàng trong ngày hôm nay
                                                                     </div>
                                                                     <div className={cx('addressShip')}>
-                                                                        Vào lúc: sau {timeInMinutes + 20} phút từ khi
+                                                                        Vào lúc: khoảng {timeInMinutes + 20} phút từ khi
                                                                         đặt hàng
                                                                     </div>
                                                                 </div>
